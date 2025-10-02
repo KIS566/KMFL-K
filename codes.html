@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Kishan's Hacker Code Hub ⚡️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@300;600&display=swap" rel="stylesheet"/>
+<style>
+  :root{
+    --bg:#071019; --panel:#08121a; --neon:#00ffc6; --accent:#ff6b6b; --muted:#9aa6b2;
+  }
+  *{box-sizing:border-box}
+  body,html{margin:0;padding:0;height:100%;overflow:auto;color: font-family:Inter,system-ui;}
+  
+  /* Background Video */
+  .bg-video{
+    position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:-1;opacity:0.18;
+  }
+  
+  header{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;background:rgba(0,0,0,0.6);backdrop-filter:blur(5px);}
+  .logo{font-family:'Share Tech Mono',monospace;font-weight:600;letter-spacing:1px;color:var(--neon);}
+  .heading-sub{color:var(--muted);font-size:0.9rem}
+  
+  .sound-toggle{background:rgba(0,0,0,0.5);border:1px solid var(--neon);color:var(--neon);
+    border-radius:50%;width:40px;height:40px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;}
+  .sound-toggle:hover{background:rgba(0,255,198,0.2);}
+  
+  .wrap{padding:18px;max-width:1200px;margin:0 auto}
+  .grid{display:grid;grid-template-columns:1fr 460px;gap:18px;margin-top:18px;}
+  @media(max-width:900px){.grid{grid-template-columns:1fr}}
+  
+  .panel{background:rgba(0,0,0,0.65);border-radius:12px;padding:14px;backdrop-filter:blur(6px);box-shadow:0 6px 30px rgba(2,6,23,0.6);}
+  textarea{width:100%;min-height:300px;background:#000;color:#0f0;border:none;padding:12px;border-radius:8px;font-family:'Share Tech Mono',monospace;}
+  
+  .btn{background:transparent;border:1px solid rgba(255,255,255,0.2);color:var(--neon);padding:8px 12px;border-radius:8px;cursor:pointer;font-family:'Share Tech Mono',monospace;}
+  .btn:hover{background:rgba(0,255,198,0.1);}
+  .btn.primary{background:linear-gradient(90deg,#0fffc6,#7afcff);color:#012;border:none;font-weight:600}
+  
+  iframe{width:100%;height:320px;border:0;border-radius:8px;background:#fff;margin-top:10px;}
+  .funny{text-align:center;margin-top:12px;font-style:italic;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<!-- 🔥 Background video -->
+<video autoplay loop id="bgVid" class="bg-video">
+  <source src="https://raw.githubusercontent.com/KIS566/hvideo/main/VN20251002_162055.mp4" type="video/mp4">
+</video>
+
+<header>
+  <div>
+    <div class="logo">⚡ Kishan's Hacker Hub</div>
+    <div class="heading-sub">Live Code • Save • Hacker Vibes 😎</div>
+  </div>
+  <button class="sound-toggle" id="soundBtn">🔇</button>
+</header>
+
+<div class="wrap">
+  <div class="grid">
+    <!-- Editor -->
+    <section class="panel">
+      <h2>👨‍💻 Editor</h2>
+      <textarea id="editor" placeholder="Yaha apna code likho..."></textarea>
+      <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn primary" onclick="runCode()">▶ Run</button>
+        <button class="btn" onclick="copyCode()">📋 Copy</button>
+      </div>
+    </section>
+    
+    <!-- Output -->
+    <section class="panel">
+      <h2>⚡ Output</h2>
+      <iframe id="output"></iframe>
+      <div class="funny">Note: Agar code kaam na kare to blame JavaScript, not me 😜</div>
+    </section>
+  </div>
+</div>
+
+<script>
+const video = document.getElementById("bgVid");
+const soundBtn = document.getElementById("soundBtn");
+
+// 🔊 Toggle Sound
+video.muted = true;
+soundBtn.addEventListener("click",()=>{
+  video.muted = !video.muted;
+  soundBtn.textContent = video.muted ? "🔇" : "🔊";
+});
+
+function runCode(){
+  const code = document.getElementById("editor").value;
+  const iframe = document.getElementById("output");
+
+  if(/<html|<body|<script|<!doctype/i.test(code)){
+    iframe.srcdoc = code;
+  } else if(/function|=>|var |let |const |console\.log/.test(code)){
+    iframe.srcdoc = `<!DOCTYPE html><html><body><script>${code}<\/script></body></html>`;
+  } else if(/[{;}]|color:|background:/.test(code)){
+    iframe.srcdoc = `<!DOCTYPE html><html><head><style>${code}</style></head><body><h3>CSS Applied!</h3></body></html>`;
+  } else {
+    iframe.srcdoc = `<pre>${code}</pre>`;
+  }
+}
+
+function copyCode(){
+  const code = document.getElementById("editor");
+  code.select();
+  document.execCommand("copy");
+  alert("Code copied! 😎");
+}
+</script>
+</body>
+</html>
