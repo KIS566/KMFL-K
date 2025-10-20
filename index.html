@@ -6,19 +6,7 @@
     <title>Kishan Verma | Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Font Awesome (only if not already included) -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-p1..." crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
-    
-    
-    <!-- Font Awesome for icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-
-
-
     <style>
         :root {
             --bg-dark: #0a0a0a;
@@ -607,6 +595,412 @@
             border-radius: 3px;
         }
         
+        /* Error Page Styles */
+        .error-page {
+            background: linear-gradient(135deg, #FF8A65, #FF5252);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .error-content {
+            text-align: center;
+            color: white;
+            z-index: 10;
+            position: relative;
+        }
+        
+        .error-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 8rem;
+            margin-bottom: 20px;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .error-message {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            max-width: 500px;
+        }
+        
+        .error-btn {
+            background: #FFD600;
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: bold;
+        }
+        
+        .error-btn:hover {
+            background: #FBC02D;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        /* 401 Error Animation Styles */
+        .error-animation {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            margin-bottom: 30px;
+        }
+        
+        .cow {
+            width: 30rem;
+            aspect-ratio: 2/1;
+            border-radius: 4rem/15%;
+            background-color: #fefefe;
+            position: absolute;
+            top: 40%;
+            z-index: 10;
+            transform-origin: 100% 150%;
+            left: 38%;
+            transform: translateY(15rem) rotate(90deg);
+            animation: jmb 0.2s linear, move 2s linear;
+        }
+        
+        .cow:before {
+            content: "";
+            position: absolute;
+            left: 11%;
+            top: 0;
+            width: 40%;
+            height: 60%;
+            color: #000;
+            background: currentcolor;
+            border-radius: 0 0 100% 50%;
+            box-shadow: 9rem -2rem 0 -2rem, 15rem -3rem 0 -3rem;
+        }
+        
+        .cow:after {
+            content: "";
+            position: absolute;
+            left: 20%;
+            bottom: 6%;
+            color: #000;
+            background: currentcolor;
+            box-shadow: 8rem -4rem 0 -1rem;
+            width: 5rem;
+            aspect-ratio: 1/1;
+            border-radius: 43% 57% 51% 49%/51% 55% 45% 49%;
+        }
+        
+        .cow .head {
+            position: absolute;
+            top: 0;
+            left: 100%;
+            z-index: 1;
+        }
+        
+        .cow .head .face {
+            width: 11rem;
+            aspect-ratio: 12.5/7.5;
+            background: #fff;
+            box-shadow: -2rem 4.5rem #000 inset;
+            border-radius: 10% 100% 50% 45%/44% 72% 26% 25%;
+            transform: rotateX(180deg) rotate(-55deg) translate(-25%, -55%);
+            position: relative;
+            z-index: 10;
+        }
+        
+        .cow .head:after, .cow .head:before {
+            content: "";
+            position: absolute;
+            top: -3.5rem;
+            left: -5.5rem;
+            transform: rotate(-25deg);
+            background: #000;
+            width: 4rem;
+            height: 5rem;
+            z-index: 20;
+            box-shadow: 0.2rem 0.1rem 0 0.2rem #fff inset;
+            border-radius: 0% 100% 38% 62%/41% 73% 27% 59%;
+        }
+        
+        .cow .head:before {
+            z-index: 2;
+            top: -4rem;
+            left: -5rem;
+            transform: rotate(-5deg);
+        }
+        
+        .cow .leg {
+            position: absolute;
+            top: 95%;
+            background: #FFF;
+            width: 1.5rem;
+            height: 3rem;
+            transform-origin: top center;
+        }
+        
+        .cow .leg:after {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 90%;
+            width: 100%;
+            height: 2.5rem;
+            background: #FFF;
+            border-bottom: 1.5rem solid #000;
+        }
+        
+        .cow .leg.b {
+            left: 4%;
+            animation: legMoveB 0.2s alternate infinite;
+        }
+        
+        .cow .leg.b.l {
+            left: 13%;
+        }
+        
+        .cow .leg.b.l:after {
+            left: 10%;
+            top: 75%;
+            background: #FFF;
+            transform: rotate(-5deg);
+        }
+        
+        .cow .leg.b.r {
+            animation-delay: 0.2s;
+        }
+        
+        .cow .leg.b.r:after {
+            left: 32%;
+            top: 90%;
+            background: #FFF;
+            transform: rotate(-15deg);
+        }
+        
+        .cow .leg.f {
+            right: 5%;
+            animation: legMoveF 0.2s alternate infinite;
+        }
+        
+        .cow .leg.f.l {
+            right: 10%;
+            animation-delay: 0.2s;
+        }
+        
+        .cow .leg.f.l:after {
+            right: 10%;
+            left: auto;
+            top: 75%;
+            background: #FFF;
+            transform: rotate(5deg);
+        }
+        
+        .cow .leg.f.r:after {
+            right: 20%;
+            left: auto;
+            top: 90%;
+            background: #FFF;
+            transform: rotate(10deg);
+        }
+        
+        .cow .tail {
+            position: absolute;
+            right: 98%;
+            top: 12%;
+            width: 2rem;
+            height: 10rem;
+            border-left: 0.5rem solid #fff;
+            border-top: 0.5rem solid #fff;
+            border-radius: 100% 0% 51% 49%/42% 100% 0% 58%;
+            transform-origin: top left;
+            animation: tail 0.75s alternate infinite;
+        }
+        
+        .cow .tail:after {
+            content: "";
+            position: absolute;
+            left: 7%;
+            top: 100%;
+            background: #000;
+            width: 1.5rem;
+            height: 1.75rem;
+            border-radius: 70% 30% 100% 0%/100% 30% 70% 0%;
+            transform: rotate(-60deg);
+        }
+        
+        .well {
+            background: #000;
+            width: 30rem;
+            height: 2rem;
+            position: absolute;
+            top: calc(40% + 19rem);
+            left: 60%;
+            border-radius: 50%;
+        }
+        
+        .well:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0%;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            box-shadow: 0 -1.2rem 0.25rem #000 inset;
+            z-index: 110;
+        }
+        
+        .well::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 100%;
+            height: 24rem;
+            background: linear-gradient(135deg, #FF8A65, #FF5252);
+            z-index: 100;
+        }
+        
+        .home-btn {
+            position: absolute;
+            left: -190%;
+            top: 2rem;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #000;
+            background: #FFD600;
+            display: inline-block;
+            text-decoration: none;
+            padding: 1.5rem 3rem;
+            border-radius: 1rem;
+            transition: background 0.3s ease-in;
+            transform-origin: 45rem 45rem;
+            animation: btnAnim 4s linear;
+        }
+        
+        .home-btn:hover {
+            background: #FBC02D;
+        }
+        
+        .text-box {
+            font-family: "Cabin Sketch", serif;
+            font-weight: 700;
+            color: #fff;
+            text-align: center;
+            position: absolute;
+            left: 10%;
+            top: 28%;
+            animation: textAnim 3.6s linear;
+        }
+        
+        .text-box h1 {
+            font-size: 24rem;
+            margin: 0;
+            line-height: 18rem;
+        }
+        
+        .text-box p {
+            width: 42rem;
+            font-size: 5rem;
+            line-height: 1;
+            margin: 0;
+        }
+        
+        @keyframes btnAnim {
+            0%, 48% {
+                transform: translateX(-10rem) rotate(95deg);
+            }
+            55%, 100% {
+                transform: translateX(0rem) rotate(0deg);
+            }
+        }
+        
+        @keyframes textAnim {
+            0%, 60% {
+                top: 0%;
+                transform: translatey(0);
+                opacity: 0;
+            }
+            70%, 76%, 85% {
+                top: 28%;
+                transform: translatey(5%);
+                opacity: 1;
+            }
+            73%, 79% {
+                top: 28%;
+                transform: translatey(-15%);
+                opacity: 1;
+            }
+            100% {
+                top: 28%;
+                transform: translatey(0);
+            }
+        }
+        
+        @keyframes move {
+            0% {
+                left: 0%;
+                transform: translateY(0) rotate(0deg);
+            }
+            85% {
+                left: 38%;
+                transform: translateY(0) rotate(0deg);
+            }
+            90% {
+                left: 40%;
+                transform: translateY(0) rotate(5deg);
+            }
+            95% {
+                left: 38%;
+                transform: translateY(0) rotate(90deg);
+            }
+            100% {
+                left: 38%;
+                transform: translateY(15rem) rotate(90deg);
+            }
+        }
+        
+        @keyframes jmb {
+            0%, 100% {
+                transform: translatey(0);
+            }
+            50% {
+                transform: translatey(5px);
+            }
+        }
+        
+        @keyframes legMoveB {
+            0% {
+                transform: rotate(2deg) translatey(0%);
+            }
+            100% {
+                transform: rotate(-5deg) translatey(-5%);
+            }
+        }
+        
+        @keyframes legMoveF {
+            0% {
+                transform: rotate(0deg) translatey(0%);
+            }
+            100% {
+                transform: rotate(-15deg) translatey(-5%);
+            }
+        }
+        
+        @keyframes tail {
+            0% {
+                transform: rotate(3deg);
+                height: 10rem;
+            }
+            100% {
+                transform: rotate(-3deg);
+                height: 8rem;
+            }
+        }
+        
         /* Responsive */
         @media (max-width: 1024px) {
             .nav-center {
@@ -698,6 +1092,29 @@
                 padding: 12px 5px;
                 font-size: 1rem;
             }
+            
+            /* Error page responsive */
+            .error-title {
+                font-size: 5rem;
+            }
+            
+            .error-message {
+                font-size: 1.2rem;
+            }
+            
+            .cow {
+                transform: scale(0.7);
+            }
+            
+            .text-box h1 {
+                font-size: 15rem;
+                line-height: 12rem;
+            }
+            
+            .text-box p {
+                font-size: 3rem;
+                width: 30rem;
+            }
         }
         
         @media (max-width: 480px) {
@@ -739,6 +1156,29 @@
                 padding: 10px 5px;
                 font-size: 0.9rem;
             }
+            
+            /* Error page responsive */
+            .error-title {
+                font-size: 3rem;
+            }
+            
+            .error-message {
+                font-size: 1rem;
+            }
+            
+            .cow {
+                transform: scale(0.5);
+            }
+            
+            .text-box h1 {
+                font-size: 10rem;
+                line-height: 8rem;
+            }
+            
+            .text-box p {
+                font-size: 2rem;
+                width: 20rem;
+            }
         }
     </style>
 </head>
@@ -766,10 +1206,6 @@
             <a href="#" data-page="about"><i class="fas fa-user"></i> About</a>
         </div>
         
-        
-        
-        
-
         <div class="nav-center">
             <a href="#" data-page="calculator"><i class="fas fa-calculator"></i> Calculator</a>
         </div>
@@ -1011,44 +1447,68 @@
         </div>
     </section>
 
-<footer>
-    <div class="social-links" style="display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;">
-        <!-- 1. YouTube -->
-        <a href="https://www.youtube.com/@codeShalaByKMFL" target="_blank" title="YouTube">
-            <i class="fab fa-youtube" style="font-size:22px;color:#ff0000;"></i>
-        </a>
-        
-        <!-- 2. GitHub -->
-        <a href="https://github.com/your-gh-username" target="_blank" title="GitHub">
-            <i class="fab fa-github" style="font-size:22px;"></i>
-        </a>
-        
-        <!-- 3. LinkedIn -->
-        <a href="https://www.linkedin.com/in/yourprofile" target="_blank" title="LinkedIn">
-            <i class="fab fa-linkedin" style="font-size:22px;color:#0e76a8;"></i>
-        </a>
-        
-        <!-- 4. Twitter -->
-        <a href="https://twitter.com/yourhandle" target="_blank" title="Twitter">
-            <i class="fab fa-twitter" style="font-size:22px;color:#1da1f2;"></i>
-        </a>
-        
-        <!-- 5. codes1.html -->
-        <a href="codes.html" target="_blank" title="Get Source Code Here" style="font-size:24px; color:#00e676; text-decoration:none;">
-            <i class="fas fa-file-code"></i>
-        </a>
-        
-        <!-- 6. codes.html -->
-        <a href="codes1.html" target="_blank" title="View All Codes" style="font-size:24px; color:#00b0ff; text-decoration:none;">
-            <i class="fas fa-folder-open"></i>
-        </a>
-    </div>
-    
-    <p class="copyright" style="text-align:center;color:#9aa6b2;margin-top:12px;">
-        © 2023 Kishan Verma. All Rights Reserved.
-    </p>
-</footer>
+    <!-- Error Page -->
+    <section class="page-section" id="error-page">
+        <div class="error-page">
+            <div class="error-animation">
+                <div class="cow">
+                    <div class="head">
+                        <div class="face"></div>
+                    </div>
+                    <div class="leg b l"></div>
+                    <div class="leg b r"></div>
+                    <div class="leg f l"></div>
+                    <div class="leg f r"></div>
+                    <div class="tail"></div>
+                </div>
+                <div class="well">
+                    <a class="home-btn" href="#" data-page="home">Go Home</a>
+                </div>
+                <div class="text-box">
+                    <h1>401</h1>
+                    <p>Sorry, You don't have access there...</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <footer>
+        <div class="social-links" style="display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;">
+            <!-- 1. YouTube -->
+            <a href="https://www.youtube.com/@codeShalaByKMFL" target="_blank" title="YouTube">
+                <i class="fab fa-youtube" style="font-size:22px;color:#ff0000;"></i>
+            </a>
+            
+            <!-- 2. GitHub -->
+            <a href="https://github.com/your-gh-username" target="_blank" title="GitHub">
+                <i class="fab fa-github" style="font-size:22px;"></i>
+            </a>
+            
+            <!-- 3. LinkedIn -->
+            <a href="https://www.linkedin.com/in/yourprofile" target="_blank" title="LinkedIn">
+                <i class="fab fa-linkedin" style="font-size:22px;color:#0e76a8;"></i>
+            </a>
+            
+            <!-- 4. Twitter -->
+            <a href="https://twitter.com/yourhandle" target="_blank" title="Twitter">
+                <i class="fab fa-twitter" style="font-size:22px;color:#1da1f2;"></i>
+            </a>
+            
+            <!-- 5. codes1.html -->
+            <a href="codes.html" target="_blank" title="Get Source Code Here" style="font-size:24px; color:#00e676; text-decoration:none;">
+                <i class="fas fa-file-code"></i>
+            </a>
+            
+            <!-- 6. codes.html -->
+            <a href="codes1.html" target="_blank" title="View All Codes" style="font-size:24px; color:#00b0ff; text-decoration:none;">
+                <i class="fas fa-folder-open"></i>
+            </a>
+        </div>
+        
+        <p class="copyright" style="text-align:center;color:#9aa6b2;margin-top:12px;">
+            © 2023 Kishan Verma. All Rights Reserved.
+        </p>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
@@ -1097,6 +1557,14 @@
                 showPage('home');
             }
         });
+        
+        // Function to show error page (you can call this when needed)
+        function showErrorPage() {
+            showPage('error');
+        }
+        
+        // Example: Show error page when a specific condition is met
+        // You can call showErrorPage() whenever you need to display the error page
         
         // ========== PORTFOLIO CODE ==========
         
