@@ -310,6 +310,60 @@
             text-align: center;
             font-size: 0.9rem;
         }
+        
+        /* Password Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        
+        .modal-content {
+            background: var(--panel);
+            border: 2px solid var(--neon);
+            border-radius: 12px;
+            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        .modal-title {
+            color: var(--neon);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        
+        .password-input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--neon);
+            border-radius: 6px;
+            color: var(--neon);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1rem;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .error-message {
+            color: #ff5555;
+            margin-bottom: 15px;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -333,9 +387,9 @@
     </div>
 
     <!-- Admin Link -->
-    <a href="admin-panel.html" class="btn admin-link">
+    <button class="btn admin-link" id="adminBtn">
         <i class="fas fa-lock"></i> Admin Panel
-    </a>
+    </button>
     
     <!-- Stats -->
     <div class="stats" id="statsContainer">
@@ -380,6 +434,21 @@
     </div>
 </div>
 
+<!-- Password Modal -->
+<div class="modal-overlay" id="passwordModal">
+    <div class="modal-content">
+        <h2 class="modal-title">Admin Access Required</h2>
+        <div class="error-message" id="errorMessage">
+            <i class="fas fa-exclamation-triangle"></i> Incorrect password!
+        </div>
+        <input type="password" class="password-input" id="passwordInput" placeholder="Enter admin password">
+        <div class="modal-buttons">
+            <button class="btn" onclick="checkPassword()">Submit</button>
+            <button class="btn" onclick="closeModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
 <!-- Notification -->
 <div class="notification" id="notification"></div>
 
@@ -388,6 +457,7 @@
     let allCodes = [];
     let currentFilter = 'all';
     let currentSearch = '';
+    const ADMIN_PASSWORD = "ILU_KMFL";
     
     // DOM elements
     const video = document.getElementById("bgVid");
@@ -397,6 +467,10 @@
     const filterButtons = document.getElementById("filterButtons");
     const notification = document.getElementById("notification");
     const syncInfo = document.getElementById("syncInfo");
+    const passwordModal = document.getElementById("passwordModal");
+    const passwordInput = document.getElementById("passwordInput");
+    const errorMessage = document.getElementById("errorMessage");
+    const adminBtn = document.getElementById("adminBtn");
 
     // Initialize
     document.addEventListener('DOMContentLoaded', function() {
@@ -433,10 +507,48 @@
             }
         });
 
+        // Admin button click
+        adminBtn.addEventListener('click', function() {
+            showPasswordModal();
+        });
+
+        // Password input enter key
+        passwordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+
         // Check for localStorage updates every 2 seconds
         setInterval(checkForUpdates, 2000);
     });
 
+    // Show password modal
+    function showPasswordModal() {
+        passwordModal.style.display = 'flex';
+        passwordInput.focus();
+        errorMessage.style.display = 'none';
+    }
+
+    // Close password modal
+    function closeModal() {
+        passwordModal.style.display = 'none';
+        passwordInput.value = '';
+    }
+
+    // Check password
+    function checkPassword() {
+        if (passwordInput.value === ADMIN_PASSWORD) {
+            closeModal();
+            // Redirect to admin panel
+            window.location.href = "admin-panel.html";
+        } else {
+            errorMessage.style.display = 'block';
+            passwordInput.value = '';
+            passwordInput.focus();
+        }
+    }
+    
     // Check for updates in localStorage
     function checkForUpdates() {
         const savedCodes = localStorage.getItem('codesData');
@@ -528,12 +640,17 @@
                     <i class="fas fa-sync-alt"></i> फिर से कोशिश करें
                 </button>
                 <div style="margin-top: 20px;">
-                    <a href="admin-panel.html" class="btn" style="text-decoration: none;">
+                    <button class="btn" id="adminFromNoData">
                         <i class="fas fa-plus"></i> एडमिन पैनल में कोड जोड़ें
-                    </a>
+                    </button>
                 </div>
             </div>
         `;
+        
+        // Add event listener to the new admin button
+        document.getElementById('adminFromNoData').addEventListener('click', function() {
+            showPasswordModal();
+        });
     }
     
     // Update statistics
