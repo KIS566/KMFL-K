@@ -12,15 +12,28 @@
             --bg-dark: #0a0a0a;
             --bg-light: #181818;
             --accent: #00e676;
+            --text-primary: #e6f1f0;
+            --text-secondary: #9e9e9e;
+        }
+        
+        [data-theme="light"] {
+            --neon: #008c6d;
+            --panel: rgba(255, 255, 255, 0.9);
+            --bg-dark: #f0f0f0;
+            --bg-light: #ffffff;
+            --accent: #007a5c;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
         }
         
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
-            color: #e6f1f0;
+            color: var(--text-primary);
             font-family: 'Share Tech Mono', monospace;
             background: var(--bg-dark);
+            transition: all 0.3s ease;
         }
         
         .bg-video {
@@ -34,6 +47,10 @@
             opacity: 0.3;
         }
         
+        [data-theme="light"] .bg-video {
+            opacity: 0.1;
+        }
+        
         header {
             display: flex;
             justify-content: space-between;
@@ -42,6 +59,11 @@
             background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(4px);
             border-bottom: 1px solid var(--neon);
+            transition: all 0.3s ease;
+        }
+        
+        [data-theme="light"] header {
+            background: rgba(255, 255, 255, 0.8);
         }
         
         .logo {
@@ -52,7 +74,13 @@
             gap: 10px;
         }
         
-        .sound-toggle {
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .sound-toggle, .theme-toggle, .user-btn {
             background: rgba(0, 0, 0, 0.5);
             border: 1px solid var(--neon);
             color: var(--neon);
@@ -64,15 +92,23 @@
             align-items: center;
             justify-content: center;
             font-size: 18px;
+            transition: all 0.3s ease;
         }
         
-        .sound-toggle:hover {
+        [data-theme="light"] .sound-toggle,
+        [data-theme="light"] .theme-toggle,
+        [data-theme="light"] .user-btn {
+            background: rgba(255, 255, 255, 0.5);
+        }
+        
+        .sound-toggle:hover, .theme-toggle:hover, .user-btn:hover {
             background: rgba(0, 255, 198, 0.2);
+            transform: scale(1.1);
         }
         
         .wrap {
             padding: 20px;
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
             min-height: 80vh;
             display: flex;
@@ -103,6 +139,14 @@
             border-radius: 8px;
             overflow: auto;
             border: 1px solid #333;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        [data-theme="light"] pre {
+            background: #f8f8f8;
+            color: #333;
+            border: 1px solid #ddd;
         }
         
         .btns {
@@ -128,6 +172,16 @@
             transform: translateY(-2px);
         }
         
+        .btn-primary {
+            background: var(--neon);
+            color: #000;
+            font-weight: bold;
+        }
+        
+        .btn-primary:hover {
+            background: #00e6b3;
+        }
+        
         .search-bar {
             margin-bottom: 20px;
             display: flex;
@@ -142,6 +196,10 @@
             border-radius: 6px;
             color: var(--neon);
             font-family: 'Share Tech Mono', monospace;
+        }
+        
+        [data-theme="light"] .search-input {
+            background: rgba(255, 255, 255, 0.8);
         }
         
         .filter-buttons {
@@ -178,9 +236,45 @@
         }
         
         .code-description {
-            color: #9e9e9e;
+            color: var(--text-secondary);
             margin-bottom: 15px;
             font-size: 0.9rem;
+        }
+        
+        .code-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .rating {
+            color: #ffd700;
+        }
+        
+        .favorite-btn {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .favorite-btn.active {
+            color: #ff4081;
+        }
+        
+        .favorite-btn:hover {
+            transform: scale(1.2);
         }
         
         .loading {
@@ -212,7 +306,7 @@
         }
         
         .no-data-message {
-            color: #9e9e9e;
+            color: var(--text-secondary);
             font-size: 1.1rem;
             line-height: 1.6;
             margin-bottom: 20px;
@@ -260,6 +354,7 @@
             border-radius: 8px;
             border: 1px solid rgba(0, 255, 198, 0.2);
             min-width: 120px;
+            text-align: center;
         }
         
         .stat-number {
@@ -269,7 +364,7 @@
         }
         
         .stat-label {
-            color: #9e9e9e;
+            color: var(--text-secondary);
             font-size: 0.8rem;
         }
         
@@ -311,7 +406,7 @@
             font-size: 0.9rem;
         }
         
-        /* Password Modal Styles */
+        /* Modal Styles */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -319,7 +414,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.8);
-            display: flex;
+            display: none;
             justify-content: center;
             align-items: center;
             z-index: 9999;
@@ -341,22 +436,39 @@
             font-size: 1.5rem;
         }
         
-        .password-input {
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .form-input {
             width: 100%;
             padding: 12px;
-            margin-bottom: 20px;
             background: rgba(0, 0, 0, 0.5);
             border: 1px solid var(--neon);
             border-radius: 6px;
             color: var(--neon);
             font-family: 'Share Tech Mono', monospace;
             font-size: 1rem;
+            box-sizing: border-box;
+        }
+        
+        [data-theme="light"] .form-input {
+            background: rgba(255, 255, 255, 0.8);
         }
         
         .modal-buttons {
             display: flex;
             gap: 10px;
             justify-content: center;
+            margin-top: 20px;
         }
         
         .error-message {
@@ -364,9 +476,164 @@
             margin-bottom: 15px;
             display: none;
         }
+        
+        .success-message {
+            color: var(--neon);
+            margin-bottom: 15px;
+            display: none;
+        }
+        
+        .user-menu {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background: var(--panel);
+            border: 1px solid var(--neon);
+            border-radius: 8px;
+            padding: 15px;
+            min-width: 200px;
+            display: none;
+            z-index: 1000;
+        }
+        
+        .user-menu-item {
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background 0.3s ease;
+        }
+        
+        .user-menu-item:hover {
+            background: rgba(0, 255, 198, 0.1);
+        }
+        
+        .preview-container {
+            margin-top: 15px;
+            border: 1px solid #333;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .preview-header {
+            background: #222;
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            color: #fff;
+        }
+        
+        .preview-content {
+            padding: 15px;
+            background: #fff;
+            color: #000;
+            min-height: 100px;
+        }
+        
+        .tags-container {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            margin: 10px 0;
+        }
+        
+        .tag {
+            background: rgba(0, 255, 198, 0.1);
+            color: var(--neon);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+        }
+        
+        .reviews-section {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(0, 255, 198, 0.2);
+        }
+        
+        .review-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        .review-author {
+            font-weight: bold;
+            color: var(--neon);
+        }
+        
+        .review-rating {
+            color: #ffd700;
+        }
+        
+        .add-review {
+            margin-top: 15px;
+        }
+        
+        .review-textarea {
+            width: 100%;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--neon);
+            border-radius: 6px;
+            color: var(--neon);
+            font-family: 'Share Tech Mono', monospace;
+            resize: vertical;
+            min-height: 60px;
+        }
+        
+        .share-buttons {
+            display: flex;
+            gap: 5px;
+            margin-top: 10px;
+        }
+        
+        .share-btn {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--neon);
+            color: var(--neon);
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-controls {
+                gap: 5px;
+            }
+            
+            .sound-toggle, .theme-toggle, .user-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 16px;
+            }
+            
+            .stats {
+                justify-content: center;
+            }
+            
+            .stat-card {
+                min-width: 100px;
+            }
+            
+            .filter-buttons {
+                justify-content: center;
+            }
+            
+            .search-bar {
+                flex-direction: column;
+            }
+        }
     </style>
 </head>
-<body>
+<body data-theme="dark">
 
 <!-- Background video -->
 <video autoplay loop muted id="bgVid" class="bg-video">
@@ -377,7 +644,19 @@
     <div class="logo">
         <i class="fas fa-code"></i> ⚡ Kishan's Code Vault
     </div>
-    <button class="sound-toggle" id="soundBtn">🔇</button>
+    <div class="header-controls">
+        <button class="theme-toggle" id="themeBtn">🌙</button>
+        <button class="sound-toggle" id="soundBtn">🔇</button>
+        <button class="user-btn" id="userBtn">👤</button>
+    </div>
+    
+    <!-- User Menu -->
+    <div class="user-menu" id="userMenu">
+        <div class="user-menu-item" id="loginBtn">Login</div>
+        <div class="user-menu-item" id="registerBtn">Register</div>
+        <div class="user-menu-item" id="favoritesBtn" style="display:none;">My Favorites</div>
+        <div class="user-menu-item" id="logoutBtn" style="display:none;">Logout</div>
+    </div>
 </header>
 
 <div class="wrap">
@@ -409,11 +688,15 @@
             <div class="stat-number" id="jsCodes">0</div>
             <div class="stat-label">JS Codes</div>
         </div>
+        <div class="stat-card">
+            <div class="stat-number" id="totalUsers">0</div>
+            <div class="stat-label">Registered Users</div>
+        </div>
     </div>
     
     <!-- Search and Filter Section -->
     <div class="search-bar">
-        <input type="text" class="search-input" id="searchInput" placeholder="Search codes...">
+        <input type="text" class="search-input" id="searchInput" placeholder="Search codes by title, description, tags...">
         <button class="btn" onclick="clearSearch()">Clear</button>
     </div>
     
@@ -424,6 +707,9 @@
         <button class="filter-btn" data-category="javascript">JavaScript</button>
         <button class="filter-btn" data-category="react">React</button>
         <button class="filter-btn" data-category="python">Python</button>
+        <button class="filter-btn" data-difficulty="beginner">Beginner</button>
+        <button class="filter-btn" data-difficulty="intermediate">Intermediate</button>
+        <button class="filter-btn" data-difficulty="advanced">Advanced</button>
     </div>
     
     <!-- Codes Container -->
@@ -441,10 +727,70 @@
         <div class="error-message" id="errorMessage">
             <i class="fas fa-exclamation-triangle"></i> Incorrect password!
         </div>
-        <input type="password" class="password-input" id="passwordInput" placeholder="Enter admin password">
+        <input type="password" class="form-input" id="passwordInput" placeholder="Enter admin password">
         <div class="modal-buttons">
-            <button class="btn" onclick="checkPassword()">Submit</button>
+            <button class="btn btn-primary" onclick="checkPassword()">Submit</button>
             <button class="btn" onclick="closeModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- Login Modal -->
+<div class="modal-overlay" id="loginModal">
+    <div class="modal-content">
+        <h2 class="modal-title">User Login</h2>
+        <div class="error-message" id="loginErrorMessage">
+            <i class="fas fa-exclamation-triangle"></i> Invalid credentials!
+        </div>
+        <div class="success-message" id="loginSuccessMessage">
+            <i class="fas fa-check-circle"></i> Login successful!
+        </div>
+        <div class="form-group">
+            <label class="form-label">Username</label>
+            <input type="text" class="form-input" id="loginUsername" placeholder="Enter username">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-input" id="loginPassword" placeholder="Enter password">
+        </div>
+        <div class="modal-buttons">
+            <button class="btn btn-primary" onclick="loginUser()">Login</button>
+            <button class="btn" onclick="closeModal()">Cancel</button>
+        </div>
+        <div style="margin-top: 15px; font-size: 0.9rem;">
+            Don't have an account? <a href="#" onclick="showRegisterModal()" style="color: var(--neon);">Register here</a>
+        </div>
+    </div>
+</div>
+
+<!-- Register Modal -->
+<div class="modal-overlay" id="registerModal">
+    <div class="modal-content">
+        <h2 class="modal-title">User Registration</h2>
+        <div class="error-message" id="registerErrorMessage">
+            <i class="fas fa-exclamation-triangle"></i> Error in registration!
+        </div>
+        <div class="success-message" id="registerSuccessMessage">
+            <i class="fas fa-check-circle"></i> Registration successful!
+        </div>
+        <div class="form-group">
+            <label class="form-label">Username</label>
+            <input type="text" class="form-input" id="registerUsername" placeholder="Choose username">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-input" id="registerEmail" placeholder="Enter email">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-input" id="registerPassword" placeholder="Create password">
+        </div>
+        <div class="modal-buttons">
+            <button class="btn btn-primary" onclick="registerUser()">Register</button>
+            <button class="btn" onclick="closeModal()">Cancel</button>
+        </div>
+        <div style="margin-top: 15px; font-size: 0.9rem;">
+            Already have an account? <a href="#" onclick="showLoginModal()" style="color: var(--neon);">Login here</a>
         </div>
     </div>
 </div>
@@ -455,27 +801,36 @@
 <script>
     // Global variables
     let allCodes = [];
+    let currentUser = null;
     let currentFilter = 'all';
     let currentSearch = '';
+    let currentDifficulty = 'all';
     const ADMIN_PASSWORD = "ILU_KMFL";
     
     // DOM elements
     const video = document.getElementById("bgVid");
     const soundBtn = document.getElementById("soundBtn");
+    const themeBtn = document.getElementById("themeBtn");
+    const userBtn = document.getElementById("userBtn");
+    const userMenu = document.getElementById("userMenu");
     const codesContainer = document.getElementById("codesContainer");
     const searchInput = document.getElementById("searchInput");
     const filterButtons = document.getElementById("filterButtons");
     const notification = document.getElementById("notification");
-    const syncInfo = document.getElementById("syncInfo");
     const passwordModal = document.getElementById("passwordModal");
-    const passwordInput = document.getElementById("passwordInput");
-    const errorMessage = document.getElementById("errorMessage");
-    const adminBtn = document.getElementById("adminBtn");
+    const loginModal = document.getElementById("loginModal");
+    const registerModal = document.getElementById("registerModal");
 
     // Initialize
     document.addEventListener('DOMContentLoaded', function() {
         // Load codes from localStorage
         loadCodes();
+        
+        // Load users data
+        initializeUsers();
+        
+        // Check if user is logged in
+        checkLoginStatus();
         
         // Sound toggle
         video.muted = true;
@@ -483,6 +838,12 @@
             video.muted = !video.muted;
             soundBtn.textContent = video.muted ? "🔇" : "🔊";
         });
+        
+        // Theme toggle
+        themeBtn.addEventListener("click", toggleTheme);
+        
+        // User menu toggle
+        userBtn.addEventListener("click", toggleUserMenu);
         
         // Search functionality
         searchInput.addEventListener('input', function() {
@@ -493,62 +854,292 @@
         // Filter buttons
         filterButtons.addEventListener('click', function(e) {
             if (e.target.classList.contains('filter-btn')) {
-                // Remove active class from all buttons
-                document.querySelectorAll('.filter-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-                
-                // Add active class to clicked button
-                e.target.classList.add('active');
-                
-                // Set current filter
-                currentFilter = e.target.getAttribute('data-category');
+                if (e.target.hasAttribute('data-category')) {
+                    // Category filter
+                    document.querySelectorAll('.filter-btn[data-category]').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    e.target.classList.add('active');
+                    currentFilter = e.target.getAttribute('data-category');
+                } else if (e.target.hasAttribute('data-difficulty')) {
+                    // Difficulty filter
+                    document.querySelectorAll('.filter-btn[data-difficulty]').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    e.target.classList.add('active');
+                    currentDifficulty = e.target.getAttribute('data-difficulty');
+                }
                 filterAndDisplayCodes();
             }
         });
 
         // Admin button click
-        adminBtn.addEventListener('click', function() {
+        document.getElementById('adminBtn').addEventListener('click', function() {
             showPasswordModal();
         });
 
+        // User menu items
+        document.getElementById('loginBtn').addEventListener('click', showLoginModal);
+        document.getElementById('registerBtn').addEventListener('click', showRegisterModal);
+        document.getElementById('favoritesBtn').addEventListener('click', showFavorites);
+        document.getElementById('logoutBtn').addEventListener('click', logoutUser);
+
         // Password input enter key
-        passwordInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                checkPassword();
-            }
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') checkPassword();
+        });
+
+        // Login enter key
+        document.getElementById('loginPassword').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') loginUser();
+        });
+
+        // Register enter key
+        document.getElementById('registerPassword').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') registerUser();
         });
 
         // Check for localStorage updates every 2 seconds
         setInterval(checkForUpdates, 2000);
     });
 
-    // Show password modal
-    function showPasswordModal() {
-        passwordModal.style.display = 'flex';
-        passwordInput.focus();
-        errorMessage.style.display = 'none';
+    // Theme toggle function
+    function toggleTheme() {
+        const currentTheme = document.body.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        document.body.setAttribute('data-theme', newTheme);
+        themeBtn.textContent = newTheme === 'dark' ? '🌙' : '☀️';
+        localStorage.setItem('theme', newTheme);
     }
 
-    // Close password modal
-    function closeModal() {
+    // User menu toggle
+    function toggleUserMenu() {
+        userMenu.style.display = userMenu.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // Close user menu when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!userBtn.contains(e.target) && !userMenu.contains(e.target)) {
+            userMenu.style.display = 'none';
+        }
+    });
+
+    // Show password modal
+    function showPasswordModal() {
+        closeAllModals();
+        passwordModal.style.display = 'flex';
+        document.getElementById('passwordInput').focus();
+        document.getElementById('errorMessage').style.display = 'none';
+    }
+
+    // Show login modal
+    function showLoginModal() {
+        closeAllModals();
+        loginModal.style.display = 'flex';
+        document.getElementById('loginUsername').focus();
+        document.getElementById('loginErrorMessage').style.display = 'none';
+        document.getElementById('loginSuccessMessage').style.display = 'none';
+        userMenu.style.display = 'none';
+    }
+
+    // Show register modal
+    function showRegisterModal() {
+        closeAllModals();
+        registerModal.style.display = 'flex';
+        document.getElementById('registerUsername').focus();
+        document.getElementById('registerErrorMessage').style.display = 'none';
+        document.getElementById('registerSuccessMessage').style.display = 'none';
+        userMenu.style.display = 'none';
+    }
+
+    // Close all modals
+    function closeAllModals() {
         passwordModal.style.display = 'none';
-        passwordInput.value = '';
+        loginModal.style.display = 'none';
+        registerModal.style.display = 'none';
+    }
+
+    // Close modal
+    function closeModal() {
+        closeAllModals();
     }
 
     // Check password
     function checkPassword() {
-        if (passwordInput.value === ADMIN_PASSWORD) {
+        if (document.getElementById('passwordInput').value === ADMIN_PASSWORD) {
             closeModal();
             // Redirect to admin panel
             window.location.href = "admin-panel.html";
         } else {
-            errorMessage.style.display = 'block';
-            passwordInput.value = '';
-            passwordInput.focus();
+            document.getElementById('errorMessage').style.display = 'block';
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('passwordInput').focus();
         }
     }
-    
+
+    // Initialize users data
+    function initializeUsers() {
+        if (!localStorage.getItem('users')) {
+            localStorage.setItem('users', JSON.stringify([]));
+        }
+        updateUserStats();
+    }
+
+    // Register user
+    function registerUser() {
+        const username = document.getElementById('registerUsername').value.trim();
+        const email = document.getElementById('registerEmail').value.trim();
+        const password = document.getElementById('registerPassword').value;
+
+        if (!username || !email || !password) {
+            document.getElementById('registerErrorMessage').textContent = 'Please fill all fields!';
+            document.getElementById('registerErrorMessage').style.display = 'block';
+            return;
+        }
+
+        const users = JSON.parse(localStorage.getItem('users'));
+        
+        // Check if username already exists
+        if (users.find(user => user.username === username)) {
+            document.getElementById('registerErrorMessage').textContent = 'Username already exists!';
+            document.getElementById('registerErrorMessage').style.display = 'block';
+            return;
+        }
+
+        // Check if email already exists
+        if (users.find(user => user.email === email)) {
+            document.getElementById('registerErrorMessage').textContent = 'Email already registered!';
+            document.getElementById('registerErrorMessage').style.display = 'block';
+            return;
+        }
+
+        // Add new user
+        const newUser = {
+            id: Date.now().toString(),
+            username,
+            email,
+            password, // In real app, this should be hashed
+            favorites: [],
+            joined: new Date().toISOString()
+        };
+
+        users.push(newUser);
+        localStorage.setItem('users', JSON.stringify(users));
+        
+        document.getElementById('registerSuccessMessage').style.display = 'block';
+        document.getElementById('registerErrorMessage').style.display = 'none';
+        
+        setTimeout(() => {
+            closeModal();
+            showLoginModal();
+        }, 1500);
+    }
+
+    // Login user
+    function loginUser() {
+        const username = document.getElementById('loginUsername').value.trim();
+        const password = document.getElementById('loginPassword').value;
+
+        const users = JSON.parse(localStorage.getItem('users'));
+        const user = users.find(u => u.username === username && u.password === password);
+
+        if (user) {
+            currentUser = user;
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            
+            document.getElementById('loginSuccessMessage').style.display = 'block';
+            document.getElementById('loginErrorMessage').style.display = 'none';
+            
+            setTimeout(() => {
+                closeModal();
+                checkLoginStatus();
+                showNotification(`Welcome back, ${username}! 👋`);
+            }, 1000);
+        } else {
+            document.getElementById('loginErrorMessage').style.display = 'block';
+            document.getElementById('loginPassword').value = '';
+        }
+    }
+
+    // Logout user
+    function logoutUser() {
+        currentUser = null;
+        localStorage.removeItem('currentUser');
+        checkLoginStatus();
+        showNotification('Logged out successfully! 👋');
+        userMenu.style.display = 'none';
+    }
+
+    // Check login status
+    function checkLoginStatus() {
+        const savedUser = localStorage.getItem('currentUser');
+        if (savedUser) {
+            currentUser = JSON.parse(savedUser);
+            document.getElementById('loginBtn').style.display = 'none';
+            document.getElementById('registerBtn').style.display = 'none';
+            document.getElementById('favoritesBtn').style.display = 'block';
+            document.getElementById('logoutBtn').style.display = 'block';
+            userBtn.innerHTML = '👤 ' + currentUser.username;
+        } else {
+            document.getElementById('loginBtn').style.display = 'block';
+            document.getElementById('registerBtn').style.display = 'block';
+            document.getElementById('favoritesBtn').style.display = 'none';
+            document.getElementById('logoutBtn').style.display = 'none';
+            userBtn.innerHTML = '👤';
+        }
+    }
+
+    // Show favorites
+    function showFavorites() {
+        if (!currentUser) return;
+        
+        const user = JSON.parse(localStorage.getItem('currentUser'));
+        const users = JSON.parse(localStorage.getItem('users'));
+        const currentUserData = users.find(u => u.id === user.id);
+        
+        if (currentUserData && currentUserData.favorites) {
+            const favoriteCodes = allCodes.filter(code => 
+                currentUserData.favorites.includes(code.id)
+            );
+            displayCodes(favoriteCodes, true);
+            showNotification('Showing your favorite codes! ❤️');
+        }
+        userMenu.style.display = 'none';
+    }
+
+    // Toggle favorite
+    function toggleFavorite(codeId) {
+        if (!currentUser) {
+            showLoginModal();
+            return;
+        }
+
+        const users = JSON.parse(localStorage.getItem('users'));
+        const userIndex = users.findIndex(u => u.id === currentUser.id);
+        
+        if (userIndex !== -1) {
+            if (!users[userIndex].favorites) {
+                users[userIndex].favorites = [];
+            }
+            
+            const favIndex = users[userIndex].favorites.indexOf(codeId);
+            if (favIndex === -1) {
+                users[userIndex].favorites.push(codeId);
+                showNotification('Added to favorites! ❤️');
+            } else {
+                users[userIndex].favorites.splice(favIndex, 1);
+                showNotification('Removed from favorites! 💔');
+            }
+            
+            localStorage.setItem('users', JSON.stringify(users));
+            currentUser = users[userIndex];
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            
+            // Refresh display
+            filterAndDisplayCodes();
+        }
+    }
+
     // Check for updates in localStorage
     function checkForUpdates() {
         const savedCodes = localStorage.getItem('codesData');
@@ -578,7 +1169,6 @@
                     showNoDataMessage();
                 } else {
                     filterAndDisplayCodes();
-                    showNotification('✅ Local Storage से कोड्स लोड हुए!', 'success');
                 }
                 
             } else {
@@ -593,7 +1183,6 @@
                         showNoDataMessage();
                     } else {
                         filterAndDisplayCodes();
-                        showNotification('✅ JSON फ़ाइल से कोड्स लोड हुए!', 'success');
                     }
                     
                 } catch (jsonError) {
@@ -640,7 +1229,7 @@
                     <i class="fas fa-sync-alt"></i> फिर से कोशिश करें
                 </button>
                 <div style="margin-top: 20px;">
-                    <button class="btn" id="adminFromNoData">
+                    <button class="btn btn-primary" id="adminFromNoData">
                         <i class="fas fa-plus"></i> एडमिन पैनल में कोड जोड़ें
                     </button>
                 </div>
@@ -659,6 +1248,13 @@
         document.getElementById('htmlCodes').textContent = allCodes.filter(code => code.category === 'html').length;
         document.getElementById('cssCodes').textContent = allCodes.filter(code => code.category === 'css').length;
         document.getElementById('jsCodes').textContent = allCodes.filter(code => code.category === 'javascript').length;
+        updateUserStats();
+    }
+
+    // Update user statistics
+    function updateUserStats() {
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        document.getElementById('totalUsers').textContent = users.length;
     }
     
     // Filter and display codes based on current filter and search
@@ -672,12 +1268,20 @@
             );
         }
         
+        // Apply difficulty filter
+        if (currentDifficulty !== 'all') {
+            filteredCodes = filteredCodes.filter(code => 
+                code.difficulty === currentDifficulty
+            );
+        }
+        
         // Apply search filter
         if (currentSearch) {
             filteredCodes = filteredCodes.filter(code => 
                 code.title.toLowerCase().includes(currentSearch) ||
                 code.description.toLowerCase().includes(currentSearch) ||
-                code.content.toLowerCase().includes(currentSearch)
+                code.content.toLowerCase().includes(currentSearch) ||
+                (code.tags && code.tags.some(tag => tag.toLowerCase().includes(currentSearch)))
             );
         }
         
@@ -686,7 +1290,7 @@
     }
     
     // Display codes in the container
-    function displayCodes(codes) {
+    function displayCodes(codes, isFavorites = false) {
         if (codes.length === 0) {
             if (allCodes.length === 0) {
                 showNoDataMessage();
@@ -698,7 +1302,7 @@
                         </div>
                         <h2 class="no-data-title">कोई मैचिंग कोड नहीं मिला! 🔍</h2>
                         <div class="no-data-message">
-                            आपकी खोज के अनुसार कोई कोड नहीं मिला।<br>
+                            ${isFavorites ? 'आपके कोई favorite codes नहीं हैं!' : 'आपकी खोज के अनुसार कोई कोड नहीं मिला।'}<br>
                             कृपया अलग कीवर्ड या फ़िल्टर आज़माएं।
                         </div>
                         <button class="btn" onclick="clearSearch()">
@@ -712,17 +1316,57 @@
         
         let html = '';
         codes.forEach((code, index) => {
+            const isFavorite = currentUser && currentUser.favorites && currentUser.favorites.includes(code.id);
+            
             html += `
                 <section class="panel">
-                    <h2 class="code-title">
-                        <i class="fas fa-${getCategoryIcon(code.category)}"></i> 
-                        ${code.title}
-                        <span style="font-size: 0.7rem; background: rgba(0,255,198,0.2); padding: 2px 6px; border-radius: 10px;">
-                            ${code.category.toUpperCase()}
-                        </span>
-                    </h2>
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <h2 class="code-title">
+                            <i class="fas fa-${getCategoryIcon(code.category)}"></i> 
+                            ${code.title}
+                            <span style="font-size: 0.7rem; background: rgba(0,255,198,0.2); padding: 2px 6px; border-radius: 10px;">
+                                ${code.category.toUpperCase()}
+                            </span>
+                            ${code.difficulty ? `<span style="font-size: 0.7rem; background: ${getDifficultyColor(code.difficulty)}; padding: 2px 6px; border-radius: 10px; color: #000;">
+                                ${code.difficulty.toUpperCase()}
+                            </span>` : ''}
+                        </h2>
+                        <button class="favorite-btn ${isFavorite ? 'active' : ''}" onclick="toggleFavorite('${code.id}')">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="code-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-calendar"></i> ${new Date(code.dateAdded || Date.now()).toLocaleDateString()}
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-download"></i> ${code.downloads || 0} downloads
+                        </div>
+                        ${code.rating ? `<div class="meta-item rating">
+                            <i class="fas fa-star"></i> ${code.rating}/5
+                        </div>` : ''}
+                    </div>
+                    
+                    ${code.tags && code.tags.length > 0 ? `
+                        <div class="tags-container">
+                            ${code.tags.map(tag => `<span class="tag">#${tag}</span>`).join('')}
+                        </div>
+                    ` : ''}
+                    
                     <div class="code-description">${code.description}</div>
+                    
+                    ${code.preview ? `
+                        <div class="preview-container">
+                            <div class="preview-header">Preview</div>
+                            <div class="preview-content">
+                                ${code.preview}
+                            </div>
+                        </div>
+                    ` : ''}
+                    
                     <pre id="code${index}">${escapeHtml(code.content)}</pre>
+                    
                     <div class="btns">
                         <button class="btn" onclick="copyCode('code${index}')">
                             <i class="fas fa-copy"></i> Copy
@@ -730,6 +1374,38 @@
                         <button class="btn" onclick="downloadCode('code${index}', '${code.title.replace(/\s+/g, '_')}.${getFileExtension(code.category)}')">
                             <i class="fas fa-download"></i> Download
                         </button>
+                        <button class="btn" onclick="shareCode('${code.id}')">
+                            <i class="fas fa-share"></i> Share
+                        </button>
+                        <button class="btn" onclick="showReviews('${code.id}')">
+                            <i class="fas fa-comments"></i> Reviews
+                        </button>
+                    </div>
+                    
+                    <div class="share-buttons" id="share-${code.id}" style="display: none;">
+                        <button class="share-btn" onclick="shareOnTwitter('${code.id}')">
+                            <i class="fab fa-twitter"></i> Twitter
+                        </button>
+                        <button class="share-btn" onclick="copyShareLink('${code.id}')">
+                            <i class="fas fa-link"></i> Copy Link
+                        </button>
+                    </div>
+                    
+                    <div class="reviews-section" id="reviews-${code.id}" style="display: none;">
+                        <div id="reviews-content-${code.id}"></div>
+                        <div class="add-review">
+                            <textarea class="review-textarea" id="review-text-${code.id}" placeholder="Write your review..."></textarea>
+                            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                                <select id="review-rating-${code.id}" style="padding: 5px; background: rgba(0,0,0,0.5); color: var(--neon); border: 1px solid var(--neon); border-radius: 4px;">
+                                    <option value="5">5 ⭐</option>
+                                    <option value="4">4 ⭐</option>
+                                    <option value="3">3 ⭐</option>
+                                    <option value="2">2 ⭐</option>
+                                    <option value="1">1 ⭐</option>
+                                </select>
+                                <button class="btn" onclick="submitReview('${code.id}')">Submit Review</button>
+                            </div>
+                        </div>
                     </div>
                 </section>
             `;
@@ -742,7 +1418,7 @@
     function copyCode(id) {
         const code = document.getElementById(id).innerText;
         navigator.clipboard.writeText(code).then(() => {
-            showNotification('Code copied to clipboard!');
+            showNotification('Code copied to clipboard! 📋');
         });
     }
     
@@ -754,12 +1430,126 @@
         a.href = URL.createObjectURL(blob);
         a.download = filename;
         a.click();
+        
+        // Update download count
+        const codeIndex = allCodes.findIndex(c => c.title === filename.split('.')[0].replace(/_/g, ' '));
+        if (codeIndex !== -1) {
+            if (!allCodes[codeIndex].downloads) allCodes[codeIndex].downloads = 0;
+            allCodes[codeIndex].downloads++;
+            localStorage.setItem('codesData', JSON.stringify(allCodes));
+        }
+        
+        showNotification('Code downloaded! 💾');
+    }
+    
+    // Share code
+    function shareCode(codeId) {
+        const shareSection = document.getElementById(`share-${codeId}`);
+        shareSection.style.display = shareSection.style.display === 'flex' ? 'none' : 'flex';
+    }
+    
+    // Share on Twitter
+    function shareOnTwitter(codeId) {
+        const code = allCodes.find(c => c.id === codeId);
+        if (code) {
+            const text = `Check out this ${code.category} code: ${code.title}`;
+            const url = window.location.href;
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+        }
+    }
+    
+    // Copy share link
+    function copyShareLink(codeId) {
+        navigator.clipboard.writeText(window.location.href).then(() => {
+            showNotification('Link copied to clipboard! 🔗');
+        });
+    }
+    
+    // Show reviews
+    function showReviews(codeId) {
+        const reviewsSection = document.getElementById(`reviews-${codeId}`);
+        reviewsSection.style.display = reviewsSection.style.display === 'block' ? 'none' : 'block';
+        
+        if (reviewsSection.style.display === 'block') {
+            loadReviews(codeId);
+        }
+    }
+    
+    // Load reviews
+    function loadReviews(codeId) {
+        const reviewsContent = document.getElementById(`reviews-content-${codeId}`);
+        const code = allCodes.find(c => c.id === codeId);
+        
+        if (code && code.reviews && code.reviews.length > 0) {
+            let reviewsHtml = '<h4 style="color: var(--neon); margin-bottom: 10px;">User Reviews:</h4>';
+            code.reviews.forEach(review => {
+                reviewsHtml += `
+                    <div class="review-item">
+                        <div class="review-header">
+                            <span class="review-author">${review.author}</span>
+                            <span class="review-rating">${'⭐'.repeat(review.rating)}</span>
+                        </div>
+                        <div>${review.comment}</div>
+                    </div>
+                `;
+            });
+            reviewsContent.innerHTML = reviewsHtml;
+        } else {
+            reviewsContent.innerHTML = '<p style="color: var(--text-secondary);">No reviews yet. Be the first to review!</p>';
+        }
+    }
+    
+    // Submit review
+    function submitReview(codeId) {
+        if (!currentUser) {
+            showLoginModal();
+            return;
+        }
+        
+        const comment = document.getElementById(`review-text-${codeId}`).value.trim();
+        const rating = document.getElementById(`review-rating-${codeId}`).value;
+        
+        if (!comment) {
+            showNotification('Please write a review! 📝', 'error');
+            return;
+        }
+        
+        const codeIndex = allCodes.findIndex(c => c.id === codeId);
+        if (codeIndex !== -1) {
+            if (!allCodes[codeIndex].reviews) allCodes[codeIndex].reviews = [];
+            
+            allCodes[codeIndex].reviews.push({
+                author: currentUser.username,
+                rating: parseInt(rating),
+                comment: comment,
+                date: new Date().toISOString()
+            });
+            
+            // Calculate average rating
+            const reviews = allCodes[codeIndex].reviews;
+            const avgRating = reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length;
+            allCodes[codeIndex].rating = avgRating.toFixed(1);
+            
+            localStorage.setItem('codesData', JSON.stringify(allCodes));
+            
+            document.getElementById(`review-text-${codeId}`).value = '';
+            loadReviews(codeId);
+            showNotification('Review submitted! 🌟');
+        }
     }
     
     // Clear search
     function clearSearch() {
         searchInput.value = '';
         currentSearch = '';
+        currentFilter = 'all';
+        currentDifficulty = 'all';
+        
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        document.querySelector('.filter-btn[data-category="all"]').classList.add('active');
+        
         filterAndDisplayCodes();
     }
     
@@ -810,6 +1600,15 @@
             'other': 'txt'
         };
         return extensions[category] || 'txt';
+    }
+    
+    function getDifficultyColor(difficulty) {
+        const colors = {
+            'beginner': '#4caf50',
+            'intermediate': '#ff9800',
+            'advanced': '#f44336'
+        };
+        return colors[difficulty] || '#00ffc6';
     }
 </script>
 
