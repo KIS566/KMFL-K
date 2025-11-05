@@ -5,7 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kishan's Code Vault ⚡</title>
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    
+    
+    
+    
     <style>
+
+
+
+.code-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 15px;
+  margin: 10px;
+  color: #fff;
+  transition: 0.3s ease;
+}
+.code-card:hover {
+  background: rgba(255,255,255,0.15);
+  transform: scale(1.02);
+}
+.code-card pre {
+  background: rgba(0,0,0,0.4);
+  padding: 8px;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+.code-card .meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+
+        
         :root {
             --neon: #00ffc6;
             --panel: rgba(0, 0, 0, 0.65);
@@ -1615,5 +1652,51 @@
 <!-- Font Awesome for icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+
+<script>
+const sheetURL = "https://script.google.com/macros/s/AKfycbwJbMqoHhQre_ZVPl83AGJgyzUbjvk-UTMkImt7o5nuKZ1mG4RbPNGybpasyNSo5fJ5oQ/exec";
+
+async function loadCodes() {
+  const container = document.getElementById("codesContainer");
+  container.innerHTML = `<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading codes...</div>`;
+
+  try {
+    const response = await fetch(sheetURL);
+    const data = await response.json();
+
+    if (data.length === 0) {
+      container.innerHTML = `<p style="text-align:center; color:#ccc;">No codes found 😅</p>`;
+      return;
+    }
+
+    container.innerHTML = "";
+
+    data.forEach(code => {
+      const card = document.createElement("div");
+      card.className = "code-card";
+
+      card.innerHTML = `
+        <h3>${code.title || "Untitled"}</h3>
+        <p>${code.description || "No description"}</p>
+        <pre><code>${code.code || ""}</code></pre>
+        <div class="meta">
+          <span>💡 ${code.category || "Unknown"}</span>
+          <span>🎯 ${code.difficulty || "N/A"}</span>
+          <span>⭐ ${code.rating || "0"}</span>
+        </div>
+      `;
+
+      container.appendChild(card);
+    });
+
+  } catch (error) {
+    console.error(error);
+    container.innerHTML = `<p style="color:red; text-align:center;">⚠️ Failed to load data. Check API link.</p>`;
+  }
+}
+
+document.addEventListener("DOMContentLoaded", loadCodes);
+</script>
+    
 </body>
 </html>
