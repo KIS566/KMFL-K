@@ -5,44 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kishan's Code Vault ⚡</title>
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-    
-    
-    
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-
-
-
-.code-card {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 12px;
-  padding: 15px;
-  margin: 10px;
-  color: #fff;
-  transition: 0.3s ease;
-}
-.code-card:hover {
-  background: rgba(255,255,255,0.15);
-  transform: scale(1.02);
-}
-.code-card pre {
-  background: rgba(0,0,0,0.4);
-  padding: 8px;
-  border-radius: 8px;
-  overflow-x: auto;
-}
-.code-card .meta {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 8px;
-  font-size: 0.9rem;
-  opacity: 0.8;
-}
-
-
-        
+        /* Your existing CSS styles remain exactly the same */
         :root {
             --neon: #00ffc6;
             --panel: rgba(0, 0, 0, 0.65);
@@ -443,6 +409,29 @@
             font-size: 0.9rem;
         }
         
+        .sync-status {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .sync-online {
+            background: #00ff00;
+            animation: pulse 2s infinite;
+        }
+        
+        .sync-offline {
+            background: #ff4444;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
         /* Modal Styles */
         .modal-overlay {
             position: fixed;
@@ -640,6 +629,34 @@
             font-size: 0.8rem;
         }
         
+        /* Code Card Styles */
+        .code-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 10px;
+            color: #fff;
+            transition: 0.3s ease;
+        }
+        .code-card:hover {
+            background: rgba(255,255,255,0.15);
+            transform: scale(1.02);
+        }
+        .code-card pre {
+            background: rgba(0,0,0,0.4);
+            padding: 8px;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        .code-card .meta {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
         /* Responsive Design */
         @media (max-width: 768px) {
             .header-controls {
@@ -699,7 +716,9 @@
 <div class="wrap">
     <!-- Sync Info -->
     <div class="sync-info" id="syncInfo">
-        <i class="fas fa-sync-alt"></i> Real-time Sync: Changes from Admin Panel appear instantly
+        <span class="sync-status sync-online" id="syncStatus"></span>
+        <span id="syncText">Real-time Sync: Active</span>
+        <span id="lastSync" style="font-size: 0.8rem; margin-left: 10px;"></span>
     </div>
 
     <!-- Admin Link -->
@@ -832,6 +851,65 @@
     </div>
 </div>
 
+<!-- Admin Panel Modal -->
+<div class="modal-overlay" id="adminModal">
+    <div class="modal-content" style="max-width: 600px;">
+        <h2 class="modal-title">Admin Panel - Add New Code</h2>
+        <div class="error-message" id="adminErrorMessage">
+            <i class="fas fa-exclamation-triangle"></i> Error adding code!
+        </div>
+        <div class="success-message" id="adminSuccessMessage">
+            <i class="fas fa-check-circle"></i> Code added successfully!
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Title *</label>
+            <input type="text" class="form-input" id="adminTitle" placeholder="Enter code title" required>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Description</label>
+            <textarea class="form-input" id="adminDescription" placeholder="Enter code description" rows="3"></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Code Content *</label>
+            <textarea class="form-input" id="adminCode" placeholder="Paste your code here" rows="6" required></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Category</label>
+            <select class="form-input" id="adminCategory">
+                <option value="html">HTML</option>
+                <option value="css">CSS</option>
+                <option value="javascript">JavaScript</option>
+                <option value="react">React</option>
+                <option value="python">Python</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Difficulty</label>
+            <select class="form-input" id="adminDifficulty">
+                <option value="beginner">Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="advanced">Advanced</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Tags (comma separated)</label>
+            <input type="text" class="form-input" id="adminTags" placeholder="html, css, responsive">
+        </div>
+        
+        <div class="modal-buttons">
+            <button class="btn btn-primary" onclick="addNewCode()">Add Code</button>
+            <button class="btn" onclick="closeModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
 <!-- Notification -->
 <div class="notification" id="notification"></div>
 
@@ -842,8 +920,18 @@
     let currentFilter = 'all';
     let currentSearch = '';
     let currentDifficulty = 'all';
+    let lastFetchTime = 0;
+    let isOnline = true;
     const ADMIN_PASSWORD = "ILU_KMFL";
-    
+    const SHEET_URL = "https://script.google.com/macros/s/AKfycbzklsVwmlVJvj4p6bV2DAHCxJwL-bRHtqOGfeNvz_kut3-RCxonCiq3Pq_SM71Z0kQ4MQ/exec";
+
+    // Real-time sync configuration
+    const SYNC_CONFIG = {
+        checkInterval: 3000, // Check for updates every 3 seconds
+        retryDelay: 5000,    // Retry failed requests after 5 seconds
+        maxRetries: 3        // Maximum retry attempts
+    };
+
     // DOM elements
     const video = document.getElementById("bgVid");
     const soundBtn = document.getElementById("soundBtn");
@@ -857,11 +945,15 @@
     const passwordModal = document.getElementById("passwordModal");
     const loginModal = document.getElementById("loginModal");
     const registerModal = document.getElementById("registerModal");
+    const adminModal = document.getElementById("adminModal");
+    const syncStatus = document.getElementById("syncStatus");
+    const syncText = document.getElementById("syncText");
+    const lastSync = document.getElementById("lastSync");
 
     // Initialize
     document.addEventListener('DOMContentLoaded', function() {
-        // Load codes from localStorage
-        loadCodes();
+        // Initialize real-time sync
+        initializeRealtimeSync();
         
         // Load users data
         initializeUsers();
@@ -936,9 +1028,221 @@
             if (e.key === 'Enter') registerUser();
         });
 
-        // Check for localStorage updates every 2 seconds
-        setInterval(checkForUpdates, 2000);
+        // Check for online/offline status
+        updateOnlineStatus();
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
     });
+
+    // Update online status
+    function updateOnlineStatus() {
+        isOnline = navigator.onLine;
+        if (isOnline) {
+            syncStatus.className = 'sync-status sync-online';
+            syncText.textContent = 'Real-time Sync: Active';
+            syncWithSheet(); // Sync immediately when coming online
+        } else {
+            syncStatus.className = 'sync-status sync-offline';
+            syncText.textContent = 'Offline Mode: Using Cached Data';
+        }
+    }
+
+    // Initialize real-time sync
+    function initializeRealtimeSync() {
+        // Initial load
+        loadCodesFromSheet();
+        
+        // Set up periodic sync
+        setInterval(syncWithSheet, SYNC_CONFIG.checkInterval);
+        
+        // Update last sync time
+        updateLastSyncTime();
+    }
+
+    // Enhanced load codes function with real-time sync
+    async function loadCodesFromSheet(forceRefresh = false) {
+        try {
+            const container = document.getElementById("codesContainer");
+            
+            if (!forceRefresh && allCodes.length > 0) {
+                container.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Checking for updates...</div>';
+            } else {
+                container.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading codes...</div>';
+            }
+
+            // Add timestamp to prevent caching
+            const timestamp = new Date().getTime();
+            const url = `${SHEET_URL}?timestamp=${timestamp}`;
+            
+            const response = await fetch(url);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const result = await response.json();
+            
+            if (result.error) {
+                throw new Error(result.error);
+            }
+            
+            const sheetData = result.data || [];
+            
+            // Check if data has actually changed
+            const dataChanged = JSON.stringify(sheetData) !== JSON.stringify(allCodes);
+            
+            if (dataChanged || forceRefresh) {
+                allCodes = sheetData;
+                
+                // Save to localStorage as backup
+                localStorage.setItem('codesData', JSON.stringify(allCodes));
+                localStorage.setItem('lastSyncTimestamp', timestamp.toString());
+                
+                // Update UI
+                filterAndDisplayCodes();
+                updateStats();
+                
+                // Show update notification (only if not initial load)
+                if (allCodes.length > 0 && !forceRefresh) {
+                    showNotification('🔄 Codes updated from Google Sheet!', 'info');
+                }
+                
+                // Update last sync time
+                updateLastSyncTime();
+            }
+            
+            lastFetchTime = timestamp;
+            
+        } catch (error) {
+            console.error('Error loading from sheet:', error);
+            await handleLoadError(error);
+        }
+    }
+
+    // Handle load errors with fallback to localStorage
+    async function handleLoadError(error) {
+        const savedCodes = localStorage.getItem('codesData');
+        
+        if (savedCodes) {
+            allCodes = JSON.parse(savedCodes);
+            filterAndDisplayCodes();
+            updateStats();
+            showNotification('⚠️ Using cached data (offline mode)', 'info');
+        } else {
+            showNoDataMessage();
+        }
+    }
+
+    // Sync with Google Sheet
+    async function syncWithSheet() {
+        if (!isOnline) return;
+        
+        try {
+            const timestamp = new Date().getTime();
+            const url = `${SHEET_URL}?timestamp=${timestamp}`;
+            
+            const response = await fetch(url);
+            
+            if (!response.ok) return;
+            
+            const result = await response.json();
+            
+            if (result.error) return;
+            
+            const sheetData = result.data || [];
+            
+            // Check if data has changed
+            if (JSON.stringify(sheetData) !== JSON.stringify(allCodes)) {
+                allCodes = sheetData;
+                localStorage.setItem('codesData', JSON.stringify(allCodes));
+                localStorage.setItem('lastSyncTimestamp', timestamp.toString());
+                
+                filterAndDisplayCodes();
+                updateStats();
+                updateLastSyncTime();
+                
+                // Show subtle notification
+                showNotification('🔄 Codes updated!', 'info');
+            }
+            
+        } catch (error) {
+            console.log('Sync failed, will retry...');
+        }
+    }
+
+    // Update last sync time display
+    function updateLastSyncTime() {
+        const now = new Date();
+        lastSync.textContent = `Last sync: ${now.toLocaleTimeString()}`;
+    }
+
+    // Add new code via Admin Panel
+    async function addNewCode() {
+        const title = document.getElementById('adminTitle').value.trim();
+        const description = document.getElementById('adminDescription').value.trim();
+        const code = document.getElementById('adminCode').value.trim();
+        const category = document.getElementById('adminCategory').value;
+        const difficulty = document.getElementById('adminDifficulty').value;
+        const tags = document.getElementById('adminTags').value.split(',').map(tag => tag.trim()).filter(tag => tag);
+        
+        if (!title || !code) {
+            document.getElementById('adminErrorMessage').textContent = 'Title and code are required!';
+            document.getElementById('adminErrorMessage').style.display = 'block';
+            return;
+        }
+
+        try {
+            const codeData = {
+                title,
+                description,
+                code,
+                category,
+                difficulty,
+                tags: tags.join(', '),
+                dateAdded: new Date().toISOString(),
+                id: 'code_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9)
+            };
+
+            // Send to Google Apps Script
+            const response = await fetch(SHEET_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(codeData)
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                document.getElementById('adminSuccessMessage').style.display = 'block';
+                document.getElementById('adminErrorMessage').style.display = 'none';
+                
+                // Clear form
+                document.getElementById('adminTitle').value = '';
+                document.getElementById('adminDescription').value = '';
+                document.getElementById('adminCode').value = '';
+                document.getElementById('adminTags').value = '';
+                
+                // Refresh data after a short delay
+                setTimeout(() => {
+                    loadCodesFromSheet(true);
+                }, 1000);
+                
+                // Close modal after success
+                setTimeout(() => {
+                    closeModal();
+                }, 1500);
+            } else {
+                throw new Error(result.error);
+            }
+            
+        } catch (error) {
+            document.getElementById('adminErrorMessage').textContent = 'Failed to add code: ' + error.message;
+            document.getElementById('adminErrorMessage').style.display = 'block';
+            document.getElementById('adminSuccessMessage').style.display = 'none';
+        }
+    }
 
     // Theme toggle function
     function toggleTheme() {
@@ -989,11 +1293,21 @@
         userMenu.style.display = 'none';
     }
 
+    // Show admin panel
+    function showAdminPanel() {
+        closeAllModals();
+        adminModal.style.display = 'flex';
+        document.getElementById('adminTitle').focus();
+        document.getElementById('adminErrorMessage').style.display = 'none';
+        document.getElementById('adminSuccessMessage').style.display = 'none';
+    }
+
     // Close all modals
     function closeAllModals() {
         passwordModal.style.display = 'none';
         loginModal.style.display = 'none';
         registerModal.style.display = 'none';
+        adminModal.style.display = 'none';
     }
 
     // Close modal
@@ -1005,8 +1319,7 @@
     function checkPassword() {
         if (document.getElementById('passwordInput').value === ADMIN_PASSWORD) {
             closeModal();
-            // Redirect to admin panel
-            window.location.href = "admin-panel.html";
+            showAdminPanel();
         } else {
             document.getElementById('errorMessage').style.display = 'block';
             document.getElementById('passwordInput').value = '';
@@ -1177,66 +1490,6 @@
         }
     }
 
-    // Check for updates in localStorage
-    function checkForUpdates() {
-        const savedCodes = localStorage.getItem('codesData');
-        if (savedCodes) {
-            const newCodes = JSON.parse(savedCodes);
-            if (JSON.stringify(newCodes) !== JSON.stringify(allCodes)) {
-                allCodes = newCodes;
-                filterAndDisplayCodes();
-                updateStats();
-                showNotification('🔄 Codes updated from Admin Panel!', 'info');
-            }
-        }
-    }
-    
-    // Load codes from localStorage
-    async function loadCodes() {
-        try {
-            codesContainer.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Local Storage से कोड्स लोड हो रहे हैं...</div>';
-            
-            // Try to load from localStorage first
-            const savedCodes = localStorage.getItem('codesData');
-            
-            if (savedCodes) {
-                allCodes = JSON.parse(savedCodes);
-                
-                if (allCodes.length === 0) {
-                    showNoDataMessage();
-                } else {
-                    filterAndDisplayCodes();
-                }
-                
-            } else {
-                // Fallback to JSON file if no localStorage data
-                try {
-                    const response = await fetch('codes-data.json');
-                    if (!response.ok) throw new Error('JSON file not found');
-                    
-                    allCodes = await response.json();
-                    
-                    if (allCodes.length === 0) {
-                        showNoDataMessage();
-                    } else {
-                        filterAndDisplayCodes();
-                    }
-                    
-                } catch (jsonError) {
-                    console.error('JSON load failed:', jsonError);
-                    showNoDataMessage();
-                }
-            }
-            
-            updateStats();
-            
-        } catch (error) {
-            console.error('Error loading codes:', error);
-            showNoDataMessage();
-            updateStats();
-        }
-    }
-    
     // Show no data message in Hindi with funny style
     function showNoDataMessage() {
         const funnyMessages = [
@@ -1262,7 +1515,7 @@
                 <div class="funny-message">
                     "${randomMessage}"
                 </div>
-                <button class="refresh-btn" onclick="loadCodes()">
+                <button class="refresh-btn" onclick="loadCodesFromSheet(true)">
                     <i class="fas fa-sync-alt"></i> फिर से कोशिश करें
                 </button>
                 <div style="margin-top: 20px;">
@@ -1402,7 +1655,7 @@
                         </div>
                     ` : ''}
                     
-                    <pre id="code${index}">${escapeHtml(code.content)}</pre>
+                    <pre id="code${index}">${escapeHtml(code.content || code.code || '')}</pre>
                     
                     <div class="btns">
                         <button class="btn" onclick="copyCode('code${index}')">
@@ -1648,55 +1901,5 @@
         return colors[difficulty] || '#00ffc6';
     }
 </script>
-
-<!-- Font Awesome for icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-
-<script>
-const sheetURL = "https://script.google.com/macros/s/AKfycbwJbMqoHhQre_ZVPl83AGJgyzUbjvk-UTMkImt7o5nuKZ1mG4RbPNGybpasyNSo5fJ5oQ/exec";
-
-async function loadCodes() {
-  const container = document.getElementById("codesContainer");
-  container.innerHTML = `<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading codes...</div>`;
-
-  try {
-    const response = await fetch(sheetURL);
-    const data = await response.json();
-
-    if (data.length === 0) {
-      container.innerHTML = `<p style="text-align:center; color:#ccc;">No codes found 😅</p>`;
-      return;
-    }
-
-    container.innerHTML = "";
-
-    data.forEach(code => {
-      const card = document.createElement("div");
-      card.className = "code-card";
-
-      card.innerHTML = `
-        <h3>${code.title || "Untitled"}</h3>
-        <p>${code.description || "No description"}</p>
-        <pre><code>${code.code || ""}</code></pre>
-        <div class="meta">
-          <span>💡 ${code.category || "Unknown"}</span>
-          <span>🎯 ${code.difficulty || "N/A"}</span>
-          <span>⭐ ${code.rating || "0"}</span>
-        </div>
-      `;
-
-      container.appendChild(card);
-    });
-
-  } catch (error) {
-    console.error(error);
-    container.innerHTML = `<p style="color:red; text-align:center;">⚠️ Failed to load data. Check API link.</p>`;
-  }
-}
-
-document.addEventListener("DOMContentLoaded", loadCodes);
-</script>
-    
 </body>
 </html>
