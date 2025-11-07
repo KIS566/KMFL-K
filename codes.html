@@ -3,15 +3,16 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Kishan's Hacker Code Hub ⚡️</title>
+<title>Kishan's Advanced Hacker Code Hub ⚡️</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@300;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
   :root{
     --bg:#071019; --panel:#08121a; --neon:#00ffc6; --accent:#ff6b6b; --muted:#9aa6b2;
   }
   *{box-sizing:border-box}
-  body,html{margin:0;padding:0;height:100%;overflow:auto;color: font-family:Inter,system-ui;}
+  body,html{margin:0;padding:0;height:100%;overflow:auto;color:#fff; font-family:Inter,system-ui;}
   
   /* Background Video */
   .bg-video{
@@ -39,6 +40,35 @@
   
   iframe{width:100%;height:320px;border:0;border-radius:8px;background:#fff;margin-top:10px;}
   .funny{text-align:center;margin-top:12px;font-style:italic;color:var(--muted)}
+  
+  /* New Styles for Advanced Features */
+  .toolbar {display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap;}
+  .language-select {background: #000; color: var(--neon); border: 1px solid rgba(255,255,255,0.2); padding: 8px 12px; border-radius: 6px; font-family: 'Share Tech Mono', monospace;}
+  .theme-select {background: #000; color: var(--neon); border: 1px solid rgba(255,255,255,0.2); padding: 8px 12px; border-radius: 6px; font-family: 'Share Tech Mono', monospace;}
+  
+  .tabs {display: flex; gap: 5px; margin-bottom: 10px; flex-wrap: wrap;}
+  .tab {background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); color: var(--muted); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.9rem;}
+  .tab.active {background: rgba(0,255,198,0.2); color: var(--neon); border-color: var(--neon);}
+  
+  .console {background: #000; color: #0f0; padding: 10px; border-radius: 6px; font-family: 'Share Tech Mono', monospace; height: 120px; overflow-y: auto; margin-top: 10px; font-size: 0.9rem;}
+  .console-line {margin: 2px 0;}
+  .console-error {color: #ff6b6b;}
+  
+  .feature-grid {display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 20px;}
+  .feature-card {background: rgba(0,0,0,0.5); border-radius: 8px; padding: 15px; border: 1px solid rgba(255,255,255,0.1);}
+  .feature-card h3 {margin-top: 0; color: var(--neon); font-size: 1rem;}
+  .feature-card p {font-size: 0.85rem; color: var(--muted); margin-bottom: 0;}
+  
+  .snippet-list {max-height: 200px; overflow-y: auto; margin-top: 10px;}
+  .snippet-item {background: rgba(0,0,0,0.3); padding: 8px; border-radius: 4px; margin-bottom: 5px; cursor: pointer; font-size: 0.85rem;}
+  .snippet-item:hover {background: rgba(0,255,198,0.1);}
+  
+  .status-bar {display: flex; justify-content: space-between; margin-top: 10px; font-size: 0.8rem; color: var(--muted);}
+  
+  /* Dark theme for code editor */
+  .dark-theme { background: #000; color: #0f0; }
+  .light-theme { background: #f5f5f5; color: #333; }
+  .matrix-theme { background: #000; color: #0f0; background-image: linear-gradient(rgba(0, 255, 0, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 0, 0.1) 1px, transparent 1px); background-size: 20px 20px; }
 </style>
 </head>
 <body>
@@ -50,8 +80,8 @@
 
 <header>
   <div>
-    <div class="logo">⚡ Kishan's Hacker Hub</div>
-    <div class="heading-sub">Live Code • Save • Hacker Vibes 😎</div>
+    <div class="logo">⚡ Kishan's Advanced Hacker Hub</div>
+    <div class="heading-sub">Multi-Language Support • Code Snippets • Themes • More! 😎</div>
   </div>
   <button class="sound-toggle" id="soundBtn">🔇</button>
 </header>
@@ -60,26 +90,105 @@
   <div class="grid">
     <!-- Editor -->
     <section class="panel">
-      <h2>👨‍💻 Editor</h2>
+      <h2>👨‍💻 Advanced Editor</h2>
+      
+      <div class="toolbar">
+        <select class="language-select" id="languageSelect">
+          <option value="html">HTML</option>
+          <option value="css">CSS</option>
+          <option value="javascript">JavaScript</option>
+          <option value="python">Python</option>
+          <option value="cpp">C++</option>
+          <option value="java">Java</option>
+          <option value="php">PHP</option>
+          <option value="sql">SQL</option>
+        </select>
+        
+        <select class="theme-select" id="themeSelect">
+          <option value="dark">Dark Theme</option>
+          <option value="light">Light Theme</option>
+          <option value="matrix">Matrix Theme</option>
+        </select>
+        
+        <button class="btn" onclick="saveCode()"><i class="fas fa-save"></i> Save</button>
+        <button class="btn" onclick="loadCode()"><i class="fas fa-folder-open"></i> Load</button>
+        <button class="btn" onclick="clearCode()"><i class="fas fa-trash"></i> Clear</button>
+      </div>
+      
+      <div class="tabs" id="fileTabs">
+        <div class="tab active" data-file="main">main</div>
+      </div>
+      
       <textarea id="editor" placeholder="Yaha apna code likho..."></textarea>
+      
       <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap">
-        <button class="btn primary" onclick="runCode()">▶ Run</button>
+        <button class="btn primary" onclick="runCode()">▶ Run Code</button>
         <button class="btn" onclick="copyCode()">📋 Copy</button>
+        <button class="btn" onclick="downloadCode()"><i class="fas fa-download"></i> Download</button>
+        <button class="btn" onclick="formatCode()"><i class="fas fa-indent"></i> Format</button>
+      </div>
+      
+      <div class="status-bar">
+        <span id="status">Ready</span>
+        <span id="lineInfo">Line: 1, Column: 1</span>
       </div>
     </section>
     
-    <!-- Output -->
+    <!-- Output & Features -->
     <section class="panel">
-      <h2>⚡ Output</h2>
+      <h2>⚡ Output & Features</h2>
       <iframe id="output"></iframe>
+      
+      <div class="console" id="console">
+        <div class="console-line">Console output will appear here...</div>
+      </div>
+      
       <div class="funny">Note: Agar code kaam na kare to blame JavaScript, not me 😜</div>
+      
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h3><i class="fas fa-code"></i> Code Snippets</h3>
+          <div class="snippet-list" id="snippetList">
+            <div class="snippet-item" data-snippet="html-basic">HTML Basic Template</div>
+            <div class="snippet-item" data-snippet="css-reset">CSS Reset</div>
+            <div class="snippet-item" data-snippet="js-hello">JavaScript Hello World</div>
+            <div class="snippet-item" data-snippet="py-fibonacci">Python Fibonacci</div>
+          </div>
+        </div>
+        
+        <div class="feature-card">
+          <h3><i class="fas fa-history"></i> Recent Files</h3>
+          <div class="snippet-list" id="recentFiles">
+            <!-- Will be populated by JavaScript -->
+          </div>
+        </div>
+      </div>
     </section>
   </div>
 </div>
 
 <script>
+// Global variables
+let currentLanguage = 'html';
+let currentTheme = 'dark';
+let files = {
+  'main': { content: '', language: 'html' }
+};
+let currentFile = 'main';
+
+// DOM elements
 const video = document.getElementById("bgVid");
 const soundBtn = document.getElementById("soundBtn");
+const editor = document.getElementById("editor");
+const output = document.getElementById("output");
+const languageSelect = document.getElementById("languageSelect");
+const themeSelect = document.getElementById("themeSelect");
+const consoleOutput = document.getElementById("console");
+const fileTabs = document.getElementById("fileTabs");
+const snippetList = document.getElementById("snippetList");
+const recentFiles = document.getElementById("recentFiles");
+const status = document.getElementById("status");
+const lineInfo = document.getElementById("lineInfo");
 
 // 🔊 Toggle Sound
 video.muted = true;
@@ -88,27 +197,358 @@ soundBtn.addEventListener("click",()=>{
   soundBtn.textContent = video.muted ? "🔇" : "🔊";
 });
 
-function runCode(){
-  const code = document.getElementById("editor").value;
-  const iframe = document.getElementById("output");
+// Language selection
+languageSelect.addEventListener('change', function() {
+  currentLanguage = this.value;
+  files[currentFile].language = currentLanguage;
+  updateEditorTheme();
+  status.textContent = `Language changed to ${currentLanguage.toUpperCase()}`;
+});
 
-  if(/<html|<body|<script|<!doctype/i.test(code)){
-    iframe.srcdoc = code;
-  } else if(/function|=>|var |let |const |console\.log/.test(code)){
-    iframe.srcdoc = `<!DOCTYPE html><html><body><script>${code}<\/script></body></html>`;
-  } else if(/[{;}]|color:|background:/.test(code)){
-    iframe.srcdoc = `<!DOCTYPE html><html><head><style>${code}</style></head><body><h3>CSS Applied!</h3></body></html>`;
-  } else {
-    iframe.srcdoc = `<pre>${code}</pre>`;
+// Theme selection
+themeSelect.addEventListener('change', function() {
+  currentTheme = this.value;
+  updateEditorTheme();
+  status.textContent = `Theme changed to ${currentTheme}`;
+});
+
+// Update editor theme
+function updateEditorTheme() {
+  editor.className = '';
+  editor.classList.add(`${currentTheme}-theme`);
+}
+
+// Run code based on language
+function runCode() {
+  const code = editor.value;
+  files[currentFile].content = code;
+  
+  status.textContent = "Running code...";
+  
+  // Clear console
+  consoleOutput.innerHTML = '<div class="console-line">Running code...</div>';
+  
+  try {
+    switch(currentLanguage) {
+      case 'html':
+        output.srcdoc = code;
+        break;
+      case 'css':
+        output.srcdoc = `<style>${code}</style><body><h1>CSS Output</h1><p>Your CSS styles are applied to this page.</p></body>`;
+        break;
+      case 'javascript':
+        output.srcdoc = `<script>try { ${code} } catch(e) { document.body.innerHTML = '<h3 style="color:red">Error: ' + e.message + '</h3>'; }<\/script><body><h1>JavaScript Output</h1></body>`;
+        break;
+      case 'python':
+        // Using Skulpt for Python execution in browser
+        if (typeof Sk !== 'undefined') {
+          Sk.configure({output: function(text) { 
+            consoleOutput.innerHTML += `<div class="console-line">${text}</div>`;
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+          }});
+          try {
+            Sk.importMainWithBody("<stdin>", false, code);
+            status.textContent = "Python code executed (simulated)";
+          } catch(e) {
+            consoleOutput.innerHTML += `<div class="console-line console-error">Error: ${e.toString()}</div>`;
+            status.textContent = "Python execution error";
+          }
+        } else {
+          consoleOutput.innerHTML += `<div class="console-line">Python execution requires Skulpt library</div>`;
+          status.textContent = "Python execution not available";
+        }
+        break;
+      case 'cpp':
+      case 'java':
+      case 'php':
+      case 'sql':
+        // For languages that can't run directly in browser
+        consoleOutput.innerHTML += `<div class="console-line">${currentLanguage.toUpperCase()} code cannot be executed directly in browser. Use an appropriate environment.</div>`;
+        status.textContent = `${currentLanguage.toUpperCase()} code displayed only`;
+        output.srcdoc = `<pre>${code}</pre>`;
+        break;
+      default:
+        output.srcdoc = code;
+    }
+    
+    status.textContent = "Code executed successfully";
+  } catch(e) {
+    consoleOutput.innerHTML += `<div class="console-line console-error">Runtime Error: ${e.message}</div>`;
+    status.textContent = "Execution error";
   }
 }
 
-function copyCode(){
-  const code = document.getElementById("editor");
-  code.select();
+// Copy code to clipboard
+function copyCode() {
+  editor.select();
   document.execCommand("copy");
-  alert("Code copied! 😎");
+  status.textContent = "Code copied to clipboard! 😎";
 }
+
+// Download code as file
+function downloadCode() {
+  const code = editor.value;
+  const blob = new Blob([code], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `code.${getFileExtension(currentLanguage)}`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  status.textContent = "Code downloaded!";
+}
+
+// Get file extension based on language
+function getFileExtension(lang) {
+  const extensions = {
+    'html': 'html',
+    'css': 'css',
+    'javascript': 'js',
+    'python': 'py',
+    'cpp': 'cpp',
+    'java': 'java',
+    'php': 'php',
+    'sql': 'sql'
+  };
+  return extensions[lang] || 'txt';
+}
+
+// Save code to localStorage
+function saveCode() {
+  const code = editor.value;
+  const fileName = prompt("Enter file name:", currentFile);
+  if (fileName) {
+    files[fileName] = {
+      content: code,
+      language: currentLanguage
+    };
+    saveToLocalStorage();
+    updateFileTabs();
+    switchToFile(fileName);
+    status.textContent = `File "${fileName}" saved!`;
+  }
+}
+
+// Load code from localStorage
+function loadCode() {
+  loadFromLocalStorage();
+  const fileNames = Object.keys(files);
+  if (fileNames.length > 0) {
+    const fileName = prompt("Enter file name to load:", currentFile);
+    if (fileName && files[fileName]) {
+      switchToFile(fileName);
+      status.textContent = `File "${fileName}" loaded!`;
+    }
+  } else {
+    status.textContent = "No saved files found";
+  }
+}
+
+// Clear editor
+function clearCode() {
+  if (confirm("Are you sure you want to clear the editor?")) {
+    editor.value = '';
+    files[currentFile].content = '';
+    status.textContent = "Editor cleared";
+  }
+}
+
+// Format code (basic implementation)
+function formatCode() {
+  const code = editor.value;
+  let formatted = code;
+  
+  // Basic formatting for different languages
+  switch(currentLanguage) {
+    case 'html':
+      // Simple HTML formatting
+      formatted = code
+        .replace(/>\s+</g, '>\n<')
+        .replace(/\s+>/g, '>')
+        .replace(/>\s+/g, '>\n');
+      break;
+    case 'css':
+    case 'javascript':
+      // For CSS and JS, we would need a proper formatter library
+      status.textContent = "Advanced formatting requires additional libraries";
+      return;
+  }
+  
+  editor.value = formatted;
+  files[currentFile].content = formatted;
+  status.textContent = "Code formatted";
+}
+
+// Update file tabs
+function updateFileTabs() {
+  fileTabs.innerHTML = '';
+  Object.keys(files).forEach(fileName => {
+    const tab = document.createElement('div');
+    tab.className = `tab ${fileName === currentFile ? 'active' : ''}`;
+    tab.textContent = fileName;
+    tab.setAttribute('data-file', fileName);
+    tab.addEventListener('click', () => switchToFile(fileName));
+    fileTabs.appendChild(tab);
+  });
+}
+
+// Switch to a different file
+function switchToFile(fileName) {
+  if (files[fileName]) {
+    // Save current file content
+    files[currentFile].content = editor.value;
+    
+    // Switch to new file
+    currentFile = fileName;
+    editor.value = files[fileName].content;
+    currentLanguage = files[fileName].language;
+    languageSelect.value = currentLanguage;
+    
+    updateFileTabs();
+    updateEditorTheme();
+    status.textContent = `Switched to file: ${fileName}`;
+  }
+}
+
+// Load code snippets
+function loadCodeSnippets() {
+  const snippets = {
+    'html-basic': {
+      language: 'html',
+      content: `<!DOCTYPE html>
+<html>
+<head>
+  <title>My Page</title>
+</head>
+<body>
+  <h1>Hello World!</h1>
+  <p>This is a basic HTML template.</p>
+</body>
+</html>`
+    },
+    'css-reset': {
+      language: 'css',
+      content: `/* Simple CSS Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}`
+    },
+    'js-hello': {
+      language: 'javascript',
+      content: `// JavaScript Hello World
+console.log("Hello, World!");
+
+function greet(name) {
+  return "Hello, " + name + "!";
+}
+
+// Example usage
+const message = greet("Developer");
+console.log(message);
+document.body.innerHTML = "<h1>" + message + "</h1>";`
+    },
+    'py-fibonacci': {
+      language: 'python',
+      content: `# Python Fibonacci Series
+def fibonacci(n):
+    a, b = 0, 1
+    for _ in range(n):
+        print(a, end=' ')
+        a, b = b, a + b
+
+# Generate first 10 Fibonacci numbers
+fibonacci(10)`
+    }
+  };
+  
+  // Add event listeners to snippet items
+  document.querySelectorAll('.snippet-item').forEach(item => {
+    item.addEventListener('click', function() {
+      const snippetId = this.getAttribute('data-snippet');
+      if (snippets[snippetId]) {
+        editor.value = snippets[snippetId].content;
+        currentLanguage = snippets[snippetId].language;
+        languageSelect.value = currentLanguage;
+        updateEditorTheme();
+        status.textContent = `Loaded snippet: ${snippetId}`;
+      }
+    });
+  });
+}
+
+// Save files to localStorage
+function saveToLocalStorage() {
+  localStorage.setItem('hackerHubFiles', JSON.stringify(files));
+  updateRecentFiles();
+}
+
+// Load files from localStorage
+function loadFromLocalStorage() {
+  const savedFiles = localStorage.getItem('hackerHubFiles');
+  if (savedFiles) {
+    files = JSON.parse(savedFiles);
+    updateFileTabs();
+    updateRecentFiles();
+  }
+}
+
+// Update recent files list
+function updateRecentFiles() {
+  recentFiles.innerHTML = '';
+  Object.keys(files).forEach(fileName => {
+    if (fileName !== currentFile) {
+      const item = document.createElement('div');
+      item.className = 'snippet-item';
+      item.textContent = fileName;
+      item.addEventListener('click', () => switchToFile(fileName));
+      recentFiles.appendChild(item);
+    }
+  });
+}
+
+// Track cursor position
+editor.addEventListener('input', function() {
+  files[currentFile].content = this.value;
+});
+
+editor.addEventListener('keyup', function() {
+  const lines = this.value.substr(0, this.selectionStart).split('\n');
+  const line = lines.length;
+  const column = lines[lines.length - 1].length + 1;
+  lineInfo.textContent = `Line: ${line}, Column: ${column}`;
+});
+
+// Initialize the editor
+function init() {
+  updateEditorTheme();
+  loadCodeSnippets();
+  loadFromLocalStorage();
+  
+  // Set initial content if no saved files
+  if (Object.keys(files).length === 1 && files.main.content === '') {
+    files.main.content = `// Welcome to Kishan's Advanced Hacker Hub!
+// Select your language and start coding...`;
+    editor.value = files.main.content;
+  }
+  
+  status.textContent = "Editor initialized. Ready to code!";
+}
+
+// Initialize when page loads
+window.addEventListener('DOMContentLoaded', init);
 </script>
+
+<!-- Load Skulpt for Python execution -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/skulpt/1.2.0/skulpt.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/skulpt/1.2.0/skulpt-stdlib.js"></script>
 </body>
 </html>
