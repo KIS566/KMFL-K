@@ -485,6 +485,120 @@
             box-shadow: 0 5px 15px rgba(97, 97, 97, 0.3);
         }
         
+        /* QR Generator Section */
+        .qr-generator-container {
+            background: var(--bg-light);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 230, 118, 0.2);
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        
+        .qr-generator-title {
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+            color: var(--accent);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        
+        .qr-form-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--accent);
+            border-radius: 10px;
+            padding: 20px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 0 15px var(--accent-glow);
+            margin-bottom: 20px;
+        }
+        
+        .qr-input {
+            margin: 8px;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            outline: none;
+            width: 80%;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+        }
+        
+        .qr-color-input {
+            cursor: pointer;
+            background: var(--bg-dark);
+            border: none;
+            height: 30px;
+            width: 50px;
+        }
+        
+        .qr-select {
+            margin: 8px;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            outline: none;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+        }
+        
+        .qr-generate-btn {
+            background: var(--accent);
+            color: var(--bg-dark);
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            margin: 10px;
+            padding: 12px 24px;
+            border-radius: 5px;
+            border: none;
+        }
+        
+        .qr-generate-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px var(--accent);
+        }
+        
+        .qr-section {
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        #qrContainer canvas, #qrContainer img {
+            border-radius: 10px;
+            box-shadow: 0 0 20px var(--accent-glow);
+            margin: 15px;
+            background: white;
+            padding: 10px;
+        }
+        
+        .qr-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .qr-download-btn {
+            background: var(--accent);
+            color: var(--bg-dark);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+        
+        .qr-download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px var(--accent-glow);
+        }
+        
         /* Footer */
         footer {
             background: var(--bg-light);
@@ -1093,6 +1207,15 @@
                 font-size: 1rem;
             }
             
+            .qr-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .qr-download-btn {
+                width: 200px;
+            }
+            
             /* Error page responsive */
             .error-title {
                 font-size: 5rem;
@@ -1157,6 +1280,10 @@
                 font-size: 0.9rem;
             }
             
+            .qr-input {
+                width: 95%;
+            }
+            
             /* Error page responsive */
             .error-title {
                 font-size: 3rem;
@@ -1208,6 +1335,7 @@
         
         <div class="nav-center">
             <a href="#" data-page="calculator"><i class="fas fa-calculator"></i> Calculator</a>
+            <a href="#" data-page="qr-generator"><i class="fas fa-qrcode"></i> QR Generator</a>
         </div>
         
         <div class="nav-right">
@@ -1231,6 +1359,7 @@
                 <a href="#" data-page="home"><i class="fas fa-home"></i> Home</a>
                 <a href="#" data-page="about"><i class="fas fa-user"></i> About</a>
                 <a href="#" data-page="calculator"><i class="fas fa-calculator"></i> Calculator</a>
+                <a href="#" data-page="qr-generator"><i class="fas fa-qrcode"></i> QR Generator</a>
                 <a href="#" data-page="contact"><i class="fas fa-envelope"></i> Contact</a>
             </div>
         </div>
@@ -1382,6 +1511,51 @@
         </div>
     </section>
 
+    <!-- QR Generator Page -->
+    <section class="page-section" id="qr-generator-page">
+        <div class="page-content">
+            <h2 class="section-header">QR Code Generator</h2>
+            <div class="qr-generator-container">
+                <h3 class="qr-generator-title">Create Custom QR Codes</h3>
+                
+                <div class="qr-form-box">
+                    <input type="text" id="qrText" class="qr-input" placeholder="Enter your link or text..." />
+                    
+                    <div class="customize">
+                        <label>QR Color: <input type="color" id="qrColor" class="qr-color-input" value="#00e676"></label>
+                        <label>Background: <input type="color" id="bgColor" class="qr-color-input" value="#000000"></label>
+                        <label>Eye Style: 
+                            <select id="eyeStyle" class="qr-select">
+                                <option value="square">Square</option>
+                                <option value="circle">Circle</option>
+                            </select>
+                        </label>
+                        <label>Pattern Style: 
+                            <select id="dotStyle" class="qr-select">
+                                <option value="square">Square</option>
+                                <option value="dots">Dots</option>
+                                <option value="rounded">Rounded</option>
+                            </select>
+                        </label>
+                        <label>Logo: <input type="file" id="logoUpload" accept="image/*"></label>
+                    </div>
+
+                    <button id="generateBtn" class="qr-generate-btn">Generate QR</button>
+                </div>
+
+                <div class="qr-section">
+                    <div id="qrContainer"></div>
+                    <div class="qr-actions">
+                        <button id="downloadPng" class="qr-download-btn">Download PNG</button>
+                        <button id="downloadJpg" class="qr-download-btn">Download JPG</button>
+                        <button id="downloadSvg" class="qr-download-btn">Download SVG</button>
+                        <button id="copyLink" class="qr-download-btn">Copy Link</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Contact Page -->
     <section class="page-section" id="contact-page">
         <div class="page-content">
@@ -1494,12 +1668,17 @@
                 <i class="fab fa-twitter" style="font-size:22px;color:#1da1f2;"></i>
             </a>
             
-            <!-- 5. codes1.html -->
+            <!-- 5. QR Code Generator -->
+            <a href="#" data-page="qr-generator" title="QR Code Generator" style="font-size:24px; color:#00e676; text-decoration:none;">
+                <i class="fas fa-qrcode"></i>
+            </a>
+            
+            <!-- 6. codes1.html -->
             <a href="codes.html" target="_blank" title="Get Source Code Here" style="font-size:24px; color:#00e676; text-decoration:none;">
                 <i class="fas fa-file-code"></i>
             </a>
             
-            <!-- 6. codes.html -->
+            <!-- 7. codes.html -->
             <a href="codes1.html" target="_blank" title="View All Codes" style="font-size:24px; color:#00b0ff; text-decoration:none;">
                 <i class="fas fa-folder-open"></i>
             </a>
@@ -1511,6 +1690,10 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <!-- Add QR Code library -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.6.0/lib/qr-code-styling.js"></script>
+    
     <script>
         // ========== PAGE NAVIGATION ==========
         
@@ -1562,9 +1745,6 @@
         function showErrorPage() {
             showPage('error');
         }
-        
-        // Example: Show error page when a specific condition is met
-        // You can call showErrorPage() whenever you need to display the error page
         
         // ========== PORTFOLIO CODE ==========
         
@@ -2116,6 +2296,78 @@
         
         // Initialize calculator display
         updateCalcDisplay();
+
+        // ========== QR GENERATOR CODE ==========
+        
+        const qrContainer = document.getElementById("qrContainer");
+        const qrText = document.getElementById("qrText");
+        const qrColor = document.getElementById("qrColor");
+        const bgColor = document.getElementById("bgColor");
+        const eyeStyle = document.getElementById("eyeStyle");
+        const dotStyle = document.getElementById("dotStyle");
+        const logoUpload = document.getElementById("logoUpload");
+        const generateBtn = document.getElementById("generateBtn");
+        const downloadPng = document.getElementById("downloadPng");
+        const downloadJpg = document.getElementById("downloadJpg");
+        const downloadSvg = document.getElementById("downloadSvg");
+        const copyLink = document.getElementById("copyLink");
+
+        let qrCode;
+
+        generateBtn.addEventListener("click", () => {
+            const text = qrText.value.trim();
+            if (!text) return alert("Please enter text or link!");
+            
+            const logoFile = logoUpload.files[0];
+            let logoUrl = null;
+            if (logoFile) logoUrl = URL.createObjectURL(logoFile);
+            
+            qrCode = new QRCodeStyling({
+                width: 300,
+                height: 300,
+                data: text,
+                dotsOptions: {
+                    color: qrColor.value,
+                    type: dotStyle.value
+                },
+                backgroundOptions: {
+                    color: bgColor.value
+                },
+                cornersSquareOptions: {
+                    type: eyeStyle.value,
+                    color: qrColor.value
+                },
+                image: logoUrl,
+                imageOptions: {
+                    crossOrigin: "anonymous",
+                    margin: 5
+                }
+            });
+            
+            qrContainer.innerHTML = "";
+            qrCode.append(qrContainer);
+        });
+
+        downloadPng.addEventListener("click", () => {
+            if (!qrCode) return alert("Generate QR first!");
+            qrCode.download({ name: "qr_code", extension: "png" });
+        });
+
+        downloadJpg.addEventListener("click", () => {
+            if (!qrCode) return alert("Generate QR first!");
+            qrCode.download({ name: "qr_code", extension: "jpg" });
+        });
+
+        downloadSvg.addEventListener("click", () => {
+            if (!qrCode) return alert("Generate QR first!");
+            qrCode.download({ name: "qr_code", extension: "svg" });
+        });
+
+        copyLink.addEventListener("click", () => {
+            if (!qrText.value.trim()) return;
+            navigator.clipboard.writeText(qrText.value);
+            alert("Link copied!");
+        });
 
         // Particles.js Configuration
         particlesJS("particles-js", {
