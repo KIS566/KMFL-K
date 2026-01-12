@@ -599,6 +599,349 @@
             box-shadow: 0 5px 15px var(--accent-glow);
         }
         
+        /* TIC TAC TOE GAME STYLES */
+        .tictactoe-container {
+            background: var(--bg-light);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 230, 118, 0.2);
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+            color: white;
+        }
+
+        .tictactoe-title {
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+            color: var(--accent);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .ttt-game-info {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .ttt-mode-selector, .ttt-ai-level-selector, .ttt-player-selector {
+            flex: 1;
+            min-width: 150px;
+            background: rgba(13, 17, 23, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+        }
+
+        .ttt-mode-selector h3, .ttt-ai-level-selector h3, .ttt-player-selector h3 {
+            color: #00f2ff;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .ttt-mode-buttons, .ttt-level-buttons, .ttt-player-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .ttt-mode-btn, .ttt-level-btn, .ttt-player-btn {
+            flex: 1;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            background: rgba(0, 242, 255, 0.1);
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .ttt-mode-btn:hover, .ttt-level-btn:hover, .ttt-player-btn:hover {
+            background: rgba(0, 242, 255, 0.2);
+        }
+
+        .ttt-mode-btn.active, .ttt-level-btn.active, .ttt-player-btn.active {
+            background: #00f2ff;
+            color: #0d1117;
+            box-shadow: 0 0 10px rgba(0, 242, 255, 0.7);
+        }
+
+        .ttt-score-board {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-bottom: 25px;
+            background: rgba(13, 17, 23, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+        }
+
+        .ttt-score {
+            text-align: center;
+        }
+
+        .ttt-score h3 {
+            color: #00f2ff;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .ttt-score-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 0 10px rgba(0, 242, 255, 0.7);
+        }
+
+        .ttt-score-player .ttt-score-value {
+            color: #ff4d4d;
+        }
+
+        .ttt-score-ai .ttt-score-value, .ttt-score-player2 .ttt-score-value {
+            color: #00ffcc;
+        }
+
+        .ttt-score-ties .ttt-score-value {
+            color: #f0f0f0;
+        }
+
+        .ttt-game-status {
+            font-size: 1.4rem;
+            margin: 20px 0;
+            padding: 15px 30px;
+            border-radius: 10px;
+            background: rgba(0, 242, 255, 0.1);
+            border: 1px solid rgba(0, 242, 255, 0.3);
+            text-align: center;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ttt-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 12px;
+            margin: 20px auto;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .ttt-cell {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            min-height: 100px;
+            background: rgba(13, 17, 23, 0.9);
+            border-radius: 15px;
+            font-size: 3.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 
+                inset 0 0 15px rgba(0, 242, 255, 0.2),
+                0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .ttt-cell:hover {
+            background: rgba(0, 242, 255, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 
+                inset 0 0 15px rgba(0, 242, 255, 0.3),
+                0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .ttt-cell.x {
+            color: #ff4d4d;
+            text-shadow: 0 0 15px rgba(255, 77, 77, 0.7);
+        }
+
+        .ttt-cell.o {
+            color: #00ffcc;
+            text-shadow: 0 0 15px rgba(0, 255, 204, 0.7);
+        }
+
+        .ttt-cell.winning {
+            animation: tttPulse 1.5s infinite;
+            background: rgba(0, 242, 255, 0.15);
+        }
+
+        @keyframes tttPulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 242, 255, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 242, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 242, 255, 0); }
+        }
+
+        .ttt-controls {
+            margin-top: 25px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .ttt-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(to right, #00f2ff, #00b8cc);
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+            min-width: 150px;
+        }
+
+        .ttt-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(0, 242, 255, 0.4);
+        }
+
+        .ttt-btn:active {
+            transform: translateY(1px);
+        }
+
+        .ttt-btn-reset {
+            background: linear-gradient(to right, #ff4d4d, #cc0000);
+            color: white;
+        }
+
+        .ttt-btn-reset:hover {
+            box-shadow: 0 7px 15px rgba(255, 77, 77, 0.4);
+        }
+
+        .ttt-btn-switch {
+            background: linear-gradient(to right, #00ffcc, #00cc99);
+            color: black;
+        }
+
+        .ttt-btn-switch:hover {
+            box-shadow: 0 7px 15px rgba(0, 255, 204, 0.4);
+        }
+
+        .ttt-move-history {
+            width: 100%;
+            margin-top: 25px;
+            background: rgba(13, 17, 23, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .ttt-move-history h3 {
+            color: #00f2ff;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .ttt-move-list {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .ttt-move-item {
+            padding: 8px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
+        }
+
+        .ttt-move-item.x-move {
+            border-left: 4px solid #ff4d4d;
+        }
+
+        .ttt-move-item.o-move {
+            border-left: 4px solid #00ffcc;
+        }
+
+        /* Winner Celebration */
+        .ttt-winner-celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s;
+        }
+
+        .ttt-winner-celebration.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .ttt-celebration-box {
+            background: rgba(22, 27, 34, 0.95);
+            padding: 50px;
+            border-radius: 20px;
+            text-align: center;
+            border: 3px solid #00f2ff;
+            box-shadow: 0 0 40px rgba(0, 242, 255, 0.7);
+            transform: scale(0.8);
+            transition: transform 0.5s;
+        }
+
+        .ttt-winner-celebration.active .ttt-celebration-box {
+            transform: scale(1);
+        }
+
+        .ttt-celebration-box h2 {
+            color: #00f2ff;
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .ttt-celebration-box .ttt-winner-name {
+            color: #ffcc00;
+            font-size: 2.5rem;
+            margin: 20px 0;
+            text-shadow: 0 0 20px rgba(255, 204, 0, 0.7);
+        }
+
+        .ttt-celebration-box p {
+            color: #a0a0a0;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .ttt-celebration-btn {
+            padding: 15px 40px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(to right, #00ffcc, #00cc99);
+            color: black;
+            font-weight: bold;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .ttt-celebration-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px rgba(0, 255, 204, 0.7);
+        }
+
         /* Footer */
         footer {
             background: var(--bg-light);
@@ -1216,6 +1559,26 @@
                 width: 200px;
             }
             
+            /* Tic Tac Toe responsive */
+            .ttt-game-info {
+                flex-direction: column;
+            }
+            
+            .ttt-cell {
+                font-size: 2.5rem;
+                min-height: 80px;
+            }
+            
+            .ttt-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .ttt-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            
             /* Error page responsive */
             .error-title {
                 font-size: 5rem;
@@ -1284,6 +1647,12 @@
                 width: 95%;
             }
             
+            /* Tic Tac Toe responsive */
+            .ttt-cell {
+                font-size: 2rem;
+                min-height: 70px;
+            }
+            
             /* Error page responsive */
             .error-title {
                 font-size: 3rem;
@@ -1336,6 +1705,7 @@
         <div class="nav-center">
             <a href="#" data-page="calculator"><i class="fas fa-calculator"></i> Calculator</a>
             <a href="#" data-page="qr-generator"><i class="fas fa-qrcode"></i> QR Generator</a>
+            <a href="#" data-page="tictactoe"><i class="fas fa-gamepad"></i> Tic Tac Toe</a>
         </div>
         
         <div class="nav-right">
@@ -1360,7 +1730,7 @@
                 <a href="#" data-page="about"><i class="fas fa-user"></i> About</a>
                 <a href="#" data-page="calculator"><i class="fas fa-calculator"></i> Calculator</a>
                 <a href="#" data-page="qr-generator"><i class="fas fa-qrcode"></i> QR Generator</a>
-                <a href="#" data-page="tic-tac-toe"><i class="tic-tac-toe"></i> tic-tac-toe Game</a>
+                <a href="#" data-page="tictactoe"><i class="fas fa-gamepad"></i> Tic Tac Toe</a>
                 <a href="#" data-page="contact"><i class="fas fa-envelope"></i> Contact</a>
             </div>
         </div>
@@ -1557,6 +1927,93 @@
         </div>
     </section>
 
+    <!-- Tic Tac Toe Page -->
+    <section class="page-section" id="tictactoe-page">
+        <div class="page-content">
+            <h2 class="section-header">Tic Tac Toe Game</h2>
+            <div class="tictactoe-container">
+                <h3 class="tictactoe-title">🎮 Advanced Tic Tac Toe</h3>
+                
+                <div class="ttt-game-info">
+                    <div class="ttt-mode-selector">
+                        <h3>Game Mode</h3>
+                        <div class="ttt-mode-buttons">
+                            <button class="ttt-mode-btn active" data-mode="ai">🤖 vs AI</button>
+                            <button class="ttt-mode-btn" data-mode="player">👥 vs Player</button>
+                        </div>
+                    </div>
+                    
+                    <div class="ttt-ai-level-selector">
+                        <h3>AI Difficulty</h3>
+                        <div class="ttt-level-buttons">
+                            <button class="ttt-level-btn active" data-level="easy">Easy</button>
+                            <button class="ttt-level-btn" data-level="medium">Medium</button>
+                            <button class="ttt-level-btn" data-level="hard">Hard</button>
+                        </div>
+                    </div>
+                    
+                    <div class="ttt-player-selector">
+                        <h3>You Play As</h3>
+                        <div class="ttt-player-buttons">
+                            <button class="ttt-player-btn active" data-player="X">X (First)</button>
+                            <button class="ttt-player-btn" data-player="O">O (Second)</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="ttt-score-board">
+                    <div class="ttt-score ttt-score-player">
+                        <h3>Player X</h3>
+                        <div class="ttt-score-value" id="tttPlayerXScore">0</div>
+                    </div>
+                    <div class="ttt-score ttt-score-ties">
+                        <h3>Ties</h3>
+                        <div class="ttt-score-value" id="tttTiesScore">0</div>
+                    </div>
+                    <div class="ttt-score ttt-score-ai">
+                        <h3>Player / AI O</h3>
+                        <div class="ttt-score-value" id="tttPlayerOScore">0</div>
+                    </div>
+                </div>
+                
+                <div class="ttt-game-status" id="tttStatus">Your Turn (X)</div>
+                
+                <div class="ttt-board" id="tttBoard">
+                    <div class="ttt-cell" data-index="0"></div>
+                    <div class="ttt-cell" data-index="1"></div>
+                    <div class="ttt-cell" data-index="2"></div>
+                    <div class="ttt-cell" data-index="3"></div>
+                    <div class="ttt-cell" data-index="4"></div>
+                    <div class="ttt-cell" data-index="5"></div>
+                    <div class="ttt-cell" data-index="6"></div>
+                    <div class="ttt-cell" data-index="7"></div>
+                    <div class="ttt-cell" data-index="8"></div>
+                </div>
+                
+                <div class="ttt-controls">
+                    <button class="ttt-btn ttt-btn-reset" onclick="tttResetGame()">Restart Game</button>
+                    <button class="ttt-btn ttt-btn-switch" onclick="tttSwitchSides()">Switch Sides</button>
+                    <button class="ttt-btn" onclick="tttUndoMove()">Undo Move</button>
+                </div>
+                
+                <div class="ttt-move-history">
+                    <h3>Move History</h3>
+                    <div class="ttt-move-list" id="tttMoveList"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Winner Celebration Modal -->
+    <div class="ttt-winner-celebration" id="tttWinnerCelebration">
+        <div class="ttt-celebration-box">
+            <h2>🎉 Congratulations! 🎉</h2>
+            <div class="ttt-winner-name" id="tttWinnerName">Player</div>
+            <p id="tttWinMessage">You won the game!</p>
+            <button class="ttt-celebration-btn" onclick="tttCloseCelebration()">Continue Playing</button>
+        </div>
+    </div>
+
     <!-- Contact Page -->
     <section class="page-section" id="contact-page">
         <div class="page-content">
@@ -1728,6 +2185,11 @@
                         mainNav.classList.remove('active');
                         mobileToggle.innerHTML = '<i class="fas fa-bars"></i>';
                     }
+                    
+                    // Tic Tac Toe page load hone par game initialize karein
+                    if (page === 'tictactoe') {
+                        setTimeout(initTicTacToeGame, 100);
+                    }
                 }
             });
         });
@@ -1737,6 +2199,10 @@
             const hash = window.location.hash.substring(1);
             if (hash) {
                 showPage(hash);
+                // Agar Tic Tac Toe page hai to game initialize karein
+                if (hash === 'tictactoe') {
+                    setTimeout(initTicTacToeGame, 100);
+                }
             } else {
                 showPage('home');
             }
@@ -2369,6 +2835,526 @@
             navigator.clipboard.writeText(qrText.value);
             alert("Link copied!");
         });
+
+        // ========== TIC TAC TOE GAME CODE ==========
+        
+        // Game state variables
+        let tttBoard = ['', '', '', '', '', '', '', '', ''];
+        let tttCurrentPlayer = 'X';
+        let tttGameActive = true;
+        let tttGameMode = 'ai';
+        let tttAiLevel = 'medium';
+        let tttHumanPlayer = 'X';
+        let tttScores = {
+            'X': 0,
+            'O': 0,
+            'ties': 0
+        };
+        let tttMoveHistory = [];
+        let tttGameHistory = [];
+        
+        // DOM elements
+        let tttCells = [];
+        let tttStatusElement;
+        let tttPlayerXScoreElement;
+        let tttPlayerOScoreElement;
+        let tttTiesScoreElement;
+        let tttMoveListElement;
+        let tttModeButtons;
+        let tttLevelButtons;
+        let tttPlayerButtons;
+        
+        // Winning combinations
+        const tttWinningCombinations = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8],
+            [0, 3, 6], [1, 4, 7], [2, 5, 8],
+            [0, 4, 8], [2, 4, 6]
+        ];
+        
+        // Initialize Tic Tac Toe game
+        function initTicTacToeGame() {
+            // Get DOM elements
+            tttCells = document.querySelectorAll('.ttt-cell');
+            tttStatusElement = document.getElementById('tttStatus');
+            tttPlayerXScoreElement = document.getElementById('tttPlayerXScore');
+            tttPlayerOScoreElement = document.getElementById('tttPlayerOScore');
+            tttTiesScoreElement = document.getElementById('tttTiesScore');
+            tttMoveListElement = document.getElementById('tttMoveList');
+            tttModeButtons = document.querySelectorAll('.ttt-mode-btn');
+            tttLevelButtons = document.querySelectorAll('.ttt-level-btn');
+            tttPlayerButtons = document.querySelectorAll('.ttt-player-btn');
+            
+            // Set up cell click listeners
+            tttCells.forEach(cell => {
+                cell.addEventListener('click', () => {
+                    const index = parseInt(cell.getAttribute('data-index'));
+                    
+                    if (tttGameMode === 'ai') {
+                        // AI mode: only allow human player to click
+                        if (tttCurrentPlayer === tttHumanPlayer && tttBoard[index] === '' && tttGameActive) {
+                            tttMakeMove(index);
+                        }
+                    } else {
+                        // Player vs Player mode: anyone can click
+                        if (tttBoard[index] === '' && tttGameActive) {
+                            tttMakeMove(index);
+                        }
+                    }
+                });
+            });
+            
+            // Set up game mode buttons
+            tttModeButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    tttModeButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    tttGameMode = button.getAttribute('data-mode');
+                    tttResetGame();
+                    tttUpdateStatus();
+                });
+            });
+            
+            // Set up AI level buttons
+            tttLevelButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    tttLevelButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    tttAiLevel = button.getAttribute('data-level');
+                });
+            });
+            
+            // Set up player selector buttons
+            tttPlayerButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    tttPlayerButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    tttHumanPlayer = button.getAttribute('data-player');
+                    tttResetGame();
+                    tttUpdateStatus();
+                });
+            });
+            
+            // Load scores from localStorage
+            tttLoadScores();
+            tttUpdateScoreDisplay();
+            tttUpdateStatus();
+            
+            // Start AI if human is O
+            if (tttGameMode === 'ai' && tttHumanPlayer === 'O' && tttGameActive) {
+                setTimeout(tttMakeAIMove, 500);
+            }
+        }
+        
+        // Make a move on the board
+        function tttMakeMove(index) {
+            // Update board state
+            tttBoard[index] = tttCurrentPlayer;
+            
+            // Update visual cell
+            const cell = tttCells[index];
+            cell.textContent = tttCurrentPlayer;
+            cell.classList.add(tttCurrentPlayer.toLowerCase());
+            
+            // Add to move history
+            const row = Math.floor(index / 3) + 1;
+            const col = (index % 3) + 1;
+            const moveDescription = `Player ${tttCurrentPlayer} at (${row}, ${col})`;
+            tttAddMoveToHistory(moveDescription);
+            tttGameHistory.push([...tttBoard]);
+            
+            // Check for win or draw
+            if (tttCheckWin(tttCurrentPlayer)) {
+                tttHandleWin(tttCurrentPlayer);
+                return;
+            }
+            
+            if (tttCheckDraw()) {
+                tttHandleDraw();
+                return;
+            }
+            
+            // Switch player
+            tttCurrentPlayer = tttCurrentPlayer === 'X' ? 'O' : 'X';
+            
+            // Update status
+            tttUpdateStatus();
+            
+            // If playing against AI and it's AI's turn
+            if (tttGameMode === 'ai' && tttCurrentPlayer !== tttHumanPlayer && tttGameActive) {
+                setTimeout(tttMakeAIMove, 500);
+            }
+        }
+        
+        // Make AI move based on difficulty level
+        function tttMakeAIMove() {
+            if (!tttGameActive || tttCurrentPlayer === tttHumanPlayer) return;
+            
+            let moveIndex;
+            
+            switch (tttAiLevel) {
+                case 'easy':
+                    moveIndex = tttGetRandomMove();
+                    break;
+                    
+                case 'medium':
+                    if (Math.random() < 0.7) {
+                        moveIndex = tttGetSmartMove();
+                    } else {
+                        moveIndex = tttGetRandomMove();
+                    }
+                    break;
+                    
+                case 'hard':
+                    moveIndex = tttGetBestMove();
+                    break;
+                    
+                default:
+                    moveIndex = tttGetRandomMove();
+            }
+            
+            if (moveIndex !== -1 && moveIndex !== undefined) {
+                tttMakeMove(moveIndex);
+            }
+        }
+        
+        // Get a random available move
+        function tttGetRandomMove() {
+            const availableMoves = [];
+            for (let i = 0; i < 9; i++) {
+                if (tttBoard[i] === '') {
+                    availableMoves.push(i);
+                }
+            }
+            
+            if (availableMoves.length === 0) return -1;
+            
+            const randomIndex = Math.floor(Math.random() * availableMoves.length);
+            return availableMoves[randomIndex];
+        }
+        
+        // Get a smart move (tries to win or block)
+        function tttGetSmartMove() {
+            const aiPlayer = tttCurrentPlayer;
+            const opponent = aiPlayer === 'X' ? 'O' : 'X';
+            
+            // 1. Check if AI can win
+            for (let i = 0; i < 9; i++) {
+                if (tttBoard[i] === '') {
+                    tttBoard[i] = aiPlayer;
+                    if (tttCheckWin(aiPlayer)) {
+                        tttBoard[i] = '';
+                        return i;
+                    }
+                    tttBoard[i] = '';
+                }
+            }
+            
+            // 2. Check if opponent can win and block
+            for (let i = 0; i < 9; i++) {
+                if (tttBoard[i] === '') {
+                    tttBoard[i] = opponent;
+                    if (tttCheckWin(opponent)) {
+                        tttBoard[i] = '';
+                        return i;
+                    }
+                    tttBoard[i] = '';
+                }
+            }
+            
+            // 3. Try to take center
+            if (tttBoard[4] === '') return 4;
+            
+            // 4. Try to take corners
+            const corners = [0, 2, 6, 8];
+            const availableCorners = corners.filter(index => tttBoard[index] === '');
+            if (availableCorners.length > 0) {
+                return availableCorners[Math.floor(Math.random() * availableCorners.length)];
+            }
+            
+            // 5. Take any available move
+            return tttGetRandomMove();
+        }
+        
+        // Get the best move using minimax algorithm
+        function tttGetBestMove() {
+            const aiPlayer = tttCurrentPlayer;
+            const humanPlayer = aiPlayer === 'X' ? 'O' : 'X';
+            
+            // Simple scoring for minimax
+            function minimax(newBoard, depth, isMaximizing) {
+                // Terminal states
+                if (tttCheckWinForBoard(newBoard, aiPlayer)) return 10 - depth;
+                if (tttCheckWinForBoard(newBoard, humanPlayer)) return depth - 10;
+                if (tttIsBoardFull(newBoard)) return 0;
+                
+                if (isMaximizing) {
+                    let bestScore = -Infinity;
+                    for (let i = 0; i < 9; i++) {
+                        if (newBoard[i] === '') {
+                            newBoard[i] = aiPlayer;
+                            let score = minimax(newBoard, depth + 1, false);
+                            newBoard[i] = '';
+                            bestScore = Math.max(score, bestScore);
+                        }
+                    }
+                    return bestScore;
+                } else {
+                    let bestScore = Infinity;
+                    for (let i = 0; i < 9; i++) {
+                        if (newBoard[i] === '') {
+                            newBoard[i] = humanPlayer;
+                            let score = minimax(newBoard, depth + 1, true);
+                            newBoard[i] = '';
+                            bestScore = Math.min(score, bestScore);
+                        }
+                    }
+                    return bestScore;
+                }
+            }
+            
+            // Find best move
+            let bestMove = -1;
+            let bestScore = -Infinity;
+            
+            for (let i = 0; i < 9; i++) {
+                if (tttBoard[i] === '') {
+                    tttBoard[i] = aiPlayer;
+                    let score = minimax(tttBoard, 0, false);
+                    tttBoard[i] = '';
+                    
+                    if (score > bestScore) {
+                        bestScore = score;
+                        bestMove = i;
+                    }
+                }
+            }
+            
+            return bestMove;
+        }
+        
+        // Check if a specific player has won on a given board
+        function tttCheckWinForBoard(boardState, player) {
+            return tttWinningCombinations.some(combination => {
+                return combination.every(index => boardState[index] === player);
+            });
+        }
+        
+        // Check if a player has won
+        function tttCheckWin(player) {
+            return tttWinningCombinations.some(combination => {
+                return combination.every(index => tttBoard[index] === player);
+            });
+        }
+        
+        // Check for a draw
+        function tttCheckDraw() {
+            return tttBoard.every(cell => cell !== '');
+        }
+        
+        // Check if board is full
+        function tttIsBoardFull(boardState = tttBoard) {
+            return boardState.every(cell => cell !== '');
+        }
+        
+        // Handle win
+        function tttHandleWin(winner) {
+            tttGameActive = false;
+            
+            // Highlight winning cells
+            let winningCombo = [];
+            tttWinningCombinations.forEach(combination => {
+                if (combination.every(index => tttBoard[index] === winner)) {
+                    winningCombo = combination;
+                }
+            });
+            
+            winningCombo.forEach(index => {
+                tttCells[index].classList.add('winning');
+            });
+            
+            // Update scores
+            tttScores[winner]++;
+            tttUpdateScoreDisplay();
+            tttSaveScores();
+            
+            // Show celebration with player name
+            const winnerPlayerName = winner === 'X' ? 'Player X' : (tttGameMode === 'ai' ? 'AI (O)' : 'Player O');
+            document.getElementById('tttWinnerName').textContent = winnerPlayerName;
+            
+            // Custom win message based on player
+            if (tttGameMode === 'ai') {
+                if (winner === tttHumanPlayer) {
+                    document.getElementById('tttWinMessage').textContent = "🎉 You defeated the AI! Amazing job! 🎉";
+                } else {
+                    document.getElementById('tttWinMessage').textContent = "🤖 The AI wins this time! Try again! 🤖";
+                }
+            } else {
+                document.getElementById('tttWinMessage').textContent = "🎉 Congratulations on your victory! 🎉";
+            }
+            
+            // Show celebration after a short delay
+            setTimeout(() => {
+                document.getElementById('tttWinnerCelebration').classList.add('active');
+            }, 1000);
+        }
+        
+        // Close celebration modal
+        function tttCloseCelebration() {
+            document.getElementById('tttWinnerCelebration').classList.remove('active');
+        }
+        
+        // Handle draw
+        function tttHandleDraw() {
+            tttGameActive = false;
+            tttScores['ties']++;
+            tttUpdateScoreDisplay();
+            tttSaveScores();
+            tttStatusElement.textContent = '😐 Game Draw!';
+            tttStatusElement.style.background = 'rgba(240, 240, 240, 0.1)';
+            tttStatusElement.style.borderColor = 'rgba(240, 240, 240, 0.3)';
+        }
+        
+        // Reset the game
+        function tttResetGame() {
+            tttBoard = ['', '', '', '', '', '', '', '', ''];
+            tttCurrentPlayer = 'X';
+            tttGameActive = true;
+            tttMoveHistory = [];
+            tttGameHistory = [['', '', '', '', '', '', '', '', '']];
+            
+            // Clear cells
+            tttCells.forEach(cell => {
+                cell.textContent = '';
+                cell.className = 'ttt-cell';
+            });
+            
+            // Clear move history
+            tttMoveListElement.innerHTML = '';
+            
+            // Update status
+            tttUpdateStatus();
+            
+            // If playing against AI and human is O, let AI make first move
+            if (tttGameMode === 'ai' && tttHumanPlayer === 'O' && tttGameActive) {
+                setTimeout(tttMakeAIMove, 500);
+            }
+        }
+        
+        // Switch sides in AI mode
+        function tttSwitchSides() {
+            if (tttGameMode === 'ai') {
+                tttHumanPlayer = tttHumanPlayer === 'X' ? 'O' : 'X';
+                
+                // Update player buttons
+                tttPlayerButtons.forEach(button => {
+                    button.classList.remove('active');
+                    if (button.getAttribute('data-player') === tttHumanPlayer) {
+                        button.classList.add('active');
+                    }
+                });
+                
+                tttResetGame();
+            }
+        }
+        
+        // Undo the last move
+        function tttUndoMove() {
+            if (tttGameHistory.length > 1 && tttGameActive) {
+                // Remove current state
+                tttGameHistory.pop();
+                
+                // Get previous state
+                const previousState = tttGameHistory[tttGameHistory.length - 1];
+                tttBoard = [...previousState];
+                
+                // Update visual board
+                tttCells.forEach((cell, index) => {
+                    cell.textContent = tttBoard[index];
+                    cell.className = 'ttt-cell';
+                    if (tttBoard[index] === 'X') cell.classList.add('x');
+                    if (tttBoard[index] === 'O') cell.classList.add('o');
+                });
+                
+                // Switch player back
+                tttCurrentPlayer = tttCurrentPlayer === 'X' ? 'O' : 'X';
+                
+                // Update status
+                tttUpdateStatus();
+                
+                // Remove last move from history
+                if (tttMoveListElement.lastChild) {
+                    tttMoveListElement.removeChild(tttMoveListElement.lastChild);
+                    tttMoveHistory.pop();
+                }
+                
+                // Remove winning highlights
+                tttCells.forEach(cell => {
+                    cell.classList.remove('winning');
+                });
+                
+                // If AI's turn after undo in AI mode, let AI play
+                if (tttGameMode === 'ai' && tttCurrentPlayer !== tttHumanPlayer && tttGameActive) {
+                    setTimeout(tttMakeAIMove, 500);
+                }
+            }
+        }
+        
+        // Add move to history display
+        function tttAddMoveToHistory(moveDescription) {
+            tttMoveHistory.push(moveDescription);
+            
+            const moveItem = document.createElement('div');
+            moveItem.classList.add('ttt-move-item');
+            const lastPlayer = tttCurrentPlayer === 'X' ? 'O' : 'X';
+            moveItem.classList.add(lastPlayer === 'X' ? 'x-move' : 'o-move');
+            moveItem.textContent = `Move ${tttMoveHistory.length}: ${moveDescription}`;
+            
+            tttMoveListElement.appendChild(moveItem);
+            tttMoveListElement.scrollTop = tttMoveListElement.scrollHeight;
+        }
+        
+        // Update game status display
+        function tttUpdateStatus() {
+            if (!tttGameActive) return;
+            
+            if (tttGameMode === 'ai') {
+                if (tttCurrentPlayer === tttHumanPlayer) {
+                    tttStatusElement.textContent = 'Your Turn';
+                    tttStatusElement.style.background = 'rgba(0, 242, 255, 0.1)';
+                    tttStatusElement.style.borderColor = 'rgba(0, 242, 255, 0.3)';
+                } else {
+                    tttStatusElement.textContent = '🤖 AI Thinking...';
+                    tttStatusElement.style.background = 'rgba(255, 255, 255, 0.1)';
+                    tttStatusElement.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                }
+            } else {
+                tttStatusElement.textContent = `Player ${tttCurrentPlayer}'s Turn`;
+                tttStatusElement.style.background = tttCurrentPlayer === 'X' ? 
+                    'rgba(255, 77, 77, 0.1)' : 'rgba(0, 255, 204, 0.1)';
+                tttStatusElement.style.borderColor = tttCurrentPlayer === 'X' ? 
+                    'rgba(255, 77, 77, 0.3)' : 'rgba(0, 255, 204, 0.3)';
+            }
+        }
+        
+        // Update score display
+        function tttUpdateScoreDisplay() {
+            tttPlayerXScoreElement.textContent = tttScores['X'];
+            tttPlayerOScoreElement.textContent = tttScores['O'];
+            tttTiesScoreElement.textContent = tttScores['ties'];
+        }
+        
+        // Save scores to localStorage
+        function tttSaveScores() {
+            localStorage.setItem('tttScores', JSON.stringify(tttScores));
+        }
+        
+        // Load scores from localStorage
+        function tttLoadScores() {
+            const savedScores = localStorage.getItem('tttScores');
+            if (savedScores) {
+                tttScores = JSON.parse(savedScores);
+            }
+        }
 
         // Particles.js Configuration
         particlesJS("particles-js", {
