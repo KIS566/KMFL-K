@@ -63,36 +63,7 @@ function loadSampleProjects() {
             category: "tool",
             date: "2024-01-05"
         },
-        {
-            id: 4,
-            title: "Weather App",
-            description: "Real-time weather application",
-            icon: "fas fa-cloud-sun",
-            file: "https://weatherapp.example.com",
-            tags: ["API", "Weather", "Web App"],
-            category: "web-app",
-            date: "2023-12-20"
-        },
-        {
-            id: 5,
-            title: "Drawing Canvas",
-            description: "Creative drawing application",
-            icon: "fas fa-paint-brush",
-            file: "https://drawingapp.example.com",
-            tags: ["Creative", "Canvas", "Art"],
-            category: "creative",
-            date: "2023-12-15"
-        },
-        {
-            id: 6,
-            title: "Music Player",
-            description: "Modern music player UI",
-            icon: "fas fa-music",
-            file: "https://musicplayer.example.com",
-            tags: ["Media", "Music", "Player"],
-            category: "media",
-            date: "2023-12-10"
-        }
+       
     ];
     
     projectsConfig.projectsList = sampleProjects;
