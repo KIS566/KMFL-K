@@ -1396,6 +1396,108 @@
                 transform: translatey(0);
             }
         }
+
+
+
+        /* Projects Section Styles (main section में add किया गया) */
+
+/* Responsive Sections (निचे update करें) */
+
+/* Responsive */
+@media (max-width: 1024px) {
+    /* पुराना code... */
+    
+    /* नया code */
+    .projects-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    /* पुराना code... */
+    
+    /* नया code */
+    .projects-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+    }
+    
+    .project-card {
+        padding: 15px;
+    }
+    
+    .viewer-header {
+        padding: 15px 20px;
+    }
+    
+    .viewer-content {
+        padding: 10px;
+    }
+    
+    .modal-content {
+        padding: 20px;
+        width: 95%;
+    }
+}
+
+@media (max-width: 600px) {
+    /* नया media query */
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .project-actions {
+        flex-direction: column;
+    }
+    
+    .filter-btn {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .modal-actions {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    /* पुराना code... */
+    
+    /* नया code */
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .project-actions {
+        flex-direction: column;
+    }
+    
+    .filter-btn {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .modal-actions {
+        flex-direction: column;
+    }
+    
+    .projects-container {
+        padding: 10px;
+    }
+    
+    .search-box input {
+        padding: 10px 40px 10px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .project-card h3 {
+        font-size: 1.1rem;
+    }
+    
+    .project-card p {
+        font-size: 0.85rem;
+    }
+}
         
         @keyframes move {
             0% {
