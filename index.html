@@ -1706,6 +1706,8 @@
             <a href="#" data-page="calculator"><i class="fas fa-calculator"></i> Calculator</a>
             <a href="#" data-page="qr-generator"><i class="fas fa-qrcode"></i> QR Generator</a>
             <a href="#" data-page="tictactoe"><i class="fas fa-gamepad"></i> Tic Tac Toe</a>
+            <!-- Nav Center में जोड़ें -->
+<a href="#" data-page="projects"><i class="fas fa-folder-open"></i> Projects</a>
         </div>
         
         <div class="nav-right">
@@ -1732,6 +1734,8 @@
                 <a href="#" data-page="qr-generator"><i class="fas fa-qrcode"></i> QR Generator</a>
                 <a href="#" data-page="tictactoe"><i class="fas fa-gamepad"></i> Tic Tac Toe</a>
                 <a href="#" data-page="contact"><i class="fas fa-envelope"></i> Contact</a>
+                <!-- Floating Navigation में जोड़ें -->
+<a href="#" data-page="projects"><i class="fas fa-folder-open"></i> Projects</a>
             </div>
         </div>
     </section>
@@ -2014,6 +2018,106 @@
         </div>
     </div>
 
+
+
+    <!-- Tic Tac Toe सेक्शन के बाद जोड़ें -->
+<section class="page-section" id="projects-page">
+    <div class="page-content">
+        <h2 class="section-header">My Projects</h2>
+        
+        <div class="projects-container">
+            <!-- Projects Search -->
+            <div class="projects-search">
+                <div class="search-box">
+                    <input type="text" id="projectsSearch" placeholder="Search projects...">
+                    <i class="fas fa-search"></i>
+                </div>
+            </div>
+            
+            <!-- Projects Filter -->
+            <div class="projects-filter">
+                <button class="filter-btn active" data-filter="all">All Projects</button>
+                <button class="filter-btn" data-filter="web-app">Web Apps</button>
+                <button class="filter-btn" data-filter="game">Games</button>
+                <button class="filter-btn" data-filter="utility">Utilities</button>
+                <button class="filter-btn" data-filter="creative">Creative</button>
+                <button class="filter-btn" data-filter="media">Media</button>
+            </div>
+            
+            <!-- Projects Grid -->
+            <div class="projects-grid" id="projectsGrid">
+                <!-- Projects dynamically loaded here -->
+                <div class="loading-projects">
+                    <i class="fas fa-spinner fa-spin"></i> Loading Projects...
+                </div>
+            </div>
+            
+            <!-- Project Viewer -->
+            <div class="project-viewer" id="projectViewer">
+                <div class="viewer-header">
+                    <h3 id="projectTitle">Project Preview</h3>
+                    <button class="close-viewer" onclick="closeProjectViewer()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="viewer-content">
+                    <iframe id="projectFrame" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Add Project Button -->
+        <div style="text-align: center; margin-top: 50px;">
+            <button onclick="showAddProjectModal()" style="background: linear-gradient(45deg, #ff9800, #ff5722); padding: 15px 30px;">
+                <i class="fas fa-plus"></i> Add New Project
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Add Project Modal -->
+<div class="modal" id="addProjectModal">
+    <div class="modal-content">
+        <h3><i class="fas fa-plus-circle"></i> Add New Project</h3>
+        <div class="form-group">
+            <input type="text" id="projectName" placeholder="Project Name *" required>
+        </div>
+        <div class="form-group">
+            <textarea id="projectDesc" placeholder="Project Description *" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+            <input type="text" id="projectFile" placeholder="File Path (e.g., projects/my-game/index.html) *" required>
+        </div>
+        <div class="form-group">
+            <input type="text" id="projectIcon" placeholder="Icon Class (e.g., fas fa-gamepad)" value="fas fa-folder">
+        </div>
+        <div class="form-group">
+            <input type="text" id="projectTags" placeholder="Tags (comma separated) *" required>
+        </div>
+        <div class="form-group">
+            <select id="projectCategory" required>
+                <option value="">Select Category *</option>
+                <option value="game">Game</option>
+                <option value="web-app">Web App</option>
+                <option value="utility">Utility</option>
+                <option value="creative">Creative</option>
+                <option value="media">Media</option>
+                <option value="tool">Tool</option>
+            </select>
+        </div>
+        <div class="modal-actions">
+            <button onclick="addProject()" class="btn-primary">
+                <i class="fas fa-save"></i> Save Project
+            </button>
+            <button onclick="closeAddProjectModal()" class="btn-secondary">
+                <i class="fas fa-times"></i> Cancel
+            </button>
+        </div>
+    </div>
+</div>
+
+
+    
     <!-- Contact Page -->
     <section class="page-section" id="contact-page">
         <div class="page-content">
