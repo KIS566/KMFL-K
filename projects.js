@@ -570,26 +570,6 @@ function importProjects(event) {
     reader.readAsText(file);
 }
 
-// Initialize when projects page is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    // Check if we're on projects page
-    const hash = window.location.hash.substring(1);
-    if (hash === 'projects') {
-        setTimeout(initProjectsSection, 500);
-    }
-    
-    // Also check when navigating via nav
-    const pageLinks = document.querySelectorAll('nav a, .floating-nav a');
-    pageLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            const page = this.getAttribute('data-page');
-            if (page === 'projects') {
-                setTimeout(initProjectsSection, 500);
-            }
-        });
-    });
-});
-
 // Make functions globally available
 window.initProjectsSection = initProjectsSection;
 window.openInternalProject = openInternalProject;
@@ -602,3 +582,12 @@ window.editProject = editProject;
 window.deleteProject = deleteProject;
 window.exportProjects = exportProjects;
 window.importProjects = importProjects;
+
+// Initialize when projects page is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if we're on projects page
+    const hash = window.location.hash.substring(1);
+    if (hash === 'projects') {
+        setTimeout(initProjectsSection, 500);
+    }
+});
