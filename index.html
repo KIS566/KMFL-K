@@ -109,51 +109,7 @@
 
 
 
-        /* Back to Home Button Styles */
-.back-to-home-container {
-    text-align: center;
-    margin: 40px 0;
-    padding: 20px;
-}
-
-.back-to-home-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    background: linear-gradient(45deg, var(--accent-dark), var(--accent));
-    color: var(--bg-dark);
-    text-decoration: none;
-    padding: 15px 35px;
-    border-radius: 50px;
-    font-family: 'Orbitron', sans-serif;
-    font-weight: bold;
-    font-size: 1.1rem;
-    transition: all 0.3s ease;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 5px 20px var(--accent-glow);
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-}
-
-.back-to-home-btn:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: 0.5s;
-    z-index: -1;
-}
-
-
-
-
-
-        /* Back to Home Button Styles */
+       /* Back to Home Button Styles - केवल एक बार रखें */
 .back-to-home-container {
     text-align: center;
     margin: 40px 0;
@@ -218,14 +174,14 @@
 /* Floating Back Button (for mobile) */
 .floating-back-btn {
     position: fixed;
-    bottom: 80px;
+    bottom: 30px;
     right: 30px;
     width: 60px;
     height: 60px;
     background: linear-gradient(45deg, var(--accent-dark), var(--accent));
     color: var(--bg-dark);
     border-radius: 50%;
-    display: none;
+    display: flex;
     justify-content: center;
     align-items: center;
     font-size: 1.5rem;
@@ -234,6 +190,7 @@
     cursor: pointer;
     transition: all 0.3s ease;
     border: none;
+    display: none; /* शुरू में छुपा हुआ */
 }
 
 .floating-back-btn:hover {
@@ -250,7 +207,7 @@
     
     .floating-back-btn {
         display: flex;
-        bottom: 70px;
+        bottom: 20px;
         right: 20px;
         width: 50px;
         height: 50px;
@@ -274,85 +231,6 @@
         font-size: 1.3rem;
     }
 }
-
-
-
-        
-.back-to-home-btn:hover:before {
-    left: 100%;
-}
-
-.back-to-home-btn:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px var(--accent-glow);
-}
-
-.back-to-home-btn:active {
-    transform: translateY(0);
-}
-
-.back-to-home-btn i {
-    font-size: 1.2rem;
-    transition: transform 0.3s ease;
-}
-
-.back-to-home-btn:hover i {
-    transform: translateX(-5px);
-}
-
-/* Floating Back Button (for mobile) */
-.floating-back-btn {
-    position: fixed;
-    bottom: 80px;
-    right: 30px;
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(45deg, var(--accent-dark), var(--accent));
-    color: var(--bg-dark);
-    border-radius: 50%;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.5rem;
-    box-shadow: 0 5px 20px var(--accent-glow);
-    z-index: 999;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: none;
-}
-
-.floating-back-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 8px 25px var(--accent-glow);
-}
-
-/* Responsive Back Button */
-@media (max-width: 768px) {
-    .back-to-home-btn {
-        padding: 12px 25px;
-        font-size: 1rem;
-    }
-    
-    .floating-back-btn {
-        display: flex;
-    }
-}
-
-@media (max-width: 480px) {
-    .back-to-home-btn {
-        padding: 10px 20px;
-        font-size: 0.9rem;
-    }
-    
-    .back-to-home-container {
-        margin: 30px 0;
-    }
-}
-
-
-
-
-
 
         
         /* Page Sections */
@@ -2536,6 +2414,13 @@
                         </div>
                         <div class="skill-bar">
                             <div class="skill-progress" data-width="80"></div>
+                             <!-- About Page के closing div से पहले -->
+<div class="back-to-home-container">
+    <button class="back-to-home-btn" onclick="showPage('home')">
+        <i class="fas fa-arrow-left"></i>
+        Back to Home
+    </button>
+</div>
                         </div>
                     </div>
                 </div>
@@ -2547,13 +2432,7 @@
 
 
 
-    <!-- About Page के closing div से पहले -->
-<div class="back-to-home-container">
-    <button class="back-to-home-btn" onclick="showPage('home')">
-        <i class="fas fa-arrow-left"></i>
-        Back to Home
-    </button>
-</div>
+   
 
 
     
@@ -2649,6 +2528,13 @@
                     <div id="calcHistoryList"></div>
                 </div>
             </div>
+             <!-- Calculator Page के closing div से पहले -->
+<div class="back-to-home-container">
+    <button class="back-to-home-btn" onclick="showPage('home')">
+        <i class="fas fa-arrow-left"></i>
+        Back to Home
+    </button>
+</div>
         </div>
     </section>
 
@@ -2657,13 +2543,7 @@
 
 
 
-    <!-- Calculator Page के closing div से पहले -->
-<div class="back-to-home-container">
-    <button class="back-to-home-btn" onclick="showPage('home')">
-        <i class="fas fa-arrow-left"></i>
-        Back to Home
-    </button>
-</div>
+   
 
 
 
@@ -2712,7 +2592,23 @@
                         <button id="copyLink" class="qr-download-btn">Copy Link</button>
                     </div>
                 </div>
-            </div>
+           
+            
+    </div>
+
+
+
+             <!-- QR Generator Page के closing div से पहले -->
+<div class="back-to-home-container">
+    <button class="back-to-home-btn" onclick="showPage('home')">
+        <i class="fas fa-arrow-left"></i>
+        Back to Home
+    </button>
+</div>
+
+
+
+            
         </div>
     </section>
 
@@ -2722,15 +2618,7 @@
 
 
 
-    <!-- QR Generator Page के closing div से पहले -->
-<div class="back-to-home-container">
-    <button class="back-to-home-btn" onclick="showPage('home')">
-        <i class="fas fa-arrow-left"></i>
-        Back to Home
-    </button>
-</div>
-
-
+   
 
 
 
@@ -2820,6 +2708,18 @@
             <p id="tttWinMessage">You won the game!</p>
             <button class="ttt-celebration-btn" onclick="tttCloseCelebration()">Continue Playing</button>
         </div>
+   
+    
+    <!-- Tic Tac Toe Page के closing div से पहले -->
+<div class="back-to-home-container">
+    <button class="back-to-home-btn" onclick="showPage('home')">
+        <i class="fas fa-arrow-left"></i>
+        Back to Home
+    </button>
+</div>
+
+        
+    
     </div>
 
 
@@ -2845,14 +2745,7 @@
 
 
 
-            <!-- Tic Tac Toe Page के closing div से पहले -->
-<div class="back-to-home-container">
-    <button class="back-to-home-btn" onclick="showPage('home')">
-        <i class="fas fa-arrow-left"></i>
-        Back to Home
-    </button>
-</div>
-
+            
 
 
 
@@ -2942,16 +2835,10 @@
                 <i class="fas fa-times"></i> Cancel
             </button>
         </div>
+  
     </div>
-</div>
 
-
-
-
-
-
-
-    <!-- Projects Page के closing div से पहले -->
+   <!-- Projects Page के closing div से पहले -->
 <div class="back-to-home-container">
     <button class="back-to-home-btn" onclick="showPage('home')">
         <i class="fas fa-arrow-left"></i>
@@ -2961,6 +2848,16 @@
 
 
 
+
+</div>
+
+
+
+
+
+
+
+ 
 
 
 
@@ -3002,6 +2899,14 @@
                     </div>
                 </div>
             </div>
+       
+          <!-- Contact Page के closing div से पहले -->
+<div class="back-to-home-container">
+    <button class="back-to-home-btn" onclick="showPage('home')">
+        <i class="fas fa-arrow-left"></i>
+        Back to Home
+    </button>
+</div>
         </div>
     </section>
 
@@ -3011,13 +2916,7 @@
 
 
 
-    <!-- Contact Page के closing div से पहले -->
-<div class="back-to-home-container">
-    <button class="back-to-home-btn" onclick="showPage('home')">
-        <i class="fas fa-arrow-left"></i>
-        Back to Home
-    </button>
-</div>
+  
 
 
 
@@ -3046,6 +2945,18 @@
                     </div>
                 </div>
             </div>
+
+
+ <!-- Blog Page के closing div से पहले -->
+<div class="back-to-home-container">
+    <button class="back-to-home-btn" onclick="showPage('home')">
+        <i class="fas fa-arrow-left"></i>
+        Back to Home
+    </button>
+</div>
+
+
+            
         </div>
     </section>
 
@@ -3055,14 +2966,7 @@
 
 
 
-    <!-- Blog Page के closing div से पहले -->
-<div class="back-to-home-container">
-    <button class="back-to-home-btn" onclick="showPage('home')">
-        <i class="fas fa-arrow-left"></i>
-        Back to Home
-    </button>
-</div>
-
+   
 
 
 
@@ -3092,19 +2996,31 @@
                     <p>Sorry, You don't have access there...</p>
                 </div>
             </div>
-        </div>
-    </section>
 
 
 
-
-    <!-- Error Page के closing div से पहले -->
+ <!-- Error Page के closing div से पहले -->
 <div class="back-to-home-container">
     <button class="back-to-home-btn" onclick="showPage('home')">
         <i class="fas fa-arrow-left"></i>
         Back to Home
     </button>
 </div>
+            
+            
+            
+            
+            
+            
+            
+        
+        </div>
+    </section>
+
+
+
+
+   
 
 
 
