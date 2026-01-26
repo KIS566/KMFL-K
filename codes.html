@@ -8,6 +8,137 @@
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@300;600&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
+
+
+
+
+
+  /* Back to Home Button Styles - केवल एक बार रखें */
+.back-to-home-container {
+    text-align: center;
+    margin: 40px 0;
+    padding: 20px;
+}
+
+.back-to-home-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(45deg, var(--accent-dark), var(--accent));
+    color: var(--bg-dark);
+    text-decoration: none;
+    padding: 15px 35px;
+    border-radius: 50px;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 5px 20px var(--accent-glow);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.back-to-home-btn:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+    z-index: -1;
+}
+
+.back-to-home-btn:hover:before {
+    left: 100%;
+}
+
+.back-to-home-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px var(--accent-glow);
+}
+
+.back-to-home-btn:active {
+    transform: translateY(0);
+}
+
+.back-to-home-btn i {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.back-to-home-btn:hover i {
+    transform: translateX(-5px);
+}
+
+/* Floating Back Button (for mobile) */
+.floating-back-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(45deg, var(--accent-dark), var(--accent));
+    color: var(--bg-dark);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    box-shadow: 0 5px 20px var(--accent-glow);
+    z-index: 999;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    display: none; /* शुरू में छुपा हुआ */
+}
+
+.floating-back-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px var(--accent-glow);
+}
+
+/* Responsive Back Button */
+@media (max-width: 768px) {
+    .back-to-home-btn {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+    
+    .floating-back-btn {
+        display: flex;
+        bottom: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+    }
+}
+
+@media (max-width: 480px) {
+    .back-to-home-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+    
+    .back-to-home-container {
+        margin: 30px 0;
+        padding: 15px;
+    }
+    
+    .floating-back-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
+    }
+}
+
+
+
+  
   :root{
     --bg:#071019; --panel:#08121a; --neon:#00ffc6; --accent:#ff6b6b; --muted:#9aa6b2;
   }
@@ -165,9 +296,77 @@
       </div>
     </section>
   </div>
+<!-- इन सभी को हटा दें -->
+<div class="back-to-home-container">
+    <button class="back-to-home-btn" onclick="showPage('home')">
+        <i class="fas fa-arrow-left"></i>
+        Back to Home
+    </button>
+</div>
+
 </div>
 
 <script>
+
+
+
+
+  // Scroll to top button और floating back button visibility
+window.addEventListener("scroll", () => {
+    // Scroll to top button visibility
+    const scrollTopBtn = document.getElementById("scrollTop");
+    const floatingBackBtn = document.getElementById("floatingBackBtn");
+    
+    if (window.pageYOffset > 300) {
+        scrollTopBtn.style.display = "flex";
+        
+        // Show floating back button on all pages except home
+        const currentPage = window.location.hash.substring(1) || 'home';
+        if (currentPage !== 'home') {
+            floatingBackBtn.style.display = "flex";
+        }
+    } else {
+        scrollTopBtn.style.display = "none";
+        floatingBackBtn.style.display = "none";
+    }
+});
+
+// Page change पर floating button update करें
+function showPage(pageId) {
+    // Hide all pages
+    document.querySelectorAll('.page-section').forEach(page => {
+        page.classList.remove('active');
+    });
+    
+    // Show the selected page
+    document.getElementById(pageId + '-page').classList.add('active');
+    
+    // Update URL hash
+    window.location.hash = pageId;
+    
+    // Scroll to top
+    window.scrollTo(0, 0);
+    
+    // Update floating back button visibility
+    const floatingBackBtn = document.getElementById("floatingBackBtn");
+    if (pageId === 'home') {
+        floatingBackBtn.style.display = "none";
+    } else {
+        // Small delay to ensure page is loaded
+        setTimeout(() => {
+            floatingBackBtn.style.display = "flex";
+        }, 100);
+    }
+    
+    // Close mobile menu if open
+    if (mainNav.classList.contains('active')) {
+        mainNav.classList.remove('active');
+        mobileToggle.innerHTML = '<i class="fas fa-bars"></i>';
+    }
+}
+
+
+  
 // Global variables
 let currentLanguage = 'html';
 let currentTheme = 'dark';
