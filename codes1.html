@@ -2403,17 +2403,17 @@
     }
 
     // ==================== OTHER FUNCTIONS (remain the same) ====================
-    function initializeRealtimeSync() {
-        loadCodesFromSheet();
-        updateLastSyncTime();
-        
-        // Auto-refresh every 30 seconds if online
-        setInterval(() => {
-            if (isOnline) {
-                loadCodesFromSheet();
-            }
-        }, 30000);
-    }
+   function initializeRealtimeSync() {
+    loadCodesFromSheet();
+    updateLastSyncTime();
+    
+    // ✅ Auto-refresh every 5 minutes if online
+    setInterval(() => {
+        if (isOnline && !document.hidden) {
+            loadCodesFromSheet();
+        }
+    }, 300000); // 300,000 ms = 5 minutes
+}
 
     async function loadCodesFromSheet(forceRefresh = false) {
         try {
