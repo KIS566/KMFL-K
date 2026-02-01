@@ -389,6 +389,49 @@
                 transform: translateY(-5px);
             }
         }
+
+
+
+
+
+
+
+
+
+
+
+        /* Add this to your existing CSS */
+.admin-panel-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.admin-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.admin-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
         
         .refresh-btn {
             background: var(--neon);
@@ -1134,6 +1177,100 @@
             <i class="fas fa-lock"></i> Open Admin Panel
         </button>
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Admin Panel Section -->
+<div id="adminSection" style="display: none;">
+    <div class="admin-panel-container" style="max-width: 800px; margin: 0 auto;">
+        <h2 class="code-title" style="text-align:center; margin-bottom: 30px;">
+            <i class="fas fa-crown"></i> Admin Dashboard
+        </h2>
+        
+        <!-- Admin Stats -->
+        <div class="admin-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 30px;">
+            <div class="stat-card">
+                <div class="stat-number" id="adminTotalCodes">0</div>
+                <div class="stat-label">Total Codes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="adminUsers">0</div>
+                <div class="stat-label">Users</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="adminStorage">0 KB</div>
+                <div class="stat-label">Storage</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="adminCache">0</div>
+                <div class="stat-label">Cached</div>
+            </div>
+        </div>
+        
+        <!-- Admin Actions -->
+        <div class="panel" style="margin-bottom: 20px;">
+            <h3 class="code-title"><i class="fas fa-tools"></i> Admin Tools</h3>
+            <div class="admin-actions" style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px;">
+                <button class="btn btn-primary" onclick="showAddCodeModal()">
+                    <i class="fas fa-plus"></i> Add New Code
+                </button>
+                <button class="btn" onclick="manageUsers()">
+                    <i class="fas fa-users"></i> Manage Users
+                </button>
+                <button class="btn" onclick="clearCache()">
+                    <i class="fas fa-trash"></i> Clear Cache
+                </button>
+                <button class="btn" onclick="exportAllData()">
+                    <i class="fas fa-download"></i> Export All
+                </button>
+                <button class="btn" onclick="backupData()">
+                    <i class="fas fa-database"></i> Backup
+                </button>
+                <button class="btn" onclick="updateAdminStats()">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+        </div>
+        
+        <!-- Quick Stats -->
+        <div class="panel">
+            <h3 class="code-title"><i class="fas fa-chart-bar"></i> Quick Stats</h3>
+            <div style="padding: 15px;">
+                <div style="margin-bottom: 10px;">
+                    <strong>Last Sync:</strong> <span id="adminLastSync">Never</span>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <strong>Status:</strong> <span id="adminStatus" style="color: var(--neon);">🟢 Online</span>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <strong>Password:</strong> <code>ILU_KMFL</code>
+                </div>
+                <button class="btn" onclick="changeAdminPassword()" style="margin-top: 10px;">
+                    <i class="fas fa-key"></i> .
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
     
     <!-- Search and Filter Section -->
     <div class="search-bar" style="position: relative;">
@@ -2405,8 +2542,224 @@
 
     // ... (rest of your existing functions remain exactly the same)
     // [Include all your existing functions from the previous code here]
+    
+    
+    
     // They should remain unchanged
 
+
+
+
+
+
+// ==================== ADMIN PANEL FUNCTIONS ====================
+
+function showPasswordModal() {
+    document.getElementById('passwordModal').style.display = 'flex';
+    document.getElementById('passwordInput').focus();
+    document.getElementById('errorMessage').style.display = 'none';
+}
+
+function checkPassword() {
+    const password = document.getElementById('passwordInput').value;
+    const errorMsg = document.getElementById('errorMessage');
+    
+    if (password === ADMIN_PASSWORD) {
+        closeModal();
+        showTab('admin');
+        showNotification('✅ Admin access granted!', 'success');
+        updateAdminStats();
+    } else {
+        errorMsg.style.display = 'block';
+        document.getElementById('passwordInput').value = '';
+        showNotification('❌ Incorrect password!', 'error');
+    }
+}
+
+function updateAdminStats() {
+    // Total codes
+    document.getElementById('adminTotalCodes').textContent = allCodes.length;
+    
+    // Users count
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    document.getElementById('adminUsers').textContent = users.length;
+    
+    // Storage usage
+    let totalStorage = 0;
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        const value = localStorage.getItem(key);
+        totalStorage += (key.length + value.length) * 2;
+    }
+    document.getElementById('adminStorage').textContent = Math.round(totalStorage / 1024) + ' KB';
+    
+    // Cached codes
+    const cachedCodes = JSON.parse(localStorage.getItem('codesData') || '[]');
+    document.getElementById('adminCache').textContent = cachedCodes.length;
+    
+    // Last sync
+    const lastSyncTime = localStorage.getItem('lastSyncTimestamp');
+    if (lastSyncTime) {
+        const date = new Date(parseInt(lastSyncTime));
+        document.getElementById('adminLastSync').textContent = date.toLocaleTimeString();
+    }
+    
+    // Status
+    document.getElementById('adminStatus').textContent = isOnline ? '🟢 Online' : '🔴 Offline';
+    document.getElementById('adminStatus').style.color = isOnline ? 'var(--neon)' : '#ff4444';
+}
+
+function showAddCodeModal() {
+    closeAllModals();
+    document.getElementById('adminModal').style.display = 'flex';
+    document.getElementById('adminTitle').focus();
+}
+
+function addNewCode() {
+    const title = document.getElementById('adminTitle').value.trim();
+    const description = document.getElementById('adminDescription').value.trim();
+    const code = document.getElementById('adminCode').value.trim();
+    const category = document.getElementById('adminCategory').value;
+    const difficulty = document.getElementById('adminDifficulty').value;
+    const tags = document.getElementById('adminTags').value;
+    
+    if (!title || !code) {
+        document.getElementById('adminErrorMessage').textContent = 'Title and code are required!';
+        document.getElementById('adminErrorMessage').style.display = 'block';
+        return;
+    }
+    
+    try {
+        const codeData = {
+            title: title,
+            desc: description,
+            code: code,
+            category: category,
+            difficulty: difficulty,
+            tags: tags,
+            date: new Date().toISOString().split('T')[0],
+            addedBy: 'Admin'
+        };
+        
+        // Simulate saving to Google Sheets
+        fetch(SHEET_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(codeData),
+            mode: 'no-cors'
+        });
+        
+        document.getElementById('adminSuccessMessage').textContent = 'Code added successfully!';
+        document.getElementById('adminSuccessMessage').style.display = 'block';
+        document.getElementById('adminErrorMessage').style.display = 'none';
+        
+        // Clear form
+        document.getElementById('adminTitle').value = '';
+        document.getElementById('adminDescription').value = '';
+        document.getElementById('adminCode').value = '';
+        document.getElementById('adminTags').value = '';
+        
+        showNotification('✅ Code added via Admin Panel!');
+        
+        // Reload codes
+        setTimeout(() => {
+            loadCodesFromSheet(true);
+            closeModal();
+        }, 2000);
+        
+    } catch (error) {
+        document.getElementById('adminErrorMessage').textContent = 'Error: ' + error.message;
+        document.getElementById('adminErrorMessage').style.display = 'block';
+    }
+}
+
+function manageUsers() {
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    let userList = '📋 Registered Users:\n\n';
+    
+    if (users.length === 0) {
+        userList = 'No registered users found.';
+    } else {
+        users.forEach((user, index) => {
+            const joinDate = new Date(user.joined || Date.now()).toLocaleDateString();
+            userList += `${index + 1}. ${user.username} (${user.email})\n   Joined: ${joinDate}\n\n`;
+        });
+    }
+    
+    alert(userList);
+}
+
+function clearCache() {
+    if (confirm('Are you sure you want to clear all cache? This will remove all locally stored data except users.')) {
+        localStorage.removeItem('codesData');
+        localStorage.removeItem('lastSyncTimestamp');
+        localStorage.removeItem('codeVaultBackup');
+        showNotification('✅ Cache cleared successfully!', 'success');
+        updateAdminStats();
+    }
+}
+
+function exportAllData() {
+    const data = {
+        codes: allCodes,
+        users: JSON.parse(localStorage.getItem('users') || '[]'),
+        settings: {
+            theme: localStorage.getItem('theme') || 'dark',
+            lastSync: localStorage.getItem('lastSyncTimestamp')
+        },
+        exportDate: new Date().toISOString(),
+        app: "Kishan's Code Vault"
+    };
+    
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `code-vault-backup-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    showNotification('✅ All data exported!', 'success');
+}
+
+function backupData() {
+    const backup = {
+        codes: allCodes,
+        users: JSON.parse(localStorage.getItem('users') || '[]'),
+        timestamp: new Date().toISOString(),
+        backupType: 'manual'
+    };
+    
+    localStorage.setItem('codeVaultBackup', JSON.stringify(backup));
+    showNotification('✅ Backup created successfully!', 'success');
+}
+
+function changeAdminPassword() {
+    const newPassword = prompt('Enter new admin password:');
+    if (newPassword && newPassword.length >= 4) {
+        // Note: In real app, you would update this on server
+        alert(`Password would be changed to: ${newPassword}\n\nNote: This is client-side only. For production, implement server-side password management.`);
+        showNotification('Password change simulated (client-side)', 'info');
+    } else if (newPassword !== null) {
+        alert('Password must be at least 4 characters!');
+    }
+}
+
+function closeAllModals() {
+    document.querySelectorAll('.modal-overlay').forEach(modal => {
+        modal.style.display = 'none';
+    });
+}
+
+function closeModal() {
+    closeAllModals();
+}
+
+
+
+    
 </script>
 
 </body>
