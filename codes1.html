@@ -15,7 +15,6 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
     
     <style>
-        /* Your existing CSS styles remain exactly the same */
         :root {
             --neon: #00ffc6;
             --panel: rgba(0, 0, 0, 0.65);
@@ -266,27 +265,6 @@
             color: var(--text-secondary);
         }
         
-        .rating {
-            color: #ffd700;
-        }
-        
-        .favorite-btn {
-            background: none;
-            border: none;
-            color: #666;
-            cursor: pointer;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-        }
-        
-        .favorite-btn.active {
-            color: #ff4081;
-        }
-        
-        .favorite-btn:hover {
-            transform: scale(1.2);
-        }
-        
         .loading {
             text-align: center;
             padding: 20px;
@@ -320,16 +298,6 @@
             font-size: 1.1rem;
             line-height: 1.6;
             margin-bottom: 20px;
-        }
-        
-        .funny-message {
-            color: #ffd700;
-            font-size: 1rem;
-            font-style: italic;
-            margin-top: 15px;
-            padding: 10px;
-            background: rgba(255, 215, 0, 0.1);
-            border-radius: 8px;
         }
         
         .admin-link {
@@ -389,49 +357,6 @@
                 transform: translateY(-5px);
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-        /* Add this to your existing CSS */
-.admin-panel-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.admin-stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 15px;
-    margin-bottom: 30px;
-}
-
-.admin-actions {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-top: 20px;
-}
-
-
-
-
-
-
-
-
-
-
-
-
         
         .refresh-btn {
             background: var(--neon);
@@ -482,7 +407,6 @@
             100% { opacity: 1; }
         }
         
-        /* Modal Styles */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -583,27 +507,6 @@
             background: rgba(0, 255, 198, 0.1);
         }
         
-        .preview-container {
-            margin-top: 15px;
-            border: 1px solid #333;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        
-        .preview-header {
-            background: #222;
-            padding: 8px 15px;
-            font-size: 0.9rem;
-            color: #fff;
-        }
-        
-        .preview-content {
-            padding: 15px;
-            background: #fff;
-            color: #000;
-            min-height: 100px;
-        }
-        
         .tags-container {
             display: flex;
             gap: 5px;
@@ -626,95 +529,6 @@
             transform: scale(1.05);
         }
         
-        .reviews-section {
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(0, 255, 198, 0.2);
-        }
-        
-        .review-item {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 10px;
-            border-radius: 6px;
-            margin-bottom: 10px;
-        }
-        
-        .review-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 5px;
-        }
-        
-        .review-author {
-            font-weight: bold;
-            color: var(--neon);
-        }
-        
-        .review-rating {
-            color: #ffd700;
-        }
-        
-        .add-review {
-            margin-top: 15px;
-        }
-        
-        .review-textarea {
-            width: 100%;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid var(--neon);
-            border-radius: 6px;
-            color: var(--neon);
-            font-family: 'Share Tech Mono', monospace;
-            resize: vertical;
-            min-height: 60px;
-        }
-        
-        .share-buttons {
-            display: flex;
-            gap: 5px;
-            margin-top: 10px;
-        }
-        
-        .share-btn {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--neon);
-            color: var(--neon);
-            padding: 4px 8px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }
-        
-        /* Code Card Styles */
-        .code-card {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            padding: 15px;
-            margin: 10px;
-            color: #fff;
-            transition: 0.3s ease;
-        }
-        .code-card:hover {
-            background: rgba(255,255,255,0.15);
-            transform: scale(1.02);
-        }
-        .code-card pre {
-            background: rgba(0,0,0,0.4);
-            padding: 8px;
-            border-radius: 8px;
-            overflow-x: auto;
-        }
-        .code-card .meta {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 8px;
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-        
-        /* Responsive Design */
         @media (max-width: 768px) {
             .header-controls {
                 gap: 5px;
@@ -743,7 +557,6 @@
             }
         }
 
-        /* ✅ UPDATED: Upload Section Styles */
         .upload-container {
             max-width:600px;
             margin:auto;
@@ -788,7 +601,6 @@
             min-height: 24px;
         }
 
-        /* View Code Styles */
         .view-iframe {
             width: 100%;
             height: 300px;
@@ -812,7 +624,6 @@
             word-wrap: break-word;
         }
 
-        /* PWA Install Button */
         .install-btn {
             position: fixed;
             bottom: 80px;
@@ -837,7 +648,6 @@
             transform: translateY(-2px);
         }
         
-        /* Export Button */
         .export-btn {
             background: transparent;
             border: 1px solid #ff9800;
@@ -852,7 +662,6 @@
             background: rgba(255, 152, 0, 0.1);
         }
         
-        /* Stats Highlight */
         .stats-highlight {
             background: rgba(0, 255, 198, 0.1);
             padding: 15px;
@@ -861,7 +670,6 @@
             border: 1px dashed var(--neon);
         }
         
-        /* Offline Indicator */
         .offline-indicator {
             position: fixed;
             top: 10px;
@@ -878,30 +686,6 @@
             gap: 8px;
         }
         
-        /* Search Suggestions */
-        .search-suggestions {
-            position: absolute;
-            background: var(--panel);
-            border: 1px solid var(--neon);
-            border-radius: 8px;
-            max-height: 200px;
-            overflow-y: auto;
-            display: none;
-            z-index: 100;
-            width: calc(100% - 70px);
-        }
-        
-        .suggestion-item {
-            padding: 10px;
-            cursor: pointer;
-            border-bottom: 1px solid rgba(0, 255, 198, 0.1);
-        }
-        
-        .suggestion-item:hover {
-            background: rgba(0, 255, 198, 0.1);
-        }
-        
-        /* Back to Home Button */
         .back-to-home-container {
             text-align: center;
             margin: 40px 0;
@@ -963,7 +747,6 @@
             transform: translateX(-5px);
         }
 
-        /* Floating Back Button (for mobile) */
         .floating-back-btn {
             position: fixed;
             bottom: 30px;
@@ -990,7 +773,6 @@
             box-shadow: 0 8px 25px rgba(0, 255, 198, 0.5);
         }
 
-        /* Responsive Back Button */
         @media (max-width: 768px) {
             .back-to-home-btn {
                 padding: 12px 25px;
@@ -1023,6 +805,26 @@
                 font-size: 1.3rem;
             }
         }
+        
+        .admin-panel-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .admin-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body data-theme="dark">
@@ -1034,14 +836,12 @@
 
 <!-- Offline Indicator -->
 <div class="offline-indicator" id="offlineIndicator">
-    <i class="fas fa-wifi-slash"></i>
-    You are offline - using cached data
+    <i class="fas fa-wifi-slash"></i> Offline Mode
 </div>
 
 <!-- PWA Install Button -->
 <button class="install-btn" id="installBtn">
-    <i class="fas fa-download"></i>
-    Install App
+    <i class="fas fa-download"></i> Install App
 </button>
 
 <header>
@@ -1076,56 +876,74 @@
         <button class="filter-btn active" data-tab="view">👁️ View Codes</button>
         <button class="filter-btn" data-tab="upload">🚀 Upload Code</button>
         <button class="filter-btn" data-tab="admin">🔧 Admin Panel</button>
-        <button class="filter-btn" data-tab="export" id="exportTab">📤 Export</button>
+        <button class="filter-btn" data-tab="export">📤 Export</button>
     </div>
 
-    <!-- Stats Highlight -->
-    <div class="stats-highlight" id="statsHighlight">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <div>
-                <h3 style="margin: 0; color: var(--neon);">📊 Live Stats</h3>
-                <p style="margin: 5px 0 0 0; font-size: 0.9rem; color: var(--text-secondary);">
-                    Real-time code analytics
-                </p>
+    <!-- View Section (Default) -->
+    <div id="viewSection">
+        <!-- Stats Highlight -->
+        <div class="stats-highlight" id="statsHighlight">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h3 style="margin: 0; color: var(--neon);">📊 Live Stats</h3>
+                    <p style="margin: 5px 0 0 0; font-size: 0.9rem; color: var(--text-secondary);">
+                        Real-time code analytics
+                    </p>
+                </div>
+                <button class="btn" onclick="refreshStats()">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
             </div>
-            <button class="btn" onclick="refreshStats()">
-                <i class="fas fa-sync-alt"></i> Refresh
-            </button>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats" id="statsContainer">
+            <div class="stat-card">
+                <div class="stat-number" id="totalCodes">0</div>
+                <div class="stat-label">Total Codes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="htmlCodes">0</div>
+                <div class="stat-label">HTML Codes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="cssCodes">0</div>
+                <div class="stat-label">CSS Codes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="jsCodes">0</div>
+                <div class="stat-label">JS Codes</div>
+            </div>
+        </div>
+        
+        <!-- Search and Filter Section -->
+        <div class="search-bar" style="position: relative;">
+            <input type="text" class="search-input" id="searchInput" placeholder="Search codes by title, description...">
+            <button class="btn" onclick="clearSearch()">Clear</button>
+        </div>
+        
+        <div class="filter-buttons" id="filterButtons">
+            <button class="filter-btn active" data-category="all">All</button>
+            <button class="filter-btn" data-category="html">HTML</button>
+            <button class="filter-btn" data-category="css">CSS</button>
+            <button class="filter-btn" data-category="javascript">JavaScript</button>
+        </div>
+        
+        <!-- Tags Cloud -->
+        <div class="tags-container" id="tagsCloud" style="margin-bottom: 20px; display: none;"></div>
+        
+        <!-- Codes Container -->
+        <div id="codesContainer">
+            <div class="loading">
+                <i class="fas fa-spinner fa-spin"></i> Loading codes...
+            </div>
         </div>
     </div>
 
-    <!-- Stats -->
-    <div class="stats" id="statsContainer">
-        <div class="stat-card">
-            <div class="stat-number" id="totalCodes">0</div>
-            <div class="stat-label">Total Codes</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number" id="htmlCodes">0</div>
-            <div class="stat-label">HTML Codes</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number" id="cssCodes">0</div>
-            <div class="stat-label">CSS Codes</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number" id="jsCodes">0</div>
-            <div class="stat-label">JS Codes</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number" id="totalUsers">0</div>
-            <div class="stat-label">Registered Users</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number" id="cachedCodes">0</div>
-            <div class="stat-label">Cached Codes</div>
-        </div>
-    </div>
-
-    <!-- ✅ UPDATED: Upload Section -->
+    <!-- Upload Section -->
     <div id="uploadSection" style="display: none;">
         <div class="upload-container">
-            <h2 class="code-title" style="text-align:center; text-shadow:0 0 10px cyan;">🚀 Upload Code | CodeShalaByKMFL</h2>
+            <h2 class="code-title" style="text-align:center; text-shadow:0 0 10px cyan;">🚀 Upload Code</h2>
             <input type="text" class="upload-input" id="uploadTitle" placeholder="Enter Code Title">
             <textarea class="upload-textarea" id="uploadDesc" rows="2" placeholder="Enter Description"></textarea>
             <textarea class="upload-textarea" id="uploadCode" rows="10" placeholder="Paste Your HTML/CSS/JS Code Here..."></textarea>
@@ -1139,6 +957,73 @@
             
             <button class="upload-btn" onclick="uploadCode()">Upload Code</button>
             <p class="upload-msg" id="uploadMsg"></p>
+        </div>
+    </div>
+
+    <!-- Admin Panel Section -->
+    <div id="adminSection" style="display: none;">
+        <div class="admin-panel-container">
+            <h2 class="code-title" style="text-align:center; margin-bottom: 30px;">
+                <i class="fas fa-crown"></i> Admin Dashboard
+            </h2>
+            
+            <!-- Admin Stats -->
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="adminTotalCodes">0</div>
+                    <div class="stat-label">Total Codes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="adminUsers">0</div>
+                    <div class="stat-label">Users</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="adminStorage">0 KB</div>
+                    <div class="stat-label">Storage</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="adminCache">0</div>
+                    <div class="stat-label">Cached</div>
+                </div>
+            </div>
+            
+            <!-- Admin Actions -->
+            <div class="panel" style="margin-bottom: 20px;">
+                <h3 class="code-title"><i class="fas fa-tools"></i> Admin Tools</h3>
+                <div class="admin-actions">
+                    <button class="btn btn-primary" onclick="showAddCodeModal()">
+                        <i class="fas fa-plus"></i> Add New Code
+                    </button>
+                    <button class="btn" onclick="manageUsers()">
+                        <i class="fas fa-users"></i> Manage Users
+                    </button>
+                    <button class="btn" onclick="clearCache()">
+                        <i class="fas fa-trash"></i> Clear Cache
+                    </button>
+                    <button class="btn" onclick="exportAllData()">
+                        <i class="fas fa-download"></i> Export All
+                    </button>
+                    <button class="btn" onclick="updateAdminStats()">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Quick Stats -->
+            <div class="panel">
+                <h3 class="code-title"><i class="fas fa-chart-bar"></i> Quick Stats</h3>
+                <div style="padding: 15px;">
+                    <div style="margin-bottom: 10px;">
+                        <strong>Last Sync:</strong> <span id="adminLastSync">Never</span>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Status:</strong> <span id="adminStatus" style="color: var(--neon);">🟢 Online</span>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <strong></strong> <code></code>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1157,153 +1042,10 @@
                 <button class="btn" onclick="exportAsHTML()">
                     <i class="fas fa-file-alt"></i> Export as HTML
                 </button>
-                <button class="btn" onclick="exportSelected()">
-                    <i class="fas fa-file-archive"></i> Export Selected
-                </button>
                 <button class="btn export-btn" onclick="backupToLocal()">
-                    <i class="fas fa-database"></i> Backup to Local Storage
+                    <i class="fas fa-database"></i> Backup to Local
                 </button>
             </div>
-            
-            <div id="exportResult" style="margin-top: 20px; display: none;">
-                <pre style="background: #000; color: #0f0; padding: 10px; border-radius: 8px;"></pre>
-            </div>
-        </div>
-    </div>
-
-    <!-- Admin Panel Section -->
-    <div id="adminSection" style="display: none;">
-        <button class="btn admin-link" id="adminBtn">
-            <i class="fas fa-lock"></i> Open Admin Panel
-        </button>
-    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <!-- Admin Panel Section -->
-<div id="adminSection" style="display: none;">
-    <div class="admin-panel-container" style="max-width: 800px; margin: 0 auto;">
-        <h2 class="code-title" style="text-align:center; margin-bottom: 30px;">
-            <i class="fas fa-crown"></i> Admin Dashboard
-        </h2>
-        
-        <!-- Admin Stats -->
-        <div class="admin-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 30px;">
-            <div class="stat-card">
-                <div class="stat-number" id="adminTotalCodes">0</div>
-                <div class="stat-label">Total Codes</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="adminUsers">0</div>
-                <div class="stat-label">Users</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="adminStorage">0 KB</div>
-                <div class="stat-label">Storage</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="adminCache">0</div>
-                <div class="stat-label">Cached</div>
-            </div>
-        </div>
-        
-        <!-- Admin Actions -->
-        <div class="panel" style="margin-bottom: 20px;">
-            <h3 class="code-title"><i class="fas fa-tools"></i> Admin Tools</h3>
-            <div class="admin-actions" style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px;">
-                <button class="btn btn-primary" onclick="showAddCodeModal()">
-                    <i class="fas fa-plus"></i> Add New Code
-                </button>
-                <button class="btn" onclick="manageUsers()">
-                    <i class="fas fa-users"></i> Manage Users
-                </button>
-                <button class="btn" onclick="clearCache()">
-                    <i class="fas fa-trash"></i> Clear Cache
-                </button>
-                <button class="btn" onclick="exportAllData()">
-                    <i class="fas fa-download"></i> Export All
-                </button>
-                <button class="btn" onclick="backupData()">
-                    <i class="fas fa-database"></i> Backup
-                </button>
-                <button class="btn" onclick="updateAdminStats()">
-                    <i class="fas fa-sync-alt"></i> Refresh
-                </button>
-            </div>
-        </div>
-        
-        <!-- Quick Stats -->
-        <div class="panel">
-            <h3 class="code-title"><i class="fas fa-chart-bar"></i> Quick Stats</h3>
-            <div style="padding: 15px;">
-                <div style="margin-bottom: 10px;">
-                    <strong>Last Sync:</strong> <span id="adminLastSync">Never</span>
-                </div>
-                <div style="margin-bottom: 10px;">
-                    <strong>Status:</strong> <span id="adminStatus" style="color: var(--neon);">🟢 Online</span>
-                </div>
-                <div style="margin-bottom: 10px;">
-                    <strong>Password:</strong> <code>ILU_KMFL</code>
-                </div>
-                <button class="btn" onclick="changeAdminPassword()" style="margin-top: 10px;">
-                    <i class="fas fa-key"></i> .
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-
-
-    
-    <!-- Search and Filter Section -->
-    <div class="search-bar" style="position: relative;">
-        <input type="text" class="search-input" id="searchInput" placeholder="Search codes by title, description, tags...">
-        <div class="search-suggestions" id="searchSuggestions"></div>
-        <button class="btn" onclick="clearSearch()">Clear</button>
-        <button class="btn" onclick="showSearchHelp()">
-            <i class="fas fa-question-circle"></i> Help
-        </button>
-    </div>
-    
-    <div class="filter-buttons" id="filterButtons">
-        <button class="filter-btn active" data-category="all">All</button>
-        <button class="filter-btn" data-category="html">HTML</button>
-        <button class="filter-btn" data-category="css">CSS</button>
-        <button class="filter-btn" data-category="javascript">JavaScript</button>
-        <button class="filter-btn" data-category="react">React</button>
-        <button class="filter-btn" data-category="python">Python</button>
-        <button class="filter-btn" data-difficulty="beginner">Beginner</button>
-        <button class="filter-btn" data-difficulty="intermediate">Intermediate</button>
-        <button class="filter-btn" data-difficulty="advanced">Advanced</button>
-        <button class="filter-btn" onclick="showPopularTags()">
-            <i class="fas fa-tags"></i> Tags
-        </button>
-    </div>
-    
-    <!-- Tags Cloud -->
-    <div class="tags-container" id="tagsCloud" style="margin-bottom: 20px; display: none;"></div>
-    
-    <!-- Codes Container -->
-    <div id="codesContainer">
-        <div class="loading">
-            <i class="fas fa-spinner fa-spin"></i> Loading codes...
         </div>
     </div>
     
@@ -1316,12 +1058,11 @@
     </div>
 </div>
 
-<!-- All modals remain the same -->
 <!-- Password Modal -->
 <div class="modal-overlay" id="passwordModal">
     <div class="modal-content">
         <h2 class="modal-title">Admin Access Required</h2>
-        <div class="error-message" id="errorMessage">
+        <div class="error-message" id="errorMessage" style="display: none;">
             <i class="fas fa-exclamation-triangle"></i> Incorrect password!
         </div>
         <input type="password" class="form-input" id="passwordInput" placeholder="Enter admin password">
@@ -1329,123 +1070,36 @@
             <button class="btn btn-primary" onclick="checkPassword()">Submit</button>
             <button class="btn" onclick="closeModal()">Cancel</button>
         </div>
+        <p style="margin-top: 15px; font-size: 0.8rem; color: var(--text-secondary);">
+            Password: <code>ILU</code>
+        </p>
     </div>
 </div>
 
-<!-- Login Modal -->
-<div class="modal-overlay" id="loginModal">
-    <div class="modal-content">
-        <h2 class="modal-title">User Login</h2>
-        <div class="error-message" id="loginErrorMessage">
-            <i class="fas fa-exclamation-triangle"></i> Invalid credentials!
-        </div>
-        <div class="success-message" id="loginSuccessMessage">
-            <i class="fas fa-check-circle"></i> Login successful!
-        </div>
-        <div class="form-group">
-            <label class="form-label">Username</label>
-            <input type="text" class="form-input" id="loginUsername" placeholder="Enter username">
-        </div>
-        <div class="form-group">
-            <label class="form-label">Password</label>
-            <input type="password" class="form-input" id="loginPassword" placeholder="Enter password">
-        </div>
-        <div class="modal-buttons">
-            <button class="btn btn-primary" onclick="loginUser()">Login</button>
-            <button class="btn" onclick="closeModal()">Cancel</button>
-        </div>
-        <div style="margin-top: 15px; font-size: 0.9rem;">
-            Don't have an account? <a href="#" onclick="showRegisterModal()" style="color: var(--neon);">Register here</a>
-        </div>
-    </div>
-</div>
-
-<!-- Register Modal -->
-<div class="modal-overlay" id="registerModal">
-    <div class="modal-content">
-        <h2 class="modal-title">User Registration</h2>
-        <div class="error-message" id="registerErrorMessage">
-            <i class="fas fa-exclamation-triangle"></i> Error in registration!
-        </div>
-        <div class="success-message" id="registerSuccessMessage">
-            <i class="fas fa-check-circle"></i> Registration successful!
-        </div>
-        <div class="form-group">
-            <label class="form-label">Username</label>
-            <input type="text" class="form-input" id="registerUsername" placeholder="Choose username">
-        </div>
-        <div class="form-group">
-            <label class="form-label">Email</label>
-            <input type="email" class="form-input" id="registerEmail" placeholder="Enter email">
-        </div>
-        <div class="form-group">
-            <label class="form-label">Password</label>
-            <input type="password" class="form-input" id="registerPassword" placeholder="Create password">
-        </div>
-        <div class="modal-buttons">
-            <button class="btn btn-primary" onclick="registerUser()">Register</button>
-            <button class="btn" onclick="closeModal()">Cancel</button>
-        </div>
-        <div style="margin-top: 15px; font-size: 0.9rem;">
-            Already have an account? <a href="#" onclick="showLoginModal()" style="color: var(--neon);">Login here</a>
-        </div>
-    </div>
-</div>
-
-<!-- Admin Panel Modal -->
-<div class="modal-overlay" id="adminModal">
+<!-- Add Code Modal -->
+<div class="modal-overlay" id="addCodeModal">
     <div class="modal-content" style="max-width: 600px;">
-        <h2 class="modal-title">Admin Panel - Add New Code</h2>
-        <div class="error-message" id="adminErrorMessage">
-            <i class="fas fa-exclamation-triangle"></i> Error adding code!
-        </div>
-        <div class="success-message" id="adminSuccessMessage">
-            <i class="fas fa-check-circle"></i> Code added successfully!
-        </div>
+        <h2 class="modal-title">Add New Code</h2>
+        <div class="error-message" id="addCodeError" style="display: none;"></div>
+        <div class="success-message" id="addCodeSuccess" style="display: none;"></div>
         
         <div class="form-group">
             <label class="form-label">Title *</label>
-            <input type="text" class="form-input" id="adminTitle" placeholder="Enter code title" required>
+            <input type="text" class="form-input" id="newCodeTitle" placeholder="Enter code title" required>
         </div>
         
         <div class="form-group">
             <label class="form-label">Description</label>
-            <textarea class="form-input" id="adminDescription" placeholder="Enter code description" rows="3"></textarea>
+            <textarea class="form-input" id="newCodeDesc" placeholder="Enter description"></textarea>
         </div>
         
         <div class="form-group">
             <label class="form-label">Code Content *</label>
-            <textarea class="form-input" id="adminCode" placeholder="Paste your code here" rows="6" required></textarea>
-        </div>
-        
-        <div class="form-group">
-            <label class="form-label">Category</label>
-            <select class="form-input" id="adminCategory">
-                <option value="html">HTML</option>
-                <option value="css">CSS</option>
-                <option value="javascript">JavaScript</option>
-                <option value="react">React</option>
-                <option value="python">Python</option>
-                <option value="other">Other</option>
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <label class="form-label">Difficulty</label>
-            <select class="form-input" id="adminDifficulty">
-                <option value="beginner">Beginner</option>
-                <option value="intermediate">Intermediate</option>
-                <option value="advanced">Advanced</option>
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <label class="form-label">Tags (comma separated)</label>
-            <input type="text" class="form-input" id="adminTags" placeholder="html, css, responsive">
+            <textarea class="form-input" id="newCodeContent" placeholder="Paste code here" rows="8" required></textarea>
         </div>
         
         <div class="modal-buttons">
-            <button class="btn btn-primary" onclick="addNewCode()">Add Code</button>
+            <button class="btn btn-primary" onclick="addCodeViaAdmin()">Add Code</button>
             <button class="btn" onclick="closeModal()">Cancel</button>
         </div>
     </div>
@@ -1457,473 +1111,344 @@
 <script>
     // Global variables
     let allCodes = [];
-    let currentUser = null;
     let currentFilter = 'all';
     let currentSearch = '';
-    let currentDifficulty = 'all';
-    let lastFetchTime = 0;
-    let isOnline = true;
     const ADMIN_PASSWORD = "ILU_KMFL";
-    
-    // ✅ UPDATED: Your correct Google Apps Script URL
     const SHEET_URL = "https://script.google.com/macros/s/AKfycbzuJjVbB-ngHk6VWBuIGVetSFTuMOTFZBjAppV3Dy8CKOq8dj6eP-M0xviLPSPJObxH/exec";
 
     // DOM elements
-    const video = document.getElementById("bgVid");
-    const soundBtn = document.getElementById("soundBtn");
-    const themeBtn = document.getElementById("themeBtn");
-    const userBtn = document.getElementById("userBtn");
-    const userMenu = document.getElementById("userMenu");
+    const navTabs = document.getElementById("navTabs");
+    const viewSection = document.getElementById("viewSection");
+    const uploadSection = document.getElementById("uploadSection");
+    const adminSection = document.getElementById("adminSection");
+    const exportSection = document.getElementById("exportSection");
     const codesContainer = document.getElementById("codesContainer");
     const searchInput = document.getElementById("searchInput");
     const filterButtons = document.getElementById("filterButtons");
     const notification = document.getElementById("notification");
-    const passwordModal = document.getElementById("passwordModal");
-    const loginModal = document.getElementById("loginModal");
-    const registerModal = document.getElementById("registerModal");
-    const adminModal = document.getElementById("adminModal");
-    const syncStatus = document.getElementById("syncStatus");
-    const syncText = document.getElementById("syncText");
-    const lastSync = document.getElementById("lastSync");
-    const uploadSection = document.getElementById("uploadSection");
-    const adminSection = document.getElementById("adminSection");
-    const exportSection = document.getElementById("exportSection");
-    const navTabs = document.getElementById("navTabs");
-    const installBtn = document.getElementById("installBtn");
-    const offlineIndicator = document.getElementById("offlineIndicator");
-    const searchSuggestions = document.getElementById("searchSuggestions");
-    const tagsCloud = document.getElementById("tagsCloud");
-    const statsHighlight = document.getElementById("statsHighlight");
-    const exportTab = document.getElementById("exportTab");
-
-    // PWA variables
-    let deferredPrompt;
 
     // Initialize
     document.addEventListener('DOMContentLoaded', function() {
-        // Initialize PWA
-        initializePWA();
+        // Load initial data
+        loadCodesFromSheet();
         
-        // Initialize real-time sync
-        initializeRealtimeSync();
-        
-        // Load users data
-        initializeUsers();
-        
-        // Check if user is logged in
-        checkLoginStatus();
-        
-        // Initialize theme from localStorage
+        // Set theme from localStorage
         const savedTheme = localStorage.getItem('theme') || 'dark';
         document.body.setAttribute('data-theme', savedTheme);
-        themeBtn.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
+        document.getElementById('themeBtn').textContent = savedTheme === 'dark' ? '🌙' : '☀️';
         
-        // Sound toggle
-        video.muted = true;
-        soundBtn.addEventListener("click", () => {
-            video.muted = !video.muted;
-            soundBtn.textContent = video.muted ? "🔇" : "🔊";
-            showNotification(video.muted ? "Sound muted" : "Sound unmuted");
-        });
-        
-        // Theme toggle
-        themeBtn.addEventListener("click", toggleTheme);
-        
-        // User menu toggle
-        userBtn.addEventListener("click", toggleUserMenu);
-        
-        // Enhanced Search with suggestions
-        searchInput.addEventListener('input', function() {
-            currentSearch = this.value.toLowerCase();
-            showSearchSuggestions(currentSearch);
-            filterAndDisplayCodes();
+        // Navigation tabs
+        navTabs.addEventListener('click', function(e) {
+            if (e.target.classList.contains('filter-btn') && e.target.hasAttribute('data-tab')) {
+                const tab = e.target.getAttribute('data-tab');
+                showTab(tab);
+                
+                // Update active tab
+                document.querySelectorAll('.filter-btn[data-tab]').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                e.target.classList.add('active');
+                
+                // Show password for admin tab
+                if (tab === 'admin') {
+                    showPasswordModal();
+                }
+            }
         });
         
         // Filter buttons
         filterButtons.addEventListener('click', function(e) {
-            if (e.target.classList.contains('filter-btn')) {
-                if (e.target.hasAttribute('data-category')) {
-                    // Category filter
-                    document.querySelectorAll('.filter-btn[data-category]').forEach(btn => {
-                        btn.classList.remove('active');
-                    });
-                    e.target.classList.add('active');
-                    currentFilter = e.target.getAttribute('data-category');
-                } else if (e.target.hasAttribute('data-difficulty')) {
-                    // Difficulty filter
-                    document.querySelectorAll('.filter-btn[data-difficulty]').forEach(btn => {
-                        btn.classList.remove('active');
-                    });
-                    e.target.classList.add('active');
-                    currentDifficulty = e.target.getAttribute('data-difficulty');
-                }
+            if (e.target.classList.contains('filter-btn') && e.target.hasAttribute('data-category')) {
+                document.querySelectorAll('#filterButtons .filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                e.target.classList.add('active');
+                currentFilter = e.target.getAttribute('data-category');
                 filterAndDisplayCodes();
             }
         });
-
-        // Navigation tabs
-        navTabs.addEventListener('click', function(e) {
-            if (e.target.classList.contains('filter-btn') && e.target.hasAttribute('data-tab')) {
-                // Remove active class from all tabs
-                document.querySelectorAll('.filter-btn[data-tab]').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-                // Add active class to clicked tab
-                e.target.classList.add('active');
-                
-                const tab = e.target.getAttribute('data-tab');
-                showTab(tab);
+        
+        // Search functionality
+        searchInput.addEventListener('input', function() {
+            currentSearch = this.value.toLowerCase();
+            filterAndDisplayCodes();
+        });
+        
+        // Theme toggle
+        document.getElementById('themeBtn').addEventListener('click', function() {
+            const currentTheme = document.body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.body.setAttribute('data-theme', newTheme);
+            this.textContent = newTheme === 'dark' ? '🌙' : '☀️';
+            localStorage.setItem('theme', newTheme);
+        });
+        
+        // Sound toggle
+        document.getElementById('soundBtn').addEventListener('click', function() {
+            const video = document.getElementById('bgVid');
+            video.muted = !video.muted;
+            this.textContent = video.muted ? "🔇" : "🔊";
+        });
+        
+        // User menu
+        document.getElementById('userBtn').addEventListener('click', function() {
+            document.getElementById('userMenu').style.display = 
+                document.getElementById('userMenu').style.display === 'block' ? 'none' : 'block';
+        });
+        
+        // Close modals on outside click
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal-overlay')) {
+                closeModal();
             }
         });
-
-        // Admin button click
-        document.getElementById('adminBtn').addEventListener('click', function() {
-            showPasswordModal();
-        });
-
-        // User menu items
-        document.getElementById('loginBtn').addEventListener('click', showLoginModal);
-        document.getElementById('registerBtn').addEventListener('click', showRegisterModal);
-        document.getElementById('favoritesBtn').addEventListener('click', showFavorites);
-        document.getElementById('logoutBtn').addEventListener('click', logoutUser);
-
-        // Password input enter key
-        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') checkPassword();
-        });
-
-        // Login enter key
-        document.getElementById('loginPassword').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') loginUser();
-        });
-
-        // Register enter key
-        document.getElementById('registerPassword').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') registerUser();
-        });
-
-        // Auto-detect tags when typing code
-        document.getElementById('uploadCode').addEventListener('input', function() {
+        
+        // Auto-detect tags in upload
+        document.getElementById('uploadCode')?.addEventListener('input', function() {
             detectTags(this.value);
         });
-
-        // Check for online/offline status
-        updateOnlineStatus();
-        window.addEventListener('online', updateOnlineStatus);
-        window.addEventListener('offline', updateOnlineStatus);
-
-        // Load initial tab
-        showTab('view');
-        
-        // Initialize tags cloud
-        updateTagsCloud();
     });
 
-    // ==================== PWA FUNCTIONS ====================
-    function initializePWA() {
-        // Create manifest dynamically
-        const manifest = {
-            "name": "Kishan's Code Vault",
-            "short_name": "CodeVault",
-            "description": "Store and manage your code snippets",
-            "start_url": window.location.href,
-            "display": "standalone",
-            "background_color": "#0a0a0a",
-            "theme_color": "#00ffc6",
-            "icons": [
-                {
-                    "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>",
-                    "sizes": "any",
-                    "type": "image/svg+xml"
-                }
-            ]
-        };
+    // ==================== CORE FUNCTIONS ====================
+    
+    function showTab(tabName) {
+        // Hide all sections
+        viewSection.style.display = 'none';
+        uploadSection.style.display = 'none';
+        adminSection.style.display = 'none';
+        exportSection.style.display = 'none';
         
-        // Set manifest
-        document.getElementById('appManifest').href = 'data:application/manifest+json,' + encodeURIComponent(JSON.stringify(manifest));
-        
-        // Listen for beforeinstallprompt event
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            installBtn.style.display = 'flex';
-            
-            // Auto-show after 5 seconds
-            setTimeout(() => {
-                if (installBtn.style.display === 'flex') {
-                    showNotification('📱 Install this app for better experience!', 'info');
-                }
-            }, 5000);
-        });
-        
-        // Install button click
-        installBtn.addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') {
-                    showNotification('App installed successfully! 🎉');
-                    installBtn.style.display = 'none';
-                }
-                deferredPrompt = null;
-            }
-        });
-        
-        // Track app launch
-        if (window.matchMedia('(display-mode: standalone)').matches) {
-            console.log('Launched as PWA');
-            showNotification('Welcome to Code Vault App! 📱', 'info');
+        // Show selected section
+        switch(tabName) {
+            case 'upload':
+                uploadSection.style.display = 'block';
+                break;
+            case 'admin':
+                adminSection.style.display = 'block';
+                break;
+            case 'export':
+                exportSection.style.display = 'block';
+                break;
+            case 'view':
+            default:
+                viewSection.style.display = 'block';
+                break;
         }
     }
-
-    // ==================== ENHANCED OFFLINE MODE ====================
-    function updateOnlineStatus() {
-        isOnline = navigator.onLine;
-        if (isOnline) {
-            syncStatus.className = 'sync-status sync-online';
-            syncText.textContent = 'Real-time Sync: Active';
-            syncText.innerHTML = '🌐 Real-time Sync: Active';
-            offlineIndicator.style.display = 'none';
+    
+    async function loadCodesFromSheet(forceRefresh = false) {
+        try {
+            codesContainer.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading codes...</div>';
             
-            // Auto-sync when coming online
-            if (allCodes.length > 0) {
-                setTimeout(() => {
-                    loadCodesFromSheet(true);
-                }, 2000);
+            const timestamp = new Date().getTime();
+            const url = `${SHEET_URL}?timestamp=${timestamp}`;
+            
+            const response = await fetch(url);
+            const data = await response.json();
+            
+            allCodes = data;
+            localStorage.setItem('codesData', JSON.stringify(allCodes));
+            localStorage.setItem('lastSyncTimestamp', timestamp.toString());
+            
+            updateLastSyncTime();
+            filterAndDisplayCodes();
+            updateStats();
+            
+        } catch (error) {
+            console.error('Error loading from sheet:', error);
+            // Fallback to cached data
+            const cachedCodes = localStorage.getItem('codesData');
+            if (cachedCodes) {
+                allCodes = JSON.parse(cachedCodes);
+                filterAndDisplayCodes();
+                showNotification('⚠️ Using cached data', 'info');
+            } else {
+                showNoDataMessage();
             }
-        } else {
-            syncStatus.className = 'sync-status sync-offline';
-            syncText.textContent = 'Offline Mode: Using Cached Data';
-            syncText.innerHTML = '📴 Offline Mode: Using Cached Data';
-            offlineIndicator.style.display = 'flex';
-            
-            // Show cached data info
-            const cachedCodes = JSON.parse(localStorage.getItem('codesData') || '[]');
-            const cachedCount = document.getElementById('cachedCodes');
-            if (cachedCount) {
-                cachedCount.textContent = cachedCodes.length;
-            }
-            
-            showNotification('You are offline. Using cached data.', 'info');
         }
     }
-
-    // ==================== FUZZY SEARCH WITH TAGS ====================
-    function fuzzySearch(query, items) {
-        if (!query) return items;
+    
+    function filterAndDisplayCodes() {
+        let filteredCodes = allCodes;
         
-        return items.filter(item => {
-            const title = (item.Title || item.title || '').toLowerCase();
-            const desc = (item.Description || item.desc || item.description || '').toLowerCase();
-            const code = (item.Code || item.code || '').toLowerCase();
-            
-            // Extract tags from code if not already present
-            const itemTags = extractTagsFromCode(code).join(' ');
-            
-            // Split query into words
-            const queryWords = query.toLowerCase().split(' ');
-            
-            // Check each word
-            return queryWords.every(word => {
-                if (word.length < 2) return true;
-                
-                // Check in different fields with partial matching
-                return title.includes(word) || 
-                       desc.includes(word) || 
-                       code.includes(word) ||
-                       itemTags.includes(word) ||
-                       // Fuzzy matching
-                       title.includes(word.substring(0, Math.floor(word.length/2))) ||
-                       desc.includes(word.substring(0, Math.floor(word.length/2))) ||
-                       // Search in code snippets (first 1000 chars)
-                       code.substring(0, 1000).includes(word);
+        // Apply category filter
+        if (currentFilter !== 'all') {
+            filteredCodes = filteredCodes.filter(code => {
+                const content = (code.Code || code.code || '').toLowerCase();
+                if (currentFilter === 'html') return content.includes('<html') || content.includes('<div');
+                if (currentFilter === 'css') return content.includes('style') || content.includes('.css');
+                if (currentFilter === 'javascript') return content.includes('script') || content.includes('function');
+                return true;
             });
-        });
+        }
+        
+        // Apply search filter
+        if (currentSearch) {
+            filteredCodes = filteredCodes.filter(code => {
+                const title = (code.Title || code.title || '').toLowerCase();
+                const desc = (code.Description || code.desc || '').toLowerCase();
+                const content = (code.Code || code.code || '').toLowerCase();
+                return title.includes(currentSearch) || desc.includes(currentSearch) || content.includes(currentSearch);
+            });
+        }
+        
+        displayCodes(filteredCodes);
     }
-
-    function showSearchSuggestions(query) {
-        if (query.length < 2) {
-            searchSuggestions.style.display = 'none';
+    
+    function displayCodes(codes) {
+        if (codes.length === 0) {
+            if (allCodes.length === 0) {
+                showNoDataMessage();
+            } else {
+                codesContainer.innerHTML = `
+                    <div class="no-data-container">
+                        <div class="no-data-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h2 class="no-data-title">No matching codes found!</h2>
+                        <div class="no-data-message">
+                            No codes match your search criteria.<br>
+                            Try different keywords or filters.
+                        </div>
+                        <button class="btn" onclick="clearSearch()">
+                            <i class="fas fa-times"></i> Clear Search
+                        </button>
+                    </div>
+                `;
+            }
             return;
         }
         
-        const suggestions = [];
+        let html = '';
         
-        // Search in titles
-        allCodes.forEach(code => {
-            const title = code.Title || code.title || '';
-            if (title.toLowerCase().includes(query.toLowerCase())) {
-                suggestions.push(`🔍 "${title}"`);
-            }
-        });
-        
-        // Search in tags
-        const allTags = getAllTags();
-        allTags.forEach(tag => {
-            if (tag.toLowerCase().includes(query.toLowerCase())) {
-                suggestions.push(`🏷️ #${tag}`);
-            }
-        });
-        
-        // Search in categories
-        const categories = ['html', 'css', 'javascript', 'react', 'python', 'beginner', 'intermediate', 'advanced'];
-        categories.forEach(cat => {
-            if (cat.includes(query.toLowerCase())) {
-                suggestions.push(`📁 ${cat.toUpperCase()}`);
-            }
-        });
-        
-        // Display suggestions
-        if (suggestions.length > 0) {
-            searchSuggestions.innerHTML = '';
-            suggestions.slice(0, 5).forEach(suggestion => {
-                const div = document.createElement('div');
-                div.className = 'suggestion-item';
-                div.textContent = suggestion;
-                div.onclick = () => {
-                    searchInput.value = suggestion.replace(/[🔍🏷️📁#"]/g, '').trim();
-                    searchSuggestions.style.display = 'none';
-                    filterAndDisplayCodes();
-                };
-                searchSuggestions.appendChild(div);
-            });
-            searchSuggestions.style.display = 'block';
-        } else {
-            searchSuggestions.style.display = 'none';
-        }
-    }
-
-    function showSearchHelp() {
-        alert(`🔍 **Search Tips:**
-        
-1. **Basic Search**: Type any word
-2. **Tag Search**: Use #html, #css, #javascript
-3. **Category**: html, css, javascript, react, python
-4. **Difficulty**: beginner, intermediate, advanced
-5. **Fuzzy Search**: Partial words work (e.g., "nav" for "navigation")
-6. **Multiple Words**: Space separated for AND search
-
-**Examples:**
-- "navbar html" - Find HTML navbars
-- "#css animation" - CSS animations
-- "login form beginner" - Beginner login forms`);
-    }
-
-    // ==================== TAGS SYSTEM ====================
-    function extractTagsFromCode(code) {
-        if (!code) return [];
-        
-        const tags = new Set();
-        const codeLower = code.toLowerCase();
-        
-        // Language detection
-        if (codeLower.includes('<html') || codeLower.includes('<!doctype') || codeLower.includes('<div')) {
-            tags.add('html');
-        }
-        if (codeLower.includes('style=') || codeLower.includes('<style>') || codeLower.includes('.css')) {
-            tags.add('css');
-        }
-        if (codeLower.includes('script') || codeLower.includes('function') || codeLower.includes('const ') || 
-            codeLower.includes('let ') || codeLower.includes('var ') || codeLower.includes('document.')) {
-            tags.add('javascript');
-        }
-        if (codeLower.includes('react') || codeLower.includes('jsx')) {
-            tags.add('react');
-        }
-        
-        // Feature detection
-        if (codeLower.includes('@media') || codeLower.includes('responsive')) {
-            tags.add('responsive');
-        }
-        if (codeLower.includes('animation') || codeLower.includes('@keyframes') || codeLower.includes('transition')) {
-            tags.add('animation');
-        }
-        if (codeLower.includes('flex') || codeLower.includes('grid')) {
-            tags.add('layout');
-        }
-        if (codeLower.includes('localstorage') || codeLower.includes('cookie')) {
-            tags.add('storage');
-        }
-        if (codeLower.includes('api') || codeLower.includes('fetch') || codeLower.includes('ajax')) {
-            tags.add('api');
-        }
-        if (codeLower.includes('form') || codeLower.includes('input') || codeLower.includes('submit')) {
-            tags.add('form');
-        }
-        if (codeLower.includes('button') || codeLower.includes('click')) {
-            tags.add('button');
-        }
-        if (codeLower.includes('nav') || codeLower.includes('menu')) {
-            tags.add('navigation');
-        }
-        
-        return Array.from(tags);
-    }
-
-    function detectTags(code) {
-        const tags = extractTagsFromCode(code);
-        const container = document.getElementById('autoTags');
-        container.innerHTML = '';
-        
-        tags.forEach(tag => {
-            const span = document.createElement('span');
-            span.className = 'tag';
-            span.textContent = tag;
-            container.appendChild(span);
-        });
-    }
-
-    function getAllTags() {
-        const allTags = new Set();
-        allCodes.forEach(code => {
+        codes.forEach((code, index) => {
+            const title = code.Title || code.title || 'Untitled Code';
+            const description = code.Description || code.desc || 'No description';
             const codeContent = code.Code || code.code || '';
-            extractTagsFromCode(codeContent).forEach(tag => allTags.add(tag));
+            const date = code.Date || new Date().toLocaleDateString();
+            const tags = extractTagsFromCode(codeContent);
+            
+            html += `
+                <section class="panel">
+                    <h2 class="code-title">
+                        <i class="fas fa-code"></i> ${escapeHtml(title)}
+                    </h2>
+                    
+                    <div class="code-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-calendar"></i> ${escapeHtml(date)}
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-file-code"></i> ${codeContent.length} chars
+                        </div>
+                    </div>
+                    
+                    ${tags.length > 0 ? `
+                    <div class="tags-container">
+                        ${tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                    ` : ''}
+                    
+                    <div class="code-description">${escapeHtml(description)}</div>
+                    
+                    <pre>${escapeHtml(codeContent.substring(0, 500))}${codeContent.length > 500 ? '...' : ''}</pre>
+                    
+                    <div class="btns">
+                        <button class="btn" onclick="runCode(${index})">
+                            <i class="fas fa-play"></i> Run
+                        </button>
+                        <button class="btn" onclick="viewSource(${index})">
+                            <i class="fas fa-eye"></i> View Source
+                        </button>
+                        <button class="btn" onclick="copyCode(${index})">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                    </div>
+                    
+                    <iframe class="view-iframe" id="frame_${index}" sandbox="allow-scripts"></iframe>
+                    <pre class="view-source" id="view_source_${index}" style="display:none;">${escapeHtml(codeContent)}</pre>
+                </section>
+            `;
         });
-        return Array.from(allTags);
+        
+        codesContainer.innerHTML = html;
     }
-
-    function updateTagsCloud() {
-        const tags = getAllTags();
-        if (tags.length === 0) return;
+    
+    function updateStats() {
+        document.getElementById('totalCodes').textContent = allCodes.length;
         
-        tagsCloud.innerHTML = '';
+        const htmlCount = allCodes.filter(code => 
+            (code.Code || code.code || '').toLowerCase().includes('<html')).length;
+        const cssCount = allCodes.filter(code => 
+            (code.Code || code.code || '').toLowerCase().includes('style')).length;
+        const jsCount = allCodes.filter(code => 
+            (code.Code || code.code || '').toLowerCase().includes('script')).length;
         
-        // Calculate tag frequency
-        const tagCount = {};
-        allCodes.forEach(code => {
-            const codeContent = code.Code || code.code || '';
-            extractTagsFromCode(codeContent).forEach(tag => {
-                tagCount[tag] = (tagCount[tag] || 0) + 1;
-            });
+        document.getElementById('htmlCodes').textContent = htmlCount;
+        document.getElementById('cssCodes').textContent = cssCount;
+        document.getElementById('jsCodes').textContent = jsCount;
+    }
+    
+    function refreshStats() {
+        loadCodesFromSheet(true);
+        showNotification('Stats refreshed!');
+    }
+    
+    function clearSearch() {
+        searchInput.value = '';
+        currentSearch = '';
+        currentFilter = 'all';
+        document.querySelectorAll('#filterButtons .filter-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        document.querySelector('#filterButtons .filter-btn[data-category="all"]').classList.add('active');
+        filterAndDisplayCodes();
+    }
+    
+    // ==================== CODE ACTIONS ====================
+    
+    function runCode(index) {
+        const iframe = document.getElementById(`frame_${index}`);
+        const codeContent = allCodes[index].Code || allCodes[index].code || '';
+        
+        iframe.style.display = "block";
+        iframe.srcdoc = codeContent;
+        
+        // Hide other iframes
+        document.querySelectorAll('.view-iframe').forEach((frame, i) => {
+            if (i !== index) frame.style.display = 'none';
         });
         
-        // Sort by frequency
-        const sortedTags = Object.keys(tagCount).sort((a, b) => tagCount[b] - tagCount[a]);
+        // Hide source views
+        document.querySelectorAll('.view-source').forEach(source => {
+            source.style.display = 'none';
+        });
+    }
+    
+    function viewSource(index) {
+        const pre = document.getElementById(`view_source_${index}`);
+        pre.style.display = pre.style.display === "block" ? "none" : "block";
         
-        // Display top 15 tags
-        sortedTags.slice(0, 15).forEach(tag => {
-            const span = document.createElement('span');
-            span.className = 'tag';
-            span.textContent = `${tag} (${tagCount[tag]})`;
-            span.style.fontSize = `${Math.min(1 + (tagCount[tag] / 10), 1.5)}rem`;
-            span.style.opacity = `${0.5 + (tagCount[tag] / sortedTags[0]) * 0.5}`;
-            span.onclick = () => {
-                searchInput.value = `#${tag}`;
-                filterAndDisplayCodes();
-                tagsCloud.style.display = 'none';
-            };
-            tagsCloud.appendChild(span);
+        // Hide other source views
+        document.querySelectorAll('.view-source').forEach((source, i) => {
+            if (i !== index) source.style.display = 'none';
         });
         
-        tagsCloud.style.display = 'flex';
+        // Hide iframes
+        document.querySelectorAll('.view-iframe').forEach(iframe => {
+            iframe.style.display = 'none';
+        });
     }
-
-    function showPopularTags() {
-        updateTagsCloud();
-        tagsCloud.style.display = tagsCloud.style.display === 'flex' ? 'none' : 'flex';
+    
+    function copyCode(index) {
+        const codeContent = allCodes[index].Code || allCodes[index].code || '';
+        navigator.clipboard.writeText(codeContent).then(() => {
+            showNotification('Code copied to clipboard!');
+        });
     }
-
-    // ==================== ENHANCED UPLOAD ====================
+    
+    // ==================== UPLOAD FUNCTIONS ====================
+    
     async function uploadCode() {
         const title = document.getElementById("uploadTitle").value.trim();
         const desc = document.getElementById("uploadDesc").value.trim();
@@ -1931,24 +1456,19 @@
         const msg = document.getElementById("uploadMsg");
 
         if (!title || !code) {
-            showNotification("⚠️ Title aur Code likh bhai!", 'error');
+            showNotification("Title and code are required!", 'error');
             return;
         }
 
-        msg.innerText = "⏳ Uploading...";
+        msg.innerText = "Uploading...";
         msg.style.color = "#ff9800";
 
         try {
-            // Auto-extract tags
-            const tags = extractTagsFromCode(code);
-            
             const codeData = {
                 title: title,
                 desc: desc,
                 code: code,
-                tags: tags.join(', '),
-                date: new Date().toISOString().split('T')[0],
-                uploadedBy: currentUser ? currentUser.username : 'Anonymous'
+                date: new Date().toISOString().split('T')[0]
             };
 
             await fetch(SHEET_URL, {
@@ -1967,25 +1487,174 @@
             document.getElementById("uploadCode").value = "";
             document.getElementById("autoTags").innerHTML = "";
             
-            // Show success notification
-            showNotification(`"${title}" uploaded successfully! 🎉`);
+            showNotification('Code uploaded successfully!');
             
-            // Reload codes after delay
+            // Reload codes
             setTimeout(() => {
                 loadCodesFromSheet(true);
-                // Switch back to view tab
                 showTab('view');
                 document.querySelector('.filter-btn[data-tab="view"]').click();
             }, 2000);
             
         } catch (e) {
-            msg.innerText = "⚠️ Error: " + e.message;
+            msg.innerText = "Error: " + e.message;
             msg.style.color = "#ff4444";
-            showNotification("Upload failed! Check console.", 'error');
         }
     }
-
+    
+    // ==================== ADMIN FUNCTIONS ====================
+    
+    function showPasswordModal() {
+        document.getElementById('passwordModal').style.display = 'flex';
+        document.getElementById('passwordInput').focus();
+        document.getElementById('errorMessage').style.display = 'none';
+    }
+    
+    function checkPassword() {
+        const password = document.getElementById('passwordInput').value;
+        
+        if (password === ADMIN_PASSWORD) {
+            closeModal();
+            showTab('admin');
+            updateAdminStats();
+            showNotification('Admin access granted!');
+        } else {
+            document.getElementById('errorMessage').style.display = 'block';
+            document.getElementById('passwordInput').value = '';
+            showNotification('Incorrect password!', 'error');
+        }
+    }
+    
+    function updateAdminStats() {
+        // Total codes
+        document.getElementById('adminTotalCodes').textContent = allCodes.length;
+        
+        // Users count
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        document.getElementById('adminUsers').textContent = users.length;
+        
+        // Storage usage
+        let totalStorage = 0;
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            const value = localStorage.getItem(key);
+            totalStorage += (key.length + value.length) * 2;
+        }
+        document.getElementById('adminStorage').textContent = Math.round(totalStorage / 1024) + ' KB';
+        
+        // Cached codes
+        const cachedCodes = JSON.parse(localStorage.getItem('codesData') || '[]');
+        document.getElementById('adminCache').textContent = cachedCodes.length;
+        
+        // Last sync
+        const lastSyncTime = localStorage.getItem('lastSyncTimestamp');
+        if (lastSyncTime) {
+            const date = new Date(parseInt(lastSyncTime));
+            document.getElementById('adminLastSync').textContent = date.toLocaleTimeString();
+        }
+    }
+    
+    function showAddCodeModal() {
+        document.getElementById('addCodeModal').style.display = 'flex';
+        document.getElementById('newCodeTitle').focus();
+    }
+    
+    async function addCodeViaAdmin() {
+        const title = document.getElementById('newCodeTitle').value.trim();
+        const desc = document.getElementById('newCodeDesc').value.trim();
+        const code = document.getElementById('newCodeContent').value.trim();
+        
+        if (!title || !code) {
+            document.getElementById('addCodeError').textContent = 'Title and code are required!';
+            document.getElementById('addCodeError').style.display = 'block';
+            return;
+        }
+        
+        try {
+            const codeData = {
+                title: title,
+                desc: desc,
+                code: code,
+                date: new Date().toISOString().split('T')[0],
+                addedBy: 'Admin'
+            };
+            
+            await fetch(SHEET_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(codeData),
+                mode: 'no-cors'
+            });
+            
+            document.getElementById('addCodeSuccess').textContent = 'Code added successfully!';
+            document.getElementById('addCodeSuccess').style.display = 'block';
+            document.getElementById('addCodeError').style.display = 'none';
+            
+            // Clear form
+            document.getElementById('newCodeTitle').value = '';
+            document.getElementById('newCodeDesc').value = '';
+            document.getElementById('newCodeContent').value = '';
+            
+            showNotification('Code added via Admin Panel!');
+            
+            // Reload codes
+            setTimeout(() => {
+                loadCodesFromSheet(true);
+                closeModal();
+            }, 2000);
+            
+        } catch (error) {
+            document.getElementById('addCodeError').textContent = 'Error: ' + error.message;
+            document.getElementById('addCodeError').style.display = 'block';
+        }
+    }
+    
+    function manageUsers() {
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        let userList = 'Registered Users:\n\n';
+        
+        if (users.length === 0) {
+            userList = 'No registered users found.';
+        } else {
+            users.forEach((user, index) => {
+                userList += `${index + 1}. ${user.username} (${user.email})\n`;
+            });
+        }
+        
+        alert(userList);
+    }
+    
+    function clearCache() {
+        if (confirm('Clear all cache?')) {
+            localStorage.removeItem('codesData');
+            localStorage.removeItem('lastSyncTimestamp');
+            showNotification('Cache cleared!');
+            updateAdminStats();
+        }
+    }
+    
+    function exportAllData() {
+        const data = {
+            codes: allCodes,
+            exportDate: new Date().toISOString(),
+            app: "Kishan's Code Vault"
+        };
+        
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `code-vault-export-${new Date().toISOString().split('T')[0]}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        showNotification('Data exported!');
+    }
+    
     // ==================== EXPORT FUNCTIONS ====================
+    
     function exportAsJSON() {
         const data = {
             app: "Kishan's Code Vault",
@@ -2005,9 +1674,9 @@
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
         
-        showNotification('✅ Codes exported as JSON file!');
+        showNotification('Exported as JSON!');
     }
-
+    
     function exportAsHTML() {
         let html = `<!DOCTYPE html>
 <html>
@@ -2052,471 +1721,90 @@
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
         
-        showNotification('✅ Codes exported as HTML file!');
+        showNotification('Exported as HTML!');
     }
-
-    function exportSelected() {
-        alert('Select codes to export feature coming soon!');
-    }
-
+    
     function backupToLocal() {
         const backup = {
             codes: allCodes,
-            users: JSON.parse(localStorage.getItem('users') || '[]'),
             timestamp: new Date().toISOString()
         };
-        
         localStorage.setItem('codeVaultBackup', JSON.stringify(backup));
-        showNotification('✅ Backup saved to local storage!');
+        showNotification('Backup saved!');
     }
-
-    // ==================== ENHANCED DISPLAY ====================
-    function displayCodes(codes, isFavorites = false) {
-        if (codes.length === 0) {
-            if (allCodes.length === 0) {
-                showNoDataMessage();
-            } else {
-                codesContainer.innerHTML = `
-                    <div class="no-data-container">
-                        <div class="no-data-icon">
-                            <i class="fas fa-search"></i>
-                        </div>
-                        <h2 class="no-data-title">कोई मैचिंग कोड नहीं मिला! 🔍</h2>
-                        <div class="no-data-message">
-                            ${isFavorites ? 'आपके कोई favorite codes नहीं हैं!' : 'आपकी खोज के अनुसार कोई कोड नहीं मिला।'}<br>
-                            कृपया अलग कीवर्ड या फ़िल्टर आज़माएं।
-                        </div>
-                        <button class="btn" onclick="clearSearch()">
-                            <i class="fas fa-times"></i> सर्च क्लियर करें
-                        </button>
-                        <button class="btn" onclick="updateTagsCloud()" style="margin-left: 10px;">
-                            <i class="fas fa-tags"></i> Browse Tags
-                        </button>
-                    </div>
-                `;
-            }
-            return;
-        }
+    
+    // ==================== HELPER FUNCTIONS ====================
+    
+    function extractTagsFromCode(code) {
+        if (!code) return [];
+        const tags = new Set();
+        const codeLower = code.toLowerCase();
         
-        let html = '';
+        if (codeLower.includes('<html')) tags.add('html');
+        if (codeLower.includes('style=') || codeLower.includes('<style>')) tags.add('css');
+        if (codeLower.includes('script') || codeLower.includes('function')) tags.add('javascript');
+        if (codeLower.includes('@media')) tags.add('responsive');
+        if (codeLower.includes('animation')) tags.add('animation');
         
-        // Reverse to show newest first
-        codes.reverse().forEach((code, index) => {
-            const codeId = `code_${index}`;
-            const title = code.Title || code.title || 'Untitled Code';
-            const description = code.Description || code.desc || code.description || 'No description';
-            const codeContent = code.Code || code.code || '';
-            const date = code.Date || new Date().toLocaleDateString();
-            const tags = extractTagsFromCode(codeContent);
-            
-            html += `
-                <section class="panel">
-                    <h2 class="code-title">
-                        <i class="fas fa-code"></i> ${escapeHtml(title)}
-                        <span style="font-size: 0.8rem; color: var(--text-secondary); margin-left: auto;">
-                            #${index + 1}
-                        </span>
-                    </h2>
-                    
-                    <div class="code-meta">
-                        <div class="meta-item">
-                            <i class="fas fa-calendar"></i> ${escapeHtml(date)}
-                        </div>
-                        <div class="meta-item">
-                            <i class="fas fa-file-code"></i> ${codeContent.length} chars
-                        </div>
-                        <div class="meta-item">
-                            <i class="fas fa-eye"></i> ${Math.floor(Math.random() * 100)} views
-                        </div>
-                    </div>
-                    
-                    ${tags.length > 0 ? `
-                    <div class="tags-container">
-                        ${tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
-                    </div>
-                    ` : ''}
-                    
-                    <div class="code-description">${escapeHtml(description)}</div>
-                    
-                    <pre id="source_${index}">${escapeHtml(codeContent.substring(0, 500))}${codeContent.length > 500 ? '...' : ''}</pre>
-                    
-                    <div class="btns">
-                        <button class="btn" onclick="runCode(${index})">
-                            <i class="fas fa-play"></i> Run Code
-                        </button>
-                        <button class="btn" onclick="viewSource(${index})">
-                            <i class="fas fa-eye"></i> View Source
-                        </button>
-                        <button class="btn" onclick="copyCode(${index})">
-                            <i class="fas fa-copy"></i> Copy Code
-                        </button>
-                        <button class="btn" onclick="shareCode(${index})">
-                            <i class="fas fa-share-alt"></i> Share
-                        </button>
-                        <button class="btn export-btn" onclick="downloadCode(${index})">
-                            <i class="fas fa-download"></i> Download
-                        </button>
-                    </div>
-                    
-                    <iframe class="view-iframe" id="frame_${index}" sandbox="allow-scripts allow-same-origin"></iframe>
-                    <pre class="view-source" id="view_source_${index}">${escapeHtml(codeContent)}</pre>
-                </section>
-            `;
+        return Array.from(tags);
+    }
+    
+    function detectTags(code) {
+        const tags = extractTagsFromCode(code);
+        const container = document.getElementById('autoTags');
+        if (!container) return;
+        
+        container.innerHTML = '';
+        tags.forEach(tag => {
+            const span = document.createElement('span');
+            span.className = 'tag';
+            span.textContent = tag;
+            container.appendChild(span);
         });
-        
-        codesContainer.innerHTML = html;
-        
-        // Update stats
-        updateStats();
     }
-
-    function shareCode(index) {
-        const code = allCodes.reverse()[index];
-        const title = code.Title || code.title || 'Code Snippet';
-        const codeContent = code.Code || code.code || '';
-        
-        if (navigator.share) {
-            navigator.share({
-                title: title,
-                text: `Check out this code from Kishan's Code Vault:\n\n${codeContent.substring(0, 100)}...`,
-                url: window.location.href
-            });
-        } else {
-            navigator.clipboard.writeText(`${title}\n\n${codeContent}`);
-            showNotification('Code copied to clipboard for sharing! 📋');
-        }
-    }
-
-    function downloadCode(index) {
-        const code = allCodes.reverse()[index];
-        const title = code.Title || code.title || 'code-snippet';
-        const codeContent = code.Code || code.code || '';
-        const filename = title.toLowerCase().replace(/[^a-z0-9]/g, '-') + '.txt';
-        
-        const blob = new Blob([codeContent], { type: 'text/plain' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        
-        showNotification(`"${title}" downloaded! 💾`);
-    }
-
-    function runCode(index) {
-        const iframe = document.getElementById(`frame_${index}`);
-        const codeContent = allCodes.reverse()[index].Code || allCodes.reverse()[index].code || '';
-        
-        // Create full HTML document
-        const fullHTML = `
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <style>
-                    body { 
-                        font-family: Arial, sans-serif; 
-                        padding: 20px; 
-                        background: #f0f0f0; 
-                        color: #333;
-                    }
-                    .code-header {
-                        background: #333;
-                        color: white;
-                        padding: 10px;
-                        margin: -20px -20px 20px -20px;
-                        font-family: monospace;
-                    }
-                </style>
-            </head>
-            <body>
-                <div class="code-header">
-                    🚀 Live Preview | Kishan's Code Vault
+    
+    function showNoDataMessage() {
+        codesContainer.innerHTML = `
+            <div class="no-data-container">
+                <div class="no-data-icon">
+                    <i class="fas fa-frown-open"></i>
                 </div>
-                ${codeContent}
-            </body>
-            </html>
-        `;
-        
-        iframe.style.display = "block";
-        iframe.srcdoc = fullHTML;
-        
-        // Hide other iframes
-        document.querySelectorAll('.view-iframe').forEach((frame, i) => {
-            if (i !== index) frame.style.display = 'none';
-        });
-        
-        // Hide source views
-        document.querySelectorAll('.view-source').forEach(source => {
-            source.style.display = 'none';
-        });
-        
-        showNotification('Running code in preview mode...');
-    }
-
-    function viewSource(index) {
-        const pre = document.getElementById(`view_source_${index}`);
-        pre.style.display = pre.style.display === "block" ? "none" : "block";
-        
-        // Hide other source views
-        document.querySelectorAll('.view-source').forEach((source, i) => {
-            if (i !== index) source.style.display = 'none';
-        });
-        
-        // Hide iframes
-        document.querySelectorAll('.view-iframe').forEach(iframe => {
-            iframe.style.display = 'none';
-        });
-    }
-
-    function copyCode(index) {
-        const codeContent = allCodes.reverse()[index].Code || allCodes.reverse()[index].code || '';
-        navigator.clipboard.writeText(codeContent).then(() => {
-            showNotification('Code copied to clipboard! 📋');
-        });
-    }
-
-    // ==================== ENHANCED STATS ====================
-    function updateStats() {
-        document.getElementById('totalCodes').textContent = allCodes.length;
-        
-        // Count by language
-        const htmlCount = allCodes.filter(code => {
-            const content = (code.Code || code.code || '').toLowerCase();
-            return content.includes('<html') || content.includes('<!doctype') || 
-                   content.includes('<div') || content.includes('<p>');
-        }).length;
-        
-        const cssCount = allCodes.filter(code => {
-            const content = (code.Code || code.code || '').toLowerCase();
-            return content.includes('style=') || content.includes('<style>') || 
-                   content.includes('.css') || content.includes('{ color:');
-        }).length;
-        
-        const jsCount = allCodes.filter(code => {
-            const content = (code.Code || code.code || '').toLowerCase();
-            return content.includes('script') || content.includes('function') || 
-                   content.includes('document.') || content.includes('addEventListener');
-        }).length;
-        
-        document.getElementById('htmlCodes').textContent = htmlCount;
-        document.getElementById('cssCodes').textContent = cssCount;
-        document.getElementById('jsCodes').textContent = jsCount;
-        
-        // User stats
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
-        document.getElementById('totalUsers').textContent = users.length;
-        
-        // Cached codes
-        const cachedCodes = JSON.parse(localStorage.getItem('codesData') || '[]');
-        document.getElementById('cachedCodes').textContent = cachedCodes.length;
-        
-        // Update stats highlight
-        statsHighlight.innerHTML = `
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div>
-                    <h3 style="margin: 0; color: var(--neon);">📊 Live Stats</h3>
-                    <p style="margin: 5px 0 0 0; font-size: 0.9rem; color: var(--text-secondary);">
-                        ${allCodes.length} codes | ${users.length} users | ${cachedCodes.length} cached
-                    </p>
+                <h2 class="no-data-title">No Codes Found</h2>
+                <div class="no-data-message">
+                    No codes loaded from Google Sheet.<br>
+                    Please upload some codes first.
                 </div>
-                <div style="display: flex; gap: 10px;">
-                    <button class="btn" onclick="refreshStats()">
-                        <i class="fas fa-sync-alt"></i> Refresh
-                    </button>
-                    <button class="btn" onclick="showStatsDetails()">
-                        <i class="fas fa-chart-bar"></i> Details
-                    </button>
-                </div>
+                <button class="refresh-btn" onclick="loadCodesFromSheet(true)">
+                    <i class="fas fa-sync-alt"></i> Try Again
+                </button>
             </div>
         `;
     }
-
-    function refreshStats() {
-        loadCodesFromSheet(true);
-        showNotification('Stats refreshed! 🔄');
-    }
-
-    function showStatsDetails() {
-        const htmlCount = allCodes.filter(code => 
-            (code.Code || code.code || '').toLowerCase().includes('<html')).length;
-        const cssCount = allCodes.filter(code => 
-            (code.Code || code.code || '').toLowerCase().includes('style')).length;
-        const jsCount = allCodes.filter(code => 
-            (code.Code || code.code || '').toLowerCase().includes('script')).length;
-        
-        alert(`📊 **Detailed Statistics:**
-        
-**Total Codes:** ${allCodes.length}
-**By Language:**
-- HTML: ${htmlCount} codes
-- CSS: ${cssCount} codes  
-- JavaScript: ${jsCount} codes
-- Other: ${allCodes.length - htmlCount - cssCount - jsCount} codes
-
-**Storage:**
-- Cached: ${JSON.parse(localStorage.getItem('codesData') || '[]').length} codes
-- Users: ${JSON.parse(localStorage.getItem('users') || '[]').length} registered
-
-**Last Sync:** ${lastSync.textContent}
-**Status:** ${isOnline ? '🟢 Online' : '🔴 Offline'}`);
-    }
-
-    // ==================== TAB MANAGEMENT ====================
-    function showTab(tabName) {
-        // Hide all sections
-        uploadSection.style.display = 'none';
-        adminSection.style.display = 'none';
-        exportSection.style.display = 'none';
-        statsHighlight.style.display = 'none';
-        document.getElementById('statsContainer').style.display = 'none';
-        document.getElementById('searchInput').parentElement.style.display = 'none';
-        document.getElementById('filterButtons').style.display = 'none';
-        codesContainer.style.display = 'none';
-        tagsCloud.style.display = 'none';
-
-        // Show selected section
-        switch(tabName) {
-            case 'upload':
-                uploadSection.style.display = 'block';
-                break;
-            case 'admin':
-                adminSection.style.display = 'block';
-                break;
-            case 'export':
-                exportSection.style.display = 'block';
-                statsHighlight.style.display = 'block';
-                break;
-            case 'view':
-            default:
-                statsHighlight.style.display = 'block';
-                document.getElementById('statsContainer').style.display = 'flex';
-                document.getElementById('searchInput').parentElement.style.display = 'flex';
-                document.getElementById('filterButtons').style.display = 'flex';
-                codesContainer.style.display = 'block';
-                break;
-        }
-    }
-
-    // ==================== OTHER FUNCTIONS (remain the same) ====================
-   function initializeRealtimeSync() {
-    loadCodesFromSheet();
-    updateLastSyncTime();
     
-    // ✅ Auto-refresh every 5 minutes if online
-    setInterval(() => {
-        if (isOnline && !document.hidden) {
-            loadCodesFromSheet();
-        }
-    }, 300000); // 300,000 ms = 5 minutes
-}
-
-    async function loadCodesFromSheet(forceRefresh = false) {
-        try {
-            const container = document.getElementById("codesContainer");
-            container.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading codes...</div>';
-
-            const timestamp = new Date().getTime();
-            const url = `${SHEET_URL}?timestamp=${timestamp}`;
-            
-            const response = await fetch(url);
-            
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            
-            const data = await response.json();
-            
-            if (JSON.stringify(data) !== JSON.stringify(allCodes) || forceRefresh) {
-                allCodes = data;
-                localStorage.setItem('codesData', JSON.stringify(allCodes));
-                localStorage.setItem('lastSyncTimestamp', timestamp.toString());
-                
-                filterAndDisplayCodes();
-                updateStats();
-                updateTagsCloud();
-                
-                if (allCodes.length > 0 && !forceRefresh) {
-                    showNotification('🔄 Codes updated from Google Sheet!', 'info');
-                }
-                
-                updateLastSyncTime();
-            }
-            
-            lastFetchTime = timestamp;
-            
-        } catch (error) {
-            console.error('Error loading from sheet:', error);
-            await handleLoadError(error);
-        }
-    }
-
     function updateLastSyncTime() {
         const now = new Date();
-        lastSync.textContent = `Last sync: ${now.toLocaleTimeString()}`;
+        document.getElementById('lastSync').textContent = `Last sync: ${now.toLocaleTimeString()}`;
     }
-
-    function clearSearch() {
-        searchInput.value = '';
-        currentSearch = '';
-        currentFilter = 'all';
-        currentDifficulty = 'all';
-        searchSuggestions.style.display = 'none';
-        
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.classList.remove('active');
+    
+    function closeModal() {
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.style.display = 'none';
         });
-        document.querySelector('.filter-btn[data-category="all"]').classList.add('active');
-        
-        filterAndDisplayCodes();
     }
-
-    function filterAndDisplayCodes() {
-        let filteredCodes = allCodes;
-        
-        if (currentFilter !== 'all') {
-            filteredCodes = filteredCodes.filter(code => {
-                const content = (code.Code || code.code || '').toLowerCase();
-                const tags = extractTagsFromCode(content);
-                return tags.includes(currentFilter) || 
-                       content.includes(currentFilter) ||
-                       (code.category && code.category === currentFilter);
-            });
-        }
-        
-        if (currentDifficulty !== 'all') {
-            filteredCodes = filteredCodes.filter(code => 
-                code.difficulty === currentDifficulty
-            );
-        }
-        
-        if (currentSearch) {
-            filteredCodes = fuzzySearch(currentSearch, filteredCodes);
-        }
-        
-        displayCodes(filteredCodes);
-    }
-
-    // Helper function
+    
     function escapeHtml(text) {
         if (!text) return '';
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
     }
-
+    
     function showNotification(message, type = 'success') {
         notification.textContent = message;
         notification.style.display = 'block';
         
         if (type === 'error') {
             notification.style.background = '#ff5555';
-        } else if (type === 'info') {
-            notification.style.background = '#4fc3f7';
         } else {
             notification.style.background = 'var(--neon)';
         }
@@ -2525,241 +1813,13 @@
             notification.style.display = 'none';
         }, 3000);
     }
-
-    // Keep all other existing functions as they are
-    function toggleTheme() {
-        const currentTheme = document.body.getAttribute('data-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        document.body.setAttribute('data-theme', newTheme);
-        themeBtn.textContent = newTheme === 'dark' ? '🌙' : '☀️';
-        localStorage.setItem('theme', newTheme);
-        showNotification(`Theme changed to ${newTheme} mode`);
-    }
-
-    function toggleUserMenu() {
-        userMenu.style.display = userMenu.style.display === 'block' ? 'none' : 'block';
-    }
-
-    // ... (rest of your existing functions remain exactly the same)
-    // [Include all your existing functions from the previous code here]
     
-    
-    
-    // They should remain unchanged
-
-
-
-
-
-
-// ==================== ADMIN PANEL FUNCTIONS ====================
-
-function showPasswordModal() {
-    document.getElementById('passwordModal').style.display = 'flex';
-    document.getElementById('passwordInput').focus();
-    document.getElementById('errorMessage').style.display = 'none';
-}
-
-function checkPassword() {
-    const password = document.getElementById('passwordInput').value;
-    const errorMsg = document.getElementById('errorMessage');
-    
-    if (password === ADMIN_PASSWORD) {
-        closeModal();
-        showTab('admin');
-        showNotification('✅ Admin access granted!', 'success');
-        updateAdminStats();
-    } else {
-        errorMsg.style.display = 'block';
-        document.getElementById('passwordInput').value = '';
-        showNotification('❌ Incorrect password!', 'error');
-    }
-}
-
-function updateAdminStats() {
-    // Total codes
-    document.getElementById('adminTotalCodes').textContent = allCodes.length;
-    
-    // Users count
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    document.getElementById('adminUsers').textContent = users.length;
-    
-    // Storage usage
-    let totalStorage = 0;
-    for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        const value = localStorage.getItem(key);
-        totalStorage += (key.length + value.length) * 2;
-    }
-    document.getElementById('adminStorage').textContent = Math.round(totalStorage / 1024) + ' KB';
-    
-    // Cached codes
-    const cachedCodes = JSON.parse(localStorage.getItem('codesData') || '[]');
-    document.getElementById('adminCache').textContent = cachedCodes.length;
-    
-    // Last sync
-    const lastSyncTime = localStorage.getItem('lastSyncTimestamp');
-    if (lastSyncTime) {
-        const date = new Date(parseInt(lastSyncTime));
-        document.getElementById('adminLastSync').textContent = date.toLocaleTimeString();
-    }
-    
-    // Status
-    document.getElementById('adminStatus').textContent = isOnline ? '🟢 Online' : '🔴 Offline';
-    document.getElementById('adminStatus').style.color = isOnline ? 'var(--neon)' : '#ff4444';
-}
-
-function showAddCodeModal() {
-    closeAllModals();
-    document.getElementById('adminModal').style.display = 'flex';
-    document.getElementById('adminTitle').focus();
-}
-
-function addNewCode() {
-    const title = document.getElementById('adminTitle').value.trim();
-    const description = document.getElementById('adminDescription').value.trim();
-    const code = document.getElementById('adminCode').value.trim();
-    const category = document.getElementById('adminCategory').value;
-    const difficulty = document.getElementById('adminDifficulty').value;
-    const tags = document.getElementById('adminTags').value;
-    
-    if (!title || !code) {
-        document.getElementById('adminErrorMessage').textContent = 'Title and code are required!';
-        document.getElementById('adminErrorMessage').style.display = 'block';
-        return;
-    }
-    
-    try {
-        const codeData = {
-            title: title,
-            desc: description,
-            code: code,
-            category: category,
-            difficulty: difficulty,
-            tags: tags,
-            date: new Date().toISOString().split('T')[0],
-            addedBy: 'Admin'
-        };
-        
-        // Simulate saving to Google Sheets
-        fetch(SHEET_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(codeData),
-            mode: 'no-cors'
-        });
-        
-        document.getElementById('adminSuccessMessage').textContent = 'Code added successfully!';
-        document.getElementById('adminSuccessMessage').style.display = 'block';
-        document.getElementById('adminErrorMessage').style.display = 'none';
-        
-        // Clear form
-        document.getElementById('adminTitle').value = '';
-        document.getElementById('adminDescription').value = '';
-        document.getElementById('adminCode').value = '';
-        document.getElementById('adminTags').value = '';
-        
-        showNotification('✅ Code added via Admin Panel!');
-        
-        // Reload codes
-        setTimeout(() => {
-            loadCodesFromSheet(true);
-            closeModal();
-        }, 2000);
-        
-    } catch (error) {
-        document.getElementById('adminErrorMessage').textContent = 'Error: ' + error.message;
-        document.getElementById('adminErrorMessage').style.display = 'block';
-    }
-}
-
-function manageUsers() {
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    let userList = '📋 Registered Users:\n\n';
-    
-    if (users.length === 0) {
-        userList = 'No registered users found.';
-    } else {
-        users.forEach((user, index) => {
-            const joinDate = new Date(user.joined || Date.now()).toLocaleDateString();
-            userList += `${index + 1}. ${user.username} (${user.email})\n   Joined: ${joinDate}\n\n`;
-        });
-    }
-    
-    alert(userList);
-}
-
-function clearCache() {
-    if (confirm('Are you sure you want to clear all cache? This will remove all locally stored data except users.')) {
-        localStorage.removeItem('codesData');
-        localStorage.removeItem('lastSyncTimestamp');
-        localStorage.removeItem('codeVaultBackup');
-        showNotification('✅ Cache cleared successfully!', 'success');
-        updateAdminStats();
-    }
-}
-
-function exportAllData() {
-    const data = {
-        codes: allCodes,
-        users: JSON.parse(localStorage.getItem('users') || '[]'),
-        settings: {
-            theme: localStorage.getItem('theme') || 'dark',
-            lastSync: localStorage.getItem('lastSyncTimestamp')
-        },
-        exportDate: new Date().toISOString(),
-        app: "Kishan's Code Vault"
-    };
-    
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `code-vault-backup-${new Date().toISOString().split('T')[0]}.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    
-    showNotification('✅ All data exported!', 'success');
-}
-
-function backupData() {
-    const backup = {
-        codes: allCodes,
-        users: JSON.parse(localStorage.getItem('users') || '[]'),
-        timestamp: new Date().toISOString(),
-        backupType: 'manual'
-    };
-    
-    localStorage.setItem('codeVaultBackup', JSON.stringify(backup));
-    showNotification('✅ Backup created successfully!', 'success');
-}
-
-function changeAdminPassword() {
-    const newPassword = prompt('Enter new admin password:');
-    if (newPassword && newPassword.length >= 4) {
-        // Note: In real app, you would update this on server
-        alert(`Password would be changed to: ${newPassword}\n\nNote: This is client-side only. For production, implement server-side password management.`);
-        showNotification('Password change simulated (client-side)', 'info');
-    } else if (newPassword !== null) {
-        alert('Password must be at least 4 characters!');
-    }
-}
-
-function closeAllModals() {
-    document.querySelectorAll('.modal-overlay').forEach(modal => {
-        modal.style.display = 'none';
-    });
-}
-
-function closeModal() {
-    closeAllModals();
-}
-
-
-
-    
+    // Auto-refresh every 5 minutes
+    setInterval(() => {
+        if (navigator.onLine) {
+            loadCodesFromSheet();
+        }
+    }, 300000); // 5 minutes
 </script>
 
 </body>
