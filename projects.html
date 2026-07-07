@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Projects | Kishan Verma</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- Firebase Auth -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+    <style>
+        /* ===== (पूरा CSS - पिछले कोड जैसा ही, यहाँ सिर्फ एक बार दिया है) ===== */
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-light: #181818;
+            --bg-lighter: #222;
+            --text-primary: #e0e0e0;
+            --text-secondary: #9e9e9e;
+            --accent: #00e676;
+            --accent-glow: #00e67644;
+            --accent-dark: #00c853;
+            --danger: #ff5252;
+            --warning: #ffd54f;
+            --info: #4fc3f7;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Space Mono', monospace;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-light);
+            padding: 15px 40px;
+            border-bottom: 1px solid #333;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .nav-left {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        nav a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 12px;
+            transition: all 0.3s ease;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+        nav a:hover, nav a.active {
+            color: var(--accent);
+            background: rgba(0, 230, 118, 0.1);
+        }
+        nav a.active { border: 1px solid var(--accent); }
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: var(--accent);
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .admin-toggle {
+            padding: 8px 18px;
+            border-radius: 20px;
+            border: 1px solid var(--warning);
+            background: transparent;
+            color: var(--warning);
+            cursor: pointer;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            display: none;
+            align-items: center;
+            gap: 8px;
+        }
+        .admin-toggle:hover, .admin-toggle.active {
+            background: var(--warning);
+            color: var(--bg-dark);
+        }
+        .page-header {
+            text-align: center;
+            padding: 30px 20px 10px;
+        }
+        .page-header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.8rem;
+            color: var(--accent);
+        }
+        .page-header p {
+            color: var(--text-secondary);
+            margin-top: 10px;
+            font-size: 1.1rem;
+        }
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            max-width: 900px;
+            margin: 20px auto 30px;
+            padding: 20px 30px;
+            background: var(--bg-light);
+            border-radius: 15px;
+            border: 1px solid rgba(0, 230, 118, 0.15);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+        .stat-item {
+            text-align: center;
+            padding: 5px 15px;
+            transition: all 0.3s ease;
+        }
+        .stat-item:hover { transform: translateY(-5px); }
+        .stat-item .stat-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            font-weight: bold;
+            display: block;
+        }
+        .stat-item .stat-number.total { color: var(--accent); }
+        .stat-item .stat-number.completed { color: var(--accent); }
+        .stat-item .stat-number.wip { color: var(--warning); }
+        .stat-item .stat-number.upcoming { color: var(--info); }
+        .stat-item .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+            display: block;
+        }
+        .stat-divider { width: 1px; background: #333; }
+        .admin-panel {
+            display: none;
+            max-width: 1200px;
+            margin: 0 auto 30px;
+            padding: 20px;
+            background: var(--bg-light);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 193, 7, 0.2);
+        }
+        .admin-panel.active { display: block; }
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #333;
+        }
+        .admin-header h2 {
+            color: var(--warning);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+        }
+        .admin-stats {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .admin-stat {
+            background: var(--bg-lighter);
+            padding: 8px 18px;
+            border-radius: 10px;
+            border: 1px solid #333;
+        }
+        .admin-stat span { color: var(--warning); font-weight: bold; }
+        .admin-form {
+            background: var(--bg-lighter);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #333;
+        }
+        .admin-form h3 {
+            color: var(--accent);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .form-group.full { grid-column: 1 / -1; }
+        .form-group label {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid #333;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+        .form-group textarea { min-height: 80px; resize: vertical; }
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .btn {
+            padding: 10px 24px;
+            border-radius: 8px;
+            border: none;
+            font-family: 'Space Mono', monospace;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+        .btn:hover { transform: translateY(-2px); }
+        .btn-primary {
+            background: linear-gradient(45deg, var(--accent-dark), var(--accent));
+            color: var(--bg-dark);
+        }
+        .btn-primary:hover { box-shadow: 0 5px 15px var(--accent-glow); }
+        .btn-danger {
+            background: var(--danger);
+            color: #fff;
+        }
+        .btn-danger:hover { box-shadow: 0 5px 15px rgba(255, 82, 82, 0.3); }
+        .btn-secondary {
+            background: #333;
+            color: var(--text-primary);
+        }
+        .btn-secondary:hover { background: #444; }
+        .admin-projects-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .admin-project-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            background: var(--bg-lighter);
+            border-radius: 8px;
+            border: 1px solid #333;
+            transition: all 0.3s ease;
+        }
+        .admin-project-item:hover { border-color: var(--accent); }
+        .admin-project-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .admin-project-info .title {
+            font-weight: bold;
+            color: var(--text-primary);
+        }
+        .admin-project-info .status-badge {
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.65rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .status-badge.completed { background: rgba(0,230,118,0.15); color: var(--accent); }
+        .status-badge.wip { background: rgba(255,193,7,0.15); color: #ffd54f; }
+        .status-badge.upcoming { background: rgba(33,150,243,0.15); color: #4fc3f7; }
+        /* Extra fallback for any status */
+        .status-badge {
+            background: rgba(255,255,255,0.1);
+            color: var(--text-secondary);
+        }
+        .admin-project-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .admin-project-actions button {
+            padding: 5px 12px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-family: 'Space Mono', monospace;
+            transition: all 0.3s ease;
+        }
+        .admin-project-actions .edit-btn {
+            background: var(--info);
+            color: var(--bg-dark);
+        }
+        .admin-project-actions .delete-btn {
+            background: var(--danger);
+            color: #fff;
+        }
+        .admin-project-actions button:hover { transform: scale(1.05); }
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .project-card {
+            background: var(--bg-light);
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid rgba(0, 230, 118, 0.08);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: 0 15px 40px rgba(0, 230, 118, 0.15);
+        }
+        .project-icon {
+            font-size: 2.5rem;
+            color: var(--accent);
+            background: rgba(0, 230, 118, 0.1);
+            padding: 15px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        .project-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+        .project-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.7;
+            margin-bottom: 15px;
+            min-height: 60px;
+        }
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+        .tech-tag {
+            background: rgba(0, 230, 118, 0.08);
+            color: var(--accent);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            border: 1px solid rgba(0, 230, 118, 0.15);
+        }
+        .project-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .project-link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            background: transparent;
+            cursor: pointer;
+        }
+        .project-link-btn:hover {
+            background: var(--accent);
+            color: var(--bg-dark);
+            transform: translateY(-2px);
+        }
+        .project-link-btn.github {
+            background: #24292e;
+            border-color: #444;
+            color: #fff;
+        }
+        .project-link-btn.github:hover {
+            background: #6e5494;
+            border-color: #6e5494;
+        }
+        .project-link-btn.demo {
+            background: var(--accent);
+            color: var(--bg-dark);
+            border-color: var(--accent);
+        }
+        .project-link-btn.demo:hover {
+            background: transparent;
+            color: var(--accent);
+        }
+        .project-status {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        /* Status styles - mapping for different status values */
+        .project-status.completed {
+            background: rgba(0, 230, 118, 0.15);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+        .project-status.wip {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffd54f;
+            border: 1px solid #ffd54f;
+            animation: pulse 2s infinite;
+        }
+        .project-status.upcoming {
+            background: rgba(33, 150, 243, 0.15);
+            color: #4fc3f7;
+            border: 1px solid #4fc3f7;
+        }
+        /* Fallback for any other status */
+        .project-status {
+            background: rgba(255,255,255,0.1);
+            color: var(--text-secondary);
+            border: 1px solid #444;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        .loading-spinner {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+            grid-column: 1 / -1;
+        }
+        .loading-spinner i {
+            font-size: 2rem;
+            color: var(--accent);
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            grid-column: 1 / -1;
+        }
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        .empty-state h3 {
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+        .empty-state p {
+            color: var(--text-secondary);
+        }
+        .back-to-home {
+            text-align: center;
+            padding: 40px 20px 60px;
+        }
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(45deg, var(--accent-dark), var(--accent));
+            color: var(--bg-dark);
+            text-decoration: none;
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px var(--accent-glow);
+        }
+        .back-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px var(--accent-glow);
+        }
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 30px;
+            border-radius: 10px;
+            background: var(--bg-light);
+            border: 1px solid var(--accent);
+            color: var(--text-primary);
+            z-index: 9999;
+            font-family: 'Space Mono', monospace;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            display: none;
+            animation: slideUp 0.5s ease;
+        }
+        .toast.success { border-color: var(--accent); }
+        .toast.error { border-color: var(--danger); }
+        .toast i { margin-right: 10px; }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        @media (max-width: 768px) {
+            nav { padding: 12px 20px; flex-direction: column; }
+            .nav-left { justify-content: center; }
+            .page-header h1 { font-size: 2rem; }
+            .stats-bar { gap: 15px; padding: 15px 20px; }
+            .stat-item .stat-number { font-size: 1.6rem; }
+            .stat-divider { display: none; }
+            .projects-grid { grid-template-columns: 1fr; padding: 10px; }
+            .form-row { grid-template-columns: 1fr; }
+            .admin-header { flex-direction: column; text-align: center; }
+            .admin-project-item { flex-direction: column; gap: 10px; align-items: flex-start; }
+            .admin-project-actions { width: 100%; justify-content: flex-start; }
+        }
+        @media (max-width: 480px) {
+            .stats-bar { gap: 10px; padding: 12px 15px; }
+            .stat-item .stat-number { font-size: 1.3rem; }
+            .stat-item .stat-label { font-size: 0.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== NAVIGATION ===== -->
+    <nav>
+        <div class="nav-left">
+            <div class="logo">
+                <i class="fas fa-code"></i>
+                <span>KV</span>
+            </div>
+            <a href="index.html"><i class="fas fa-home"></i> Home</a>
+            <a href="projects.html" class="active"><i class="fas fa-folder-open"></i> Projects</a>
+            <button class="admin-toggle" id="adminToggle" onclick="toggleAdminPanel()">
+                <i class="fas fa-user-cog"></i> Admin
+            </button>
+        </div>
+    </nav>
+
+    <!-- ===== PAGE HEADER ===== -->
+    <div class="page-header">
+        <h1>🚀 My Projects</h1>
+        <p>Explore my collection of web applications, tools, and games</p>
+    </div>
+
+    <!-- ===== STATS BAR ===== -->
+    <div class="stats-bar">
+        <div class="stat-item">
+            <span class="stat-number total" id="statTotal">0</span>
+            <span class="stat-label"><i class="fas fa-folder-open"></i> Total</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+            <span class="stat-number completed" id="statCompleted">0</span>
+            <span class="stat-label"><i class="fas fa-check-circle"></i> Completed</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+            <span class="stat-number wip" id="statWip">0</span>
+            <span class="stat-label"><i class="fas fa-spinner"></i> In Progress</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+            <span class="stat-number upcoming" id="statUpcoming">0</span>
+            <span class="stat-label"><i class="fas fa-clock"></i> Upcoming</span>
+        </div>
+    </div>
+
+    <!-- ===== ADMIN PANEL ===== -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-header">
+            <h2><i class="fas fa-cog"></i> Admin Panel</h2>
+            <div class="admin-stats">
+                <div class="admin-stat">Total: <span id="adminTotal">0</span></div>
+                <div class="admin-stat">Completed: <span id="adminCompleted">0</span></div>
+                <div class="admin-stat">WIP: <span id="adminWip">0</span></div>
+                <div class="admin-stat">Upcoming: <span id="adminUpcoming">0</span></div>
+            </div>
+        </div>
+
+        <div class="admin-form" id="adminForm">
+            <h3 id="formTitle"><i class="fas fa-plus-circle"></i> Add New Project</h3>
+            <input type="hidden" id="editProjectId" />
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Project Title *</label>
+                    <input type="text" id="projectTitle" placeholder="Enter project title..." />
+                </div>
+                <div class="form-group">
+                    <label>Icon (Font Awesome)</label>
+                    <input type="text" id="projectIcon" placeholder="fa-code" value="fa-code" />
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Status</label>
+                    <select id="projectStatus">
+                        <option value="completed">Completed ✅</option>
+                        <option value="wip">In Progress 🔄</option>
+                        <option value="upcoming">Upcoming 🔜</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Technologies (comma separated)</label>
+                    <input type="text" id="projectTech" placeholder="HTML, CSS, JavaScript" />
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group full">
+                    <label>Description *</label>
+                    <textarea id="projectDescription" placeholder="Describe your project..."></textarea>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>GitHub Link</label>
+                    <input type="url" id="projectGithub" placeholder="https://github.com/username/repo" />
+                </div>
+                <div class="form-group">
+                    <label>Live Demo Link</label>
+                    <input type="url" id="projectDemo" placeholder="https://yourdemo.com" />
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button class="btn btn-primary" onclick="saveProject()">
+                    <i class="fas fa-save"></i> Save Project
+                </button>
+                <button class="btn btn-secondary" onclick="resetForm()">
+                    <i class="fas fa-undo"></i> Reset
+                </button>
+                <button class="btn btn-danger" id="deleteBtn" style="display:none;" onclick="deleteProject()">
+                    <i class="fas fa-trash"></i> Delete
+                </button>
+            </div>
+        </div>
+
+        <div style="margin-top:20px;">
+            <h3 style="color:var(--text-secondary);margin-bottom:15px;">
+                <i class="fas fa-list"></i> Manage Projects
+            </h3>
+            <div class="admin-projects-list" id="adminProjectsList">
+                <p style="color:var(--text-secondary);text-align:center;padding:20px;">Loading projects...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PROJECTS GRID ===== -->
+    <div class="projects-grid" id="projectsGrid">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner"></i>
+            <p>Loading projects...</p>
+        </div>
+    </div>
+
+    <!-- ===== BACK TO HOME ===== -->
+    <div class="back-to-home">
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+            Back to Home
+        </a>
+    </div>
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        // ============================================================
+        // ✅ YOUR NEW WORKING URL
+        // ============================================================
+        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxp0Y6vlpJZmeg0K7uOp_et8-XQq2DygNG5ITBZtF_jz-8MLge1WHPUS9d28UA-hvnx/exec';
+
+        const ADMIN_EMAILS = ['k9891p@gmail.com', 'codeshalabykmfl@gmail.com'];
+
+        // ============================================================
+        // FIREBASE CONFIG
+        // ============================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyA5l5looJsgRMlvhCzDn2n8PnIBX2nx0V4",
+            authDomain: "class-8c516.firebaseapp.com",
+            projectId: "class-8c516",
+            storageBucket: "class-8c516.firebasestorage.app",
+            messagingSenderId: "349882277777",
+            appId: "1:349882277777:web:22122ef6d6ed02e7878430"
+        };
+
+        let auth, currentUser, isAdmin = false;
+        let projects = [];
+
+        try {
+            firebase.initializeApp(firebaseConfig);
+            auth = firebase.auth();
+            console.log('✅ Firebase initialized');
+        } catch (error) {
+            console.error('❌ Firebase error:', error);
+        }
+
+        if (auth) {
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    currentUser = user;
+                    isAdmin = ADMIN_EMAILS.includes(user.email);
+                    document.getElementById('adminToggle').style.display = isAdmin ? 'flex' : 'none';
+                    if (!isAdmin) {
+                        document.getElementById('adminPanel').classList.remove('active');
+                    }
+                    console.log('✅ Logged in:', user.email, isAdmin ? '(Admin)' : '');
+                } else {
+                    currentUser = null;
+                    isAdmin = false;
+                    document.getElementById('adminToggle').style.display = 'none';
+                    document.getElementById('adminPanel').classList.remove('active');
+                }
+                loadProjects();
+            });
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            toast.className = 'toast ' + type;
+            toastMessage.textContent = message;
+            toast.style.display = 'block';
+            clearTimeout(toast.timeout);
+            toast.timeout = setTimeout(() => { toast.style.display = 'none'; }, 3000);
+        }
+
+        function toggleAdminPanel() {
+            const panel = document.getElementById('adminPanel');
+            const toggle = document.getElementById('adminToggle');
+            if (!isAdmin) {
+                showToast('⚠️ Admin access only!', 'error');
+                return;
+            }
+            panel.classList.toggle('active');
+            toggle.classList.toggle('active');
+            if (panel.classList.contains('active')) {
+                renderAdminList();
+            }
+        }
+
+        // ============================================================
+        // ✅ API CALL - GET method (CORS free)
+        // ============================================================
+        async function apiCall(action, data = null) {
+            try {
+                let url = `${WEB_APP_URL}?action=${action}`;
+                if (data) {
+                    const params = new URLSearchParams();
+                    for (let key in data) {
+                        if (data[key] !== null && data[key] !== undefined) {
+                            if (Array.isArray(data[key])) {
+                                params.append(key, data[key].join(','));
+                            } else {
+                                params.append(key, data[key]);
+                            }
+                        }
+                    }
+                    url += '&' + params.toString();
+                }
+                const response = await fetch(url, { method: 'GET' });
+                const result = await response.json();
+                return result;
+            } catch (error) {
+                console.error('API Error:', error);
+                return { success: false, error: error.message };
+            }
+        }
+
+        // ============================================================
+        // LOAD PROJECTS
+        // ============================================================
+        async function loadProjects() {
+            try {
+                const result = await apiCall('get');
+                if (result.success) {
+                    projects = result.data || [];
+                    renderProjects();
+                    updateStats();
+                    renderAdminList();
+                } else {
+                    showToast('❌ Error loading projects: ' + (result.error || 'Unknown'), 'error');
+                    loadDefaultProjects();
+                }
+            } catch (error) {
+                console.error('Load error:', error);
+                loadDefaultProjects();
+            }
+        }
+
+        function loadDefaultProjects() {
+            projects = [
+                { id: '1', title: 'Advanced Scientific Calculator', description: 'Fully functional scientific calculator...', icon: 'fa-calculator', tech: ['HTML', 'CSS', 'JS'], status: 'completed', github: '#', demo: '#' },
+                { id: '2', title: 'QR Code Generator', description: 'Generate custom QR codes...', icon: 'fa-qrcode', tech: ['JS', 'QRCode'], status: 'completed', github: '#', demo: '#' },
+                { id: '3', title: 'AI Tic Tac Toe', description: 'Play against AI...', icon: 'fa-gamepad', tech: ['JS', 'AI'], status: 'completed', github: '#', demo: '#' }
+            ];
+            renderProjects();
+            updateStats();
+            renderAdminList();
+            showToast('⚠️ Using default projects (Check Google Sheet)', 'error');
+        }
+
+        // ============================================================
+        // HELPER: Get status class (handles "In Progress" as "wip")
+        // ============================================================
+        function getStatusClass(status) {
+            const lower = status.toLowerCase().trim();
+            if (lower === 'completed' || lower === 'complete') return 'completed';
+            if (lower === 'wip' || lower === 'in progress' || lower === 'inprogress') return 'wip';
+            if (lower === 'upcoming' || lower === 'future') return 'upcoming';
+            return 'unknown'; // fallback
+        }
+
+        // ============================================================
+        // RENDER PROJECTS
+        // ============================================================
+        function renderProjects() {
+            const grid = document.getElementById('projectsGrid');
+            if (!projects || projects.length === 0) {
+                grid.innerHTML = `<div class="empty-state"><i class="fas fa-box-open"></i><h3>No Projects Yet</h3><p>Check back soon!</p></div>`;
+                return;
+            }
+            grid.innerHTML = projects.map(p => {
+                const statusClass = getStatusClass(p.status);
+                // For display, show the original status text
+                const displayStatus = p.status || 'Unknown';
+                return `
+                    <div class="project-card">
+                        <span class="project-status ${statusClass}">${displayStatus.toUpperCase()}</span>
+                        <div class="project-icon"><i class="fas ${p.icon || 'fa-code'}"></i></div>
+                        <h3 class="project-title">${p.title}</h3>
+                        <p class="project-description">${p.description}</p>
+                        <div class="project-tech">${(p.tech || []).map(t => `<span class="tech-tag">${t}</span>`).join('')}</div>
+                        <div class="project-links">
+                            ${p.github ? `<a href="${p.github}" target="_blank" class="project-link-btn github"><i class="fab fa-github"></i> Source Code</a>` : ''}
+                            ${p.demo ? `<a href="${p.demo}" target="_blank" class="project-link-btn demo"><i class="fas fa-external-link-alt"></i> Live Demo</a>` : `<span class="project-link-btn" style="opacity:0.4;cursor:not-allowed;"><i class="fas fa-clock"></i> Coming Soon</span>`}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ============================================================
+        // UPDATE STATS (handles "In Progress" as wip)
+        // ============================================================
+        function updateStats() {
+            const total = projects.length;
+            const completed = projects.filter(p => getStatusClass(p.status) === 'completed').length;
+            const wip = projects.filter(p => getStatusClass(p.status) === 'wip').length;
+            const upcoming = projects.filter(p => getStatusClass(p.status) === 'upcoming').length;
+            document.getElementById('statTotal').textContent = total;
+            document.getElementById('statCompleted').textContent = completed;
+            document.getElementById('statWip').textContent = wip;
+            document.getElementById('statUpcoming').textContent = upcoming;
+            document.getElementById('adminTotal').textContent = total;
+            document.getElementById('adminCompleted').textContent = completed;
+            document.getElementById('adminWip').textContent = wip;
+            document.getElementById('adminUpcoming').textContent = upcoming;
+        }
+
+        // ============================================================
+        // RENDER ADMIN LIST
+        // ============================================================
+        function renderAdminList() {
+            const list = document.getElementById('adminProjectsList');
+            if (!projects || projects.length === 0) {
+                list.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:20px;">No projects yet. Add your first project!</p>';
+                return;
+            }
+            list.innerHTML = projects.map((p, i) => {
+                const statusClass = getStatusClass(p.status);
+                return `
+                    <div class="admin-project-item">
+                        <div class="admin-project-info">
+                            <span class="title">${i+1}. ${p.title}</span>
+                            <span class="status-badge ${statusClass}">${p.status || 'Unknown'}</span>
+                        </div>
+                        <div class="admin-project-actions">
+                            <button class="edit-btn" onclick="editProject('${p.id}')"><i class="fas fa-edit"></i> Edit</button>
+                            <button class="delete-btn" onclick="confirmDelete('${p.id}')"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ============================================================
+        // SAVE, EDIT, DELETE
+        // ============================================================
+        async function saveProject() {
+            if (!isAdmin) { showToast('⚠️ Admin access required!', 'error'); return; }
+            const title = document.getElementById('projectTitle').value.trim();
+            const description = document.getElementById('projectDescription').value.trim();
+            if (!title || !description) { showToast('⚠️ Title and Description are required!', 'error'); return; }
+
+            const data = {
+                title,
+                description,
+                icon: document.getElementById('projectIcon').value.trim() || 'fa-code',
+                status: document.getElementById('projectStatus').value, // 'completed', 'wip', 'upcoming'
+                tech: document.getElementById('projectTech').value.split(',').map(t => t.trim()).filter(t => t),
+                github: document.getElementById('projectGithub').value.trim(),
+                demo: document.getElementById('projectDemo').value.trim()
+            };
+            const editId = document.getElementById('editProjectId').value;
+            if (editId) { data.id = editId; }
+
+            const action = editId ? 'update' : 'add';
+            const result = await apiCall(action, data);
+            if (result.success) {
+                showToast(result.message || '✅ Project saved!');
+                resetForm();
+                loadProjects();
+            } else {
+                showToast('❌ Error: ' + (result.error || 'Unknown'), 'error');
+            }
+        }
+
+        function editProject(id) {
+            const project = projects.find(p => p.id == id);
+            if (!project) return;
+            document.getElementById('editProjectId').value = id;
+            document.getElementById('projectTitle').value = project.title;
+            document.getElementById('projectDescription').value = project.description;
+            document.getElementById('projectIcon').value = project.icon || 'fa-code';
+            // Map status to dropdown value
+            const statusClass = getStatusClass(project.status);
+            let dropdownValue = 'upcoming';
+            if (statusClass === 'completed') dropdownValue = 'completed';
+            else if (statusClass === 'wip') dropdownValue = 'wip';
+            else if (statusClass === 'upcoming') dropdownValue = 'upcoming';
+            document.getElementById('projectStatus').value = dropdownValue;
+            document.getElementById('projectTech').value = (project.tech || []).join(', ');
+            document.getElementById('projectGithub').value = project.github || '';
+            document.getElementById('projectDemo').value = project.demo || '';
+            document.getElementById('formTitle').innerHTML = '<i class="fas fa-edit"></i> Edit Project';
+            document.getElementById('deleteBtn').style.display = 'inline-block';
+            document.getElementById('adminForm').scrollIntoView({ behavior: 'smooth' });
+            const panel = document.getElementById('adminPanel');
+            if (!panel.classList.contains('active')) { panel.classList.add('active'); document.getElementById('adminToggle').classList.add('active'); }
+        }
+
+        function confirmDelete(id) {
+            if (confirm('⚠️ Are you sure you want to delete this project?')) {
+                deleteProject(id);
+            }
+        }
+
+        async function deleteProject(id) {
+            if (!isAdmin) { showToast('⚠️ Admin access required!', 'error'); return; }
+            const projectId = id || document.getElementById('editProjectId').value;
+            if (!projectId) return;
+            const result = await apiCall('delete', { id: projectId });
+            if (result.success) {
+                showToast('✅ Project deleted!');
+                resetForm();
+                loadProjects();
+            } else {
+                showToast('❌ Error: ' + (result.error || 'Unknown'), 'error');
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('editProjectId').value = '';
+            document.getElementById('projectTitle').value = '';
+            document.getElementById('projectDescription').value = '';
+            document.getElementById('projectIcon').value = 'fa-code';
+            document.getElementById('projectStatus').value = 'completed';
+            document.getElementById('projectTech').value = '';
+            document.getElementById('projectGithub').value = '';
+            document.getElementById('projectDemo').value = '';
+            document.getElementById('formTitle').innerHTML = '<i class="fas fa-plus-circle"></i> Add New Project';
+            document.getElementById('deleteBtn').style.display = 'none';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('adminToggle').style.display = 'none';
+            loadProjects();
+        });
+
+        console.log('✅ Projects page with CORS-fixed GET calls and status mapping loaded!');
+    </script>
+
+</body>
+</html>

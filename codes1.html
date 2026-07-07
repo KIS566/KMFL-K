@@ -1,0 +1,1913 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kishan's Code Vault ⚡</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" id="appManifest">
+    <meta name="theme-color" content="#00ffc6">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+    
+    <!-- Firebase SDK (सिर्फ Authentication के लिए) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        
+        // Firebase Configuration (REPLACE WITH YOUR REAL CONFIG)
+       const firebaseConfig = {
+  apiKey: "AIzaSyBbpW6Ap7g9dTPL65CKCUWsjj8Czk9U0SY",
+  authDomain: "codeshalabykmfl-ac806.firebaseapp.com",
+  databaseURL: "https://codeshalabykmfl-ac806-default-rtdb.firebaseio.com",
+  projectId: "codeshalabykmfl-ac806",
+  storageBucket: "codeshalabykmfl-ac806.firebasestorage.app",
+  messagingSenderId: "677336522082",
+  appId: "1:677336522082:web:dbbaf73822007026e6603b"
+};
+        
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        
+        window.auth = auth;
+        window.signInWithEmailAndPassword = signInWithEmailAndPassword;
+        window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
+        window.signOut = signOut;
+        window.onAuthStateChanged = onAuthStateChanged;
+        
+        window.dispatchEvent(new Event('firebase-ready'));
+    </script>
+    
+    <style>
+        :root {
+            --neon: #00ffc6;
+            --panel: rgba(0, 0, 0, 0.65);
+            --bg-dark: #0a0a0a;
+            --bg-light: #181818;
+            --accent: #00e676;
+            --text-primary: #e6f1f0;
+            --text-secondary: #9e9e9e;
+        }
+        
+        [data-theme="light"] {
+            --neon: #008c6d;
+            --panel: rgba(255, 255, 255, 0.9);
+            --bg-dark: #f0f0f0;
+            --bg-light: #ffffff;
+            --accent: #007a5c;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+        }
+        
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            color: var(--text-primary);
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg-dark);
+            transition: all 0.3s ease;
+        }
+        
+        .bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            opacity: 0.3;
+        }
+        
+        [data-theme="light"] .bg-video {
+            opacity: 0.1;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 20px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            border-bottom: 1px solid var(--neon);
+            transition: all 0.3s ease;
+        }
+        
+        [data-theme="light"] header {
+            background: rgba(255, 255, 255, 0.8);
+        }
+        
+        .logo {
+            color: var(--neon);
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .sound-toggle, .theme-toggle, .user-btn {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--neon);
+            color: var(--neon);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+        
+        [data-theme="light"] .sound-toggle,
+        [data-theme="light"] .theme-toggle,
+        [data-theme="light"] .user-btn {
+            background: rgba(255, 255, 255, 0.5);
+        }
+        
+        .sound-toggle:hover, .theme-toggle:hover, .user-btn:hover {
+            background: rgba(0, 255, 198, 0.2);
+            transform: scale(1.1);
+        }
+        
+        .wrap {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .panel {
+            background: var(--panel);
+            padding: 14px;
+            border-radius: 12px;
+            backdrop-filter: blur(6px);
+            margin-bottom: 20px;
+            border: 1px solid rgba(0, 255, 198, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .panel:hover {
+            border-color: var(--neon);
+            box-shadow: 0 0 15px rgba(0, 255, 198, 0.2);
+        }
+        
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            background: #000;
+            color: #0f0;
+            padding: 14px;
+            border-radius: 8px;
+            overflow: auto;
+            border: 1px solid #333;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        [data-theme="light"] pre {
+            background: #f8f8f8;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        
+        .btns {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            background: transparent;
+            border: 1px solid var(--neon);
+            color: var(--neon);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Share Tech Mono', monospace;
+        }
+        
+        .btn:hover {
+            background: rgba(0, 255, 198, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .btn-primary {
+            background: var(--neon);
+            color: #000;
+            font-weight: bold;
+        }
+        
+        .btn-primary:hover {
+            background: #00e6b3;
+        }
+        
+        .search-bar {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--neon);
+            border-radius: 6px;
+            color: var(--neon);
+            font-family: 'Share Tech Mono', monospace;
+        }
+        
+        [data-theme="light"] .search-input {
+            background: rgba(255, 255, 255, 0.8);
+        }
+        
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            background: transparent;
+            border: 1px solid var(--neon);
+            color: var(--neon);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn.active {
+            background: rgba(0, 255, 198, 0.2);
+        }
+        
+        .filter-btn:hover {
+            background: rgba(0, 255, 198, 0.15);
+        }
+        
+        .code-title {
+            color: var(--neon);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .code-description {
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .code-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: var(--neon);
+        }
+        
+        .no-data-container {
+            text-align: center;
+            padding: 40px 20px;
+            background: var(--panel);
+            border-radius: 12px;
+            border: 2px dashed var(--neon);
+            margin: 20px 0;
+        }
+        
+        .no-data-icon {
+            font-size: 4rem;
+            color: var(--neon);
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+        
+        .no-data-title {
+            color: var(--neon);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .no-data-message {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--neon);
+            color: #000;
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-weight: bold;
+            display: none;
+            z-index: 1000;
+        }
+        
+        .stats {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-card {
+            background: var(--panel);
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 255, 198, 0.2);
+            min-width: 120px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            color: var(--neon);
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+        
+        .refresh-btn {
+            background: var(--neon);
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        
+        .refresh-btn:hover {
+            background: #00e6b3;
+            transform: translateY(-2px);
+        }
+
+        .sync-info {
+            background: rgba(0, 255, 198, 0.1);
+            border: 1px solid var(--neon);
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .sync-status {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .sync-online {
+            background: #00ff00;
+            animation: pulse 2s infinite;
+        }
+        
+        .sync-offline {
+            background: #ff4444;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        
+        .modal-content {
+            background: var(--panel);
+            border: 2px solid var(--neon);
+            border-radius: 12px;
+            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        .modal-title {
+            color: var(--neon);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--neon);
+            border-radius: 6px;
+            color: var(--neon);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        
+        [data-theme="light"] .form-input {
+            background: rgba(255, 255, 255, 0.8);
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .error-message {
+            color: #ff5555;
+            margin-bottom: 15px;
+            display: none;
+        }
+        
+        .user-menu {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background: var(--panel);
+            border: 1px solid var(--neon);
+            border-radius: 8px;
+            padding: 15px;
+            min-width: 200px;
+            display: none;
+            z-index: 1000;
+        }
+        
+        .user-menu-item {
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background 0.3s ease;
+        }
+        
+        .user-menu-item:hover {
+            background: rgba(0, 255, 198, 0.1);
+        }
+        
+        .tags-container {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            margin: 10px 0;
+        }
+        
+        .tag {
+            background: rgba(0, 255, 198, 0.1);
+            color: var(--neon);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .tag:hover {
+            background: rgba(0, 255, 198, 0.3);
+            transform: scale(1.05);
+        }
+        
+        @media (max-width: 768px) {
+            .header-controls {
+                gap: 5px;
+            }
+            
+            .sound-toggle, .theme-toggle, .user-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 16px;
+            }
+            
+            .stats {
+                justify-content: center;
+            }
+            
+            .stat-card {
+                min-width: 100px;
+            }
+            
+            .filter-buttons {
+                justify-content: center;
+            }
+            
+            .search-bar {
+                flex-direction: column;
+            }
+        }
+
+        .upload-container {
+            max-width:600px;
+            margin:auto;
+            background:#111;
+            padding:20px;
+            border-radius:10px;
+            box-shadow:0 0 15px #00ffff55;
+        }
+        .upload-input, .upload-textarea {
+            width:100%;
+            background:#000;
+            color:#0f0;
+            border:1px solid #0ff;
+            border-radius:8px;
+            margin:10px 0;
+            padding:10px;
+            font-family:monospace;
+        }
+        .upload-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        .upload-btn {
+            background:#00ffff;
+            color:#000;
+            border:none;
+            padding:10px 20px;
+            border-radius:8px;
+            font-weight:bold;
+            cursor:pointer;
+            transition:0.3s;
+            font-family:monospace;
+        }
+        .upload-btn:hover { 
+            background:#0f0; 
+        }
+        .upload-msg { 
+            text-align:center; 
+            color:#0f0; 
+            font-weight:bold; 
+            margin-top:8px; 
+            min-height: 24px;
+        }
+
+        .view-iframe {
+            width: 100%;
+            height: 300px;
+            background: #fff;
+            border: 2px solid var(--neon);
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .view-source {
+            background: #000;
+            color: #0f0;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            display: none;
+            margin-top: 15px;
+            border: 1px solid #333;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .install-btn {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--neon);
+            color: #000;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 255, 198, 0.3);
+            display: none;
+            align-items: center;
+            gap: 8px;
+            animation: bounce 2s infinite;
+        }
+        
+        .install-btn:hover {
+            background: #00e6b3;
+            transform: translateY(-2px);
+        }
+        
+        .export-btn {
+            background: transparent;
+            border: 1px solid #ff9800;
+            color: #ff9800;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .export-btn:hover {
+            background: rgba(255, 152, 0, 0.1);
+        }
+        
+        .stats-highlight {
+            background: rgba(0, 255, 198, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 1px dashed var(--neon);
+        }
+        
+        .offline-indicator {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ff4444;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .back-to-home-container {
+            text-align: center;
+            margin: 40px 0;
+            padding: 20px;
+        }
+
+        .back-to-home-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(45deg, #007a5c, var(--neon));
+            color: #000;
+            text-decoration: none;
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-family: 'Share Tech Mono', monospace;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 255, 198, 0.3);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .back-to-home-btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+
+        .back-to-home-btn:hover:before {
+            left: 100%;
+        }
+
+        .back-to-home-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 198, 0.5);
+        }
+
+        .back-to-home-btn:active {
+            transform: translateY(0);
+        }
+
+        .back-to-home-btn i {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .back-to-home-btn:hover i {
+            transform: translateX(-5px);
+        }
+
+        .floating-back-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #007a5c, var(--neon));
+            color: #000;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0, 255, 198, 0.3);
+            z-index: 999;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: none;
+        }
+
+        .floating-back-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 255, 198, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .back-to-home-btn {
+                padding: 12px 25px;
+                font-size: 1rem;
+            }
+            
+            .floating-back-btn {
+                display: flex;
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .back-to-home-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .back-to-home-container {
+                margin: 30px 0;
+                padding: 15px;
+            }
+            
+            .floating-back-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
+            }
+        }
+        
+        .admin-panel-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .admin-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .user-email {
+            font-size: 0.8rem;
+            margin-top: 5px;
+            color: var(--neon);
+        }
+    </style>
+</head>
+<body data-theme="dark">
+
+<video autoplay loop muted id="bgVid" class="bg-video">
+    <source src="https://raw.githubusercontent.com/KIS566/hvideo/main/VN20251002_162055.mp4" type="video/mp4">
+</video>
+
+<div class="offline-indicator" id="offlineIndicator">
+    <i class="fas fa-wifi-slash"></i> Offline Mode
+</div>
+
+<button class="install-btn" id="installBtn">
+    <i class="fas fa-download"></i> Install App
+</button>
+
+<header>
+    <div class="logo">
+        <i class="fas fa-code"></i> ⚡ Kishan's Code Vault
+    </div>
+    <div class="header-controls">
+        <button class="theme-toggle" id="themeBtn">🌙</button>
+        <button class="sound-toggle" id="soundBtn">🔇</button>
+        <button class="user-btn" id="userBtn">👤</button>
+    </div>
+    
+    <div class="user-menu" id="userMenu">
+        <div class="user-menu-item" id="loginBtn">Login</div>
+        <div class="user-menu-item" id="registerBtn">Register</div>
+        <div class="user-menu-item" id="logoutBtn" style="display:none;">Logout</div>
+        <div id="userEmailDisplay" class="user-email" style="margin-top: 8px; font-size: 0.7rem;"></div>
+    </div>
+</header>
+
+<div class="wrap">
+    <div class="sync-info" id="syncInfo">
+        <span class="sync-status sync-online" id="syncStatus"></span>
+        <span id="syncText">Google Sheets Sync: Active</span>
+        <span id="lastSync" style="font-size: 0.8rem; margin-left: 10px;"></span>
+    </div>
+
+    <div class="filter-buttons" id="navTabs">
+        <button class="filter-btn active" data-tab="view">👁️ View Codes</button>
+        <button class="filter-btn" data-tab="upload">🚀 Upload Code</button>
+        <button class="filter-btn" data-tab="admin">🔧 Admin Panel</button>
+        <button class="filter-btn" data-tab="export">📤 Export</button>
+    </div>
+
+    <div id="viewSection">
+        <div class="stats-highlight" id="statsHighlight">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h3 style="margin: 0; color: var(--neon);">📊 Live Stats</h3>
+                    <p style="margin: 5px 0 0 0; font-size: 0.9rem; color: var(--text-secondary);">
+                        Real-time code analytics
+                    </p>
+                </div>
+                <button class="btn" onclick="refreshStats()">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+        </div>
+
+        <div class="stats" id="statsContainer">
+            <div class="stat-card">
+                <div class="stat-number" id="totalCodes">0</div>
+                <div class="stat-label">Total Codes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="htmlCodes">0</div>
+                <div class="stat-label">HTML Codes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="cssCodes">0</div>
+                <div class="stat-label">CSS Codes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="jsCodes">0</div>
+                <div class="stat-label">JS Codes</div>
+            </div>
+        </div>
+        
+        <div class="search-bar" style="position: relative;">
+            <input type="text" class="search-input" id="searchInput" placeholder="Search codes by title, description...">
+            <button class="btn" onclick="clearSearch()">Clear</button>
+        </div>
+        
+        <div class="filter-buttons" id="filterButtons">
+            <button class="filter-btn active" data-category="all">All</button>
+            <button class="filter-btn" data-category="html">HTML</button>
+            <button class="filter-btn" data-category="css">CSS</button>
+            <button class="filter-btn" data-category="javascript">JavaScript</button>
+        </div>
+        
+        <div class="tags-container" id="tagsCloud" style="margin-bottom: 20px; display: none;"></div>
+        
+        <div id="codesContainer">
+            <div class="loading">
+                <i class="fas fa-spinner fa-spin"></i> Loading codes from Google Sheets...
+            </div>
+        </div>
+    </div>
+
+    <div id="uploadSection" style="display: none;">
+        <div class="upload-container">
+            <h2 class="code-title" style="text-align:center; text-shadow:0 0 10px cyan;">🚀 Upload Code</h2>
+            <input type="text" class="upload-input" id="uploadTitle" placeholder="Enter Code Title">
+            <textarea class="upload-textarea" id="uploadDesc" rows="2" placeholder="Enter Description"></textarea>
+            <textarea class="upload-textarea" id="uploadCode" rows="10" placeholder="Paste Your HTML/CSS/JS Code Here..."></textarea>
+            
+            <div style="margin: 15px 0;">
+                <label style="color: var(--neon); font-size: 0.9rem;">
+                    <i class="fas fa-tags"></i> Auto-detected Tags:
+                </label>
+                <div class="tags-container" id="autoTags"></div>
+            </div>
+            
+            <button class="upload-btn" onclick="uploadCode()">Upload Code</button>
+            <p class="upload-msg" id="uploadMsg"></p>
+        </div>
+    </div>
+
+    <div id="adminSection" style="display: none;">
+        <div class="admin-panel-container">
+            <h2 class="code-title" style="text-align:center; margin-bottom: 30px;">
+                <i class="fas fa-crown"></i> Admin Dashboard
+            </h2>
+            
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="adminTotalCodes">0</div>
+                    <div class="stat-label">Total Codes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="adminUsers">0</div>
+                    <div class="stat-label">Users</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="adminStorage">0 KB</div>
+                    <div class="stat-label">Storage</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="adminCache">0</div>
+                    <div class="stat-label">Cached</div>
+                </div>
+            </div>
+            
+            <div class="panel" style="margin-bottom: 20px;">
+                <h3 class="code-title"><i class="fas fa-tools"></i> Admin Tools</h3>
+                <div class="admin-actions">
+                    <button class="btn btn-primary" onclick="showAddCodeModal()">
+                        <i class="fas fa-plus"></i> Add New Code
+                    </button>
+                    <button class="btn" onclick="manageUsers()">
+                        <i class="fas fa-users"></i> Manage Users
+                    </button>
+                    <button class="btn" onclick="clearCache()">
+                        <i class="fas fa-trash"></i> Clear Cache
+                    </button>
+                    <button class="btn" onclick="exportAllData()">
+                        <i class="fas fa-download"></i> Export All
+                    </button>
+                    <button class="btn" onclick="updateAdminStats()">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </div>
+            </div>
+            
+            <div class="panel">
+                <h3 class="code-title"><i class="fas fa-chart-bar"></i> Quick Stats</h3>
+                <div style="padding: 15px;">
+                    <div style="margin-bottom: 10px;">
+                        <strong>Last Sync:</strong> <span id="adminLastSync">Never</span>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Status:</strong> <span id="adminStatus" style="color: var(--neon);">🟢 Online</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="exportSection" style="display: none;">
+        <div class="panel">
+            <h2 class="code-title"><i class="fas fa-file-export"></i> Export Codes</h2>
+            <div class="code-description">
+                Export your codes in various formats for backup or sharing.
+            </div>
+            
+            <div class="btns" style="margin-top: 20px;">
+                <button class="btn btn-primary" onclick="exportAsJSON()">
+                    <i class="fas fa-file-code"></i> Export as JSON
+                </button>
+                <button class="btn" onclick="exportAsHTML()">
+                    <i class="fas fa-file-alt"></i> Export as HTML
+                </button>
+                <button class="btn export-btn" onclick="backupToLocal()">
+                    <i class="fas fa-database"></i> Backup to Local
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="back-to-home-container">
+        <a href="https://kis566.github.io/KMFL-K/#home" class="back-to-home-btn">
+            <i class="fas fa-arrow-left"></i>
+            Back to Home
+        </a>
+    </div>
+</div>
+
+<div class="modal-overlay" id="passwordModal">
+    <div class="modal-content">
+        <h2 class="modal-title">Admin Access Required</h2>
+        <div class="error-message" id="errorMessage" style="display: none;">
+            <i class="fas fa-exclamation-triangle"></i> Incorrect password!
+        </div>
+        <input type="password" class="form-input" id="passwordInput" placeholder="Enter admin password">
+        <div class="modal-buttons">
+            <button class="btn btn-primary" onclick="checkPassword()">Submit</button>
+            <button class="btn" onclick="closeModal()">Cancel</button>
+        </div>
+        <p style="margin-top: 15px; font-size: 0.8rem; color: var(--text-secondary);">
+            Password: <code>Password is hidden for security reasons. Please contact the administrator.</code>
+        </p>
+    </div>
+</div>
+
+<div class="modal-overlay" id="addCodeModal">
+    <div class="modal-content" style="max-width: 600px;">
+        <h2 class="modal-title">Add New Code</h2>
+        <div class="error-message" id="addCodeError" style="display: none;"></div>
+        <div class="success-message" id="addCodeSuccess" style="display: none;"></div>
+        
+        <div class="form-group">
+            <label class="form-label">Title *</label>
+            <input type="text" class="form-input" id="newCodeTitle" placeholder="Enter code title" required>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Description</label>
+            <textarea class="form-input" id="newCodeDesc" placeholder="Enter description"></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Code Content *</label>
+            <textarea class="form-input" id="newCodeContent" placeholder="Paste code here" rows="8" required></textarea>
+        </div>
+        
+        <div class="modal-buttons">
+            <button class="btn btn-primary" onclick="addCodeViaAdmin()">Add Code</button>
+            <button class="btn" onclick="closeModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- Login Modal -->
+<div class="modal-overlay" id="loginModal">
+    <div class="modal-content">
+        <h2 class="modal-title">Login</h2>
+        <div class="error-message" id="loginError"></div>
+        <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-input" id="loginEmail" placeholder="your@email.com">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-input" id="loginPassword" placeholder="••••••">
+        </div>
+        <div class="modal-buttons">
+            <button class="btn btn-primary" onclick="performLogin()">Login</button>
+            <button class="btn" onclick="closeModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- Register Modal -->
+<div class="modal-overlay" id="registerModal">
+    <div class="modal-content">
+        <h2 class="modal-title">Register</h2>
+        <div class="error-message" id="registerError"></div>
+        <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-input" id="registerEmail" placeholder="your@email.com">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-input" id="registerPassword" placeholder="min 6 characters">
+        </div>
+        <div class="modal-buttons">
+            <button class="btn btn-primary" onclick="performRegister()">Register</button>
+            <button class="btn" onclick="closeModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<div class="notification" id="notification"></div>
+
+<script>
+    // ==================== GOOGLE SHEETS CONFIGURATION ====================
+    const SHEET_URL = "https://script.google.com/macros/s/AKfycbzuJjVbB-ngHk6VWBuIGVetSFTuMOTFZBjAppV3Dy8CKOq8dj6eP-M0xviLPSPJObxH/exec";
+    const ADMIN_PASSWORD = "ILU";
+    
+    // Global variables
+    let allCodes = [];
+    let currentFilter = 'all';
+    let currentSearch = '';
+    let currentUser = null;
+    
+    // DOM elements
+    const notification = document.getElementById("notification");
+    const codesContainer = document.getElementById("codesContainer");
+    const searchInput = document.getElementById("searchInput");
+    const filterButtons = document.getElementById("filterButtons");
+    const navTabs = document.getElementById("navTabs");
+    
+    // ==================== GOOGLE SHEETS FUNCTIONS ====================
+    
+    async function loadCodesFromSheet(forceRefresh = false) {
+        try {
+            codesContainer.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading codes from Google Sheets...</div>';
+            
+            const timestamp = new Date().getTime();
+            const url = `${SHEET_URL}?timestamp=${timestamp}`;
+            
+            const response = await fetch(url);
+            const data = await response.json();
+            
+            allCodes = data;
+            localStorage.setItem('codesData', JSON.stringify(allCodes));
+            localStorage.setItem('lastSyncTimestamp', timestamp.toString());
+            
+            updateLastSyncTime();
+            filterAndDisplayCodes();
+            updateStats();
+            
+        } catch (error) {
+            console.error('Error loading from Google Sheets:', error);
+            const cachedCodes = localStorage.getItem('codesData');
+            if (cachedCodes) {
+                allCodes = JSON.parse(cachedCodes);
+                filterAndDisplayCodes();
+                showNotification('⚠️ Using cached data (Offline Mode)', 'info');
+            } else {
+                showNoDataMessage();
+            }
+        }
+    }
+    
+    async function uploadCodeToSheet(title, description, code) {
+        const codeData = {
+            title: title,
+            desc: description,
+            code: code,
+            date: new Date().toISOString().split('T')[0],
+            userId: currentUser ? currentUser.uid : 'anonymous',
+            userEmail: currentUser ? currentUser.email : 'anonymous'
+        };
+        
+        await fetch(SHEET_URL, {
+            method: "POST",
+            body: JSON.stringify(codeData),
+            headers: { "Content-Type": "application/json" },
+            mode: "no-cors"
+        });
+    }
+    
+    // ==================== AUTHENTICATION FUNCTIONS ====================
+    
+    window.addEventListener('firebase-ready', () => {
+        onAuthStateChanged(window.auth, (user) => {
+            currentUser = user;
+            const loginBtn = document.getElementById('loginBtn');
+            const registerBtn = document.getElementById('registerBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const userEmailDisplay = document.getElementById('userEmailDisplay');
+            
+            if (user) {
+                loginBtn.style.display = 'none';
+                registerBtn.style.display = 'none';
+                logoutBtn.style.display = 'block';
+                userEmailDisplay.textContent = user.email;
+                showNotification(`Welcome ${user.email}`, 'success');
+            } else {
+                loginBtn.style.display = 'block';
+                registerBtn.style.display = 'block';
+                logoutBtn.style.display = 'none';
+                userEmailDisplay.textContent = '';
+            }
+            updateUploadSectionVisibility();
+        });
+    });
+    
+    function updateUploadSectionVisibility() {
+        const uploadTab = document.querySelector('.filter-btn[data-tab="upload"]');
+        if (uploadTab && uploadTab.classList.contains('active') && !currentUser) {
+            showNotification('Please login to upload codes', 'error');
+            document.querySelector('.filter-btn[data-tab="view"]').click();
+        }
+    }
+    
+    window.performLogin = async () => {
+        const email = document.getElementById('loginEmail').value;
+        const pass = document.getElementById('loginPassword').value;
+        try {
+            await signInWithEmailAndPassword(window.auth, email, pass);
+            closeModal();
+            showNotification('Login successful!');
+        } catch(e) {
+            document.getElementById('loginError').style.display = 'block';
+            document.getElementById('loginError').textContent = e.message;
+        }
+    };
+    
+    window.performRegister = async () => {
+        const email = document.getElementById('registerEmail').value;
+        const pass = document.getElementById('registerPassword').value;
+        if (pass.length < 6) {
+            showNotification('Password must be at least 6 characters', 'error');
+            return;
+        }
+        try {
+            await createUserWithEmailAndPassword(window.auth, email, pass);
+            closeModal();
+            showNotification('Registration successful! Please login', 'success');
+        } catch(e) {
+            document.getElementById('registerError').style.display = 'block';
+            document.getElementById('registerError').textContent = e.message;
+        }
+    };
+    
+    // ==================== UPLOAD FUNCTION (सिर्फ logged-in users) ====================
+    
+    window.uploadCode = async function() {
+        if (!currentUser) {
+            showNotification('❌ Please login to upload codes!', 'error');
+            return;
+        }
+        
+        const title = document.getElementById("uploadTitle").value.trim();
+        const desc = document.getElementById("uploadDesc").value.trim();
+        const code = document.getElementById("uploadCode").value.trim();
+        const msg = document.getElementById("uploadMsg");
+
+        if (!title || !code) {
+            showNotification("Title and code are required!", 'error');
+            return;
+        }
+
+        msg.innerText = "Uploading to Google Sheets...";
+        msg.style.color = "#ff9800";
+
+        try {
+            await uploadCodeToSheet(title, desc, code);
+            
+            msg.innerText = "✅ Code Uploaded Successfully!";
+            msg.style.color = "#00ff00";
+            
+            document.getElementById("uploadTitle").value = "";
+            document.getElementById("uploadDesc").value = "";
+            document.getElementById("uploadCode").value = "";
+            document.getElementById("autoTags").innerHTML = "";
+            
+            showNotification('Code uploaded to Google Sheets!');
+            
+            await loadCodesFromSheet(true);
+            showTab('view');
+            document.querySelector('.filter-btn[data-tab="view"]').click();
+            
+            setTimeout(() => { msg.innerText = ""; }, 3000);
+            
+        } catch (e) {
+            msg.innerText = "Error: " + e.message;
+            msg.style.color = "#ff4444";
+            showNotification(e.message, 'error');
+        }
+    };
+    
+    // ==================== DISPLAY FUNCTIONS ====================
+    
+    function filterAndDisplayCodes() {
+        let filteredCodes = allCodes;
+        
+        if (currentFilter !== 'all') {
+            filteredCodes = filteredCodes.filter(code => {
+                const content = (code.Code || code.code || '').toLowerCase();
+                if (currentFilter === 'html') return content.includes('<html') || content.includes('<div');
+                if (currentFilter === 'css') return content.includes('style') || content.includes('.css');
+                if (currentFilter === 'javascript') return content.includes('script') || content.includes('function');
+                return true;
+            });
+        }
+        
+        if (currentSearch) {
+            filteredCodes = filteredCodes.filter(code => {
+                const title = (code.Title || code.title || '').toLowerCase();
+                const desc = (code.Description || code.desc || '').toLowerCase();
+                const content = (code.Code || code.code || '').toLowerCase();
+                return title.includes(currentSearch) || desc.includes(currentSearch) || content.includes(currentSearch);
+            });
+        }
+        
+        displayCodes(filteredCodes);
+    }
+    
+    function displayCodes(codes) {
+        if (codes.length === 0) {
+            if (allCodes.length === 0) {
+                showNoDataMessage();
+            } else {
+                codesContainer.innerHTML = `
+                    <div class="no-data-container">
+                        <div class="no-data-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h2 class="no-data-title">No matching codes found!</h2>
+                        <div class="no-data-message">
+                            No codes match your search criteria.<br>
+                            Try different keywords or filters.
+                        </div>
+                        <button class="btn" onclick="clearSearch()">
+                            <i class="fas fa-times"></i> Clear Search
+                        </button>
+                    </div>
+                `;
+            }
+            return;
+        }
+        
+        let html = '';
+        codes.forEach((code, index) => {
+            const title = code.Title || code.title || 'Untitled Code';
+            const description = code.Description || code.desc || 'No description';
+            const codeContent = code.Code || code.code || '';
+            const date = code.Date || new Date().toLocaleDateString();
+            
+            html += `
+                <section class="panel">
+                    <h2 class="code-title">
+                        <i class="fas fa-code"></i> ${escapeHtml(title)}
+                    </h2>
+                    
+                    <div class="code-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-calendar"></i> ${escapeHtml(date)}
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-file-code"></i> ${codeContent.length} chars
+                        </div>
+                    </div>
+                    
+                    <div class="code-description">${escapeHtml(description)}</div>
+                    
+                    <pre>${escapeHtml(codeContent.substring(0, 500))}${codeContent.length > 500 ? '...' : ''}</pre>
+                    
+                    <div class="btns">
+                        <button class="btn" onclick="runCode(${index})">
+                            <i class="fas fa-play"></i> Run
+                        </button>
+                        <button class="btn" onclick="viewSource(${index})">
+                            <i class="fas fa-eye"></i> View Source
+                        </button>
+                        <button class="btn" onclick="copyCode(${index})">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                    </div>
+                    
+                    <iframe class="view-iframe" id="frame_${index}" sandbox="allow-scripts"></iframe>
+                    <pre class="view-source" id="view_source_${index}" style="display:none;">${escapeHtml(codeContent)}</pre>
+                </section>
+            `;
+        });
+        
+        codesContainer.innerHTML = html;
+    }
+    
+    // ==================== CODE ACTIONS ====================
+    
+    window.runCode = function(index) {
+        const iframe = document.getElementById(`frame_${index}`);
+        const codeContent = allCodes[index].Code || allCodes[index].code || '';
+        
+        iframe.style.display = "block";
+        iframe.srcdoc = codeContent;
+        
+        document.querySelectorAll('.view-iframe').forEach((frame, i) => {
+            if (i !== index) frame.style.display = 'none';
+        });
+        
+        document.querySelectorAll('.view-source').forEach(source => {
+            source.style.display = 'none';
+        });
+    };
+    
+    window.viewSource = function(index) {
+        const pre = document.getElementById(`view_source_${index}`);
+        pre.style.display = pre.style.display === "block" ? "none" : "block";
+        
+        document.querySelectorAll('.view-source').forEach((source, i) => {
+            if (i !== index) source.style.display = 'none';
+        });
+        
+        document.querySelectorAll('.view-iframe').forEach(iframe => {
+            iframe.style.display = 'none';
+        });
+    };
+    
+    window.copyCode = function(index) {
+        const codeContent = allCodes[index].Code || allCodes[index].code || '';
+        navigator.clipboard.writeText(codeContent).then(() => {
+            showNotification('Code copied to clipboard!');
+        });
+    };
+    
+    // ==================== STATS FUNCTIONS ====================
+    
+    function updateStats() {
+        document.getElementById('totalCodes').textContent = allCodes.length;
+        
+        const htmlCount = allCodes.filter(code => 
+            (code.Code || code.code || '').toLowerCase().includes('<html')).length;
+        const cssCount = allCodes.filter(code => 
+            (code.Code || code.code || '').toLowerCase().includes('style')).length;
+        const jsCount = allCodes.filter(code => 
+            (code.Code || code.code || '').toLowerCase().includes('script')).length;
+        
+        document.getElementById('htmlCodes').textContent = htmlCount;
+        document.getElementById('cssCodes').textContent = cssCount;
+        document.getElementById('jsCodes').textContent = jsCount;
+    }
+    
+    window.refreshStats = function() {
+        loadCodesFromSheet(true);
+        showNotification('Stats refreshed from Google Sheets!');
+    };
+    
+    window.clearSearch = function() {
+        searchInput.value = '';
+        currentSearch = '';
+        currentFilter = 'all';
+        document.querySelectorAll('#filterButtons .filter-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        document.querySelector('#filterButtons .filter-btn[data-category="all"]').classList.add('active');
+        filterAndDisplayCodes();
+    };
+    
+    // ==================== ADMIN FUNCTIONS ====================
+    
+    function showPasswordModal() {
+        document.getElementById('passwordModal').style.display = 'flex';
+        document.getElementById('passwordInput').focus();
+        document.getElementById('errorMessage').style.display = 'none';
+    }
+    
+    window.checkPassword = function() {
+        const password = document.getElementById('passwordInput').value;
+        
+        if (password === ADMIN_PASSWORD) {
+            closeModal();
+            showTab('admin');
+            updateAdminStats();
+            showNotification('Admin access granted!');
+        } else {
+            document.getElementById('errorMessage').style.display = 'block';
+            document.getElementById('passwordInput').value = '';
+            showNotification('Incorrect password!', 'error');
+        }
+    };
+    
+    window.updateAdminStats = function() {
+        document.getElementById('adminTotalCodes').textContent = allCodes.length;
+        
+        const cachedCodes = localStorage.getItem('codesData');
+        document.getElementById('adminCache').textContent = cachedCodes ? JSON.parse(cachedCodes).length : 0;
+        
+        let totalStorage = 0;
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            const value = localStorage.getItem(key);
+            totalStorage += (key.length + value.length) * 2;
+        }
+        document.getElementById('adminStorage').textContent = Math.round(totalStorage / 1024) + ' KB';
+        
+        const lastSyncTime = localStorage.getItem('lastSyncTimestamp');
+        if (lastSyncTime) {
+            const date = new Date(parseInt(lastSyncTime));
+            document.getElementById('adminLastSync').textContent = date.toLocaleTimeString();
+        }
+    };
+    
+    window.showAddCodeModal = function() {
+        document.getElementById('addCodeModal').style.display = 'flex';
+        document.getElementById('newCodeTitle').focus();
+    };
+    
+    window.addCodeViaAdmin = async function() {
+        const title = document.getElementById('newCodeTitle').value.trim();
+        const desc = document.getElementById('newCodeDesc').value.trim();
+        const code = document.getElementById('newCodeContent').value.trim();
+        
+        if (!title || !code) {
+            document.getElementById('addCodeError').textContent = 'Title and code are required!';
+            document.getElementById('addCodeError').style.display = 'block';
+            return;
+        }
+        
+        try {
+            await uploadCodeToSheet(title, desc, code);
+            
+            document.getElementById('addCodeSuccess').textContent = 'Code added successfully!';
+            document.getElementById('addCodeSuccess').style.display = 'block';
+            document.getElementById('addCodeError').style.display = 'none';
+            
+            document.getElementById('newCodeTitle').value = '';
+            document.getElementById('newCodeDesc').value = '';
+            document.getElementById('newCodeContent').value = '';
+            
+            showNotification('Code added via Admin Panel!');
+            
+            setTimeout(async () => {
+                await loadCodesFromSheet(true);
+                closeModal();
+            }, 2000);
+            
+        } catch (error) {
+            document.getElementById('addCodeError').textContent = 'Error: ' + error.message;
+            document.getElementById('addCodeError').style.display = 'block';
+        }
+    };
+    
+    window.manageUsers = function() {
+        if (currentUser) {
+            alert(`Logged in as: ${currentUser.email}\nUser ID: ${currentUser.uid}\n\nUser management is handled by Firebase Console.`);
+        } else {
+            alert('No user logged in. Please login to see user info.');
+        }
+    };
+    
+    window.clearCache = function() {
+        if (confirm('Clear all cached data? This will not delete your Google Sheets data.')) {
+            localStorage.removeItem('codesData');
+            localStorage.removeItem('lastSyncTimestamp');
+            showNotification('Cache cleared! Reloading from Google Sheets...');
+            loadCodesFromSheet(true);
+            updateAdminStats();
+        }
+    };
+    
+    window.exportAllData = function() {
+        const data = {
+            codes: allCodes,
+            exportDate: new Date().toISOString(),
+            app: "Kishan's Code Vault"
+        };
+        
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `code-vault-export-${new Date().toISOString().split('T')[0]}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        showNotification('Data exported!');
+    };
+    
+    // ==================== EXPORT FUNCTIONS ====================
+    
+    window.exportAsJSON = function() {
+        const data = {
+            app: "Kishan's Code Vault",
+            version: "1.0",
+            exportDate: new Date().toISOString(),
+            totalCodes: allCodes.length,
+            codes: allCodes
+        };
+        
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `code-vault-export-${new Date().toISOString().split('T')[0]}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        showNotification('Exported as JSON!');
+    };
+    
+    window.exportAsHTML = function() {
+        let html = `<!DOCTYPE html>
+<html>
+<head>
+    <title>Code Vault Export</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .code { background: #f5f5f5; padding: 15px; border-radius: 5px; margin: 10px 0; }
+        pre { white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <h1>Code Vault Export - ${allCodes.length} Codes</h1>
+    <p>Exported on: ${new Date().toLocaleString()}</p>
+    <hr>`;
+    
+        allCodes.forEach((code, index) => {
+            const title = code.Title || code.title || `Code ${index + 1}`;
+            const desc = code.Description || code.desc || 'No description';
+            const codeContent = code.Code || code.code || '';
+            
+            html += `
+    <div class="code">
+        <h3>${index + 1}. ${escapeHtml(title)}</h3>
+        <p><em>${escapeHtml(desc)}</em></p>
+        <pre>${escapeHtml(codeContent)}</pre>
+    </div>
+    <hr>`;
+        });
+        
+        html += `
+</body>
+</html>`;
+        
+        const blob = new Blob([html], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `code-vault-${new Date().toISOString().split('T')[0]}.html`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        showNotification('Exported as HTML!');
+    };
+    
+    window.backupToLocal = function() {
+        const backup = {
+            codes: allCodes,
+            timestamp: new Date().toISOString()
+        };
+        localStorage.setItem('codeVaultBackup', JSON.stringify(backup));
+        showNotification('Backup saved locally!');
+    };
+    
+    // ==================== HELPER FUNCTIONS ====================
+    
+    function extractTagsFromCode(code) {
+        if (!code) return [];
+        const tags = new Set();
+        const codeLower = code.toLowerCase();
+        
+        if (codeLower.includes('<html')) tags.add('html');
+        if (codeLower.includes('style=') || codeLower.includes('<style>')) tags.add('css');
+        if (codeLower.includes('script') || codeLower.includes('function')) tags.add('javascript');
+        if (codeLower.includes('@media')) tags.add('responsive');
+        if (codeLower.includes('animation')) tags.add('animation');
+        
+        return Array.from(tags);
+    }
+    
+    function detectTags(code) {
+        const tags = extractTagsFromCode(code);
+        const container = document.getElementById('autoTags');
+        if (!container) return;
+        
+        container.innerHTML = '';
+        tags.forEach(tag => {
+            const span = document.createElement('span');
+            span.className = 'tag';
+            span.textContent = tag;
+            container.appendChild(span);
+        });
+    }
+    
+    function showNoDataMessage() {
+        codesContainer.innerHTML = `
+            <div class="no-data-container">
+                <div class="no-data-icon">
+                    <i class="fas fa-frown-open"></i>
+                </div>
+                <h2 class="no-data-title">No Codes Found</h2>
+                <div class="no-data-message">
+                    No codes loaded from Google Sheet.<br>
+                    Please upload some codes first.
+                </div>
+                <button class="refresh-btn" onclick="loadCodesFromSheet(true)">
+                    <i class="fas fa-sync-alt"></i> Try Again
+                </button>
+            </div>
+        `;
+    }
+    
+    function updateLastSyncTime() {
+        const now = new Date();
+        document.getElementById('lastSync').textContent = `Last sync: ${now.toLocaleTimeString()}`;
+    }
+    
+    function closeModal() {
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.style.display = 'none';
+        });
+        document.getElementById('loginError').style.display = 'none';
+        document.getElementById('registerError').style.display = 'none';
+        document.getElementById('addCodeError').style.display = 'none';
+        document.getElementById('addCodeSuccess').style.display = 'none';
+    }
+    
+    function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+    
+    function showNotification(message, type = 'success') {
+        notification.textContent = message;
+        notification.style.display = 'block';
+        
+        if (type === 'error') {
+            notification.style.background = '#ff5555';
+        } else {
+            notification.style.background = 'var(--neon)';
+        }
+        
+        setTimeout(() => {
+            notification.style.display = 'none';
+        }, 3000);
+    }
+    
+    function showTab(tabName) {
+        const viewSection = document.getElementById('viewSection');
+        const uploadSection = document.getElementById('uploadSection');
+        const adminSection = document.getElementById('adminSection');
+        const exportSection = document.getElementById('exportSection');
+        
+        viewSection.style.display = 'none';
+        uploadSection.style.display = 'none';
+        adminSection.style.display = 'none';
+        exportSection.style.display = 'none';
+        
+        switch(tabName) {
+            case 'upload':
+                if (!currentUser) {
+                    showNotification('Please login to upload codes', 'error');
+                    viewSection.style.display = 'block';
+                    return;
+                }
+                uploadSection.style.display = 'block';
+                break;
+            case 'admin':
+                adminSection.style.display = 'block';
+                break;
+            case 'export':
+                exportSection.style.display = 'block';
+                break;
+            default:
+                viewSection.style.display = 'block';
+                break;
+        }
+    }
+    
+    // ==================== EVENT LISTENERS ====================
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        loadCodesFromSheet();
+        
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.body.setAttribute('data-theme', savedTheme);
+        document.getElementById('themeBtn').textContent = savedTheme === 'dark' ? '🌙' : '☀️';
+        
+        navTabs.addEventListener('click', function(e) {
+            if (e.target.classList.contains('filter-btn') && e.target.hasAttribute('data-tab')) {
+                const tab = e.target.getAttribute('data-tab');
+                
+                if (tab === 'admin') {
+                    showPasswordModal();
+                    return;
+                }
+                
+                showTab(tab);
+                
+                document.querySelectorAll('.filter-btn[data-tab]').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                e.target.classList.add('active');
+            }
+        });
+        
+        filterButtons.addEventListener('click', function(e) {
+            if (e.target.classList.contains('filter-btn') && e.target.hasAttribute('data-category')) {
+                document.querySelectorAll('#filterButtons .filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                e.target.classList.add('active');
+                currentFilter = e.target.getAttribute('data-category');
+                filterAndDisplayCodes();
+            }
+        });
+        
+        searchInput.addEventListener('input', function() {
+            currentSearch = this.value.toLowerCase();
+            filterAndDisplayCodes();
+        });
+        
+        document.getElementById('themeBtn').addEventListener('click', function() {
+            const currentTheme = document.body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.body.setAttribute('data-theme', newTheme);
+            this.textContent = newTheme === 'dark' ? '🌙' : '☀️';
+            localStorage.setItem('theme', newTheme);
+        });
+        
+        document.getElementById('soundBtn').addEventListener('click', function() {
+            const video = document.getElementById('bgVid');
+            video.muted = !video.muted;
+            this.textContent = video.muted ? "🔇" : "🔊";
+        });
+        
+        document.getElementById('userBtn').addEventListener('click', function() {
+            const menu = document.getElementById('userMenu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        });
+        
+        document.getElementById('loginBtn').addEventListener('click', () => {
+            closeModal();
+            document.getElementById('loginModal').style.display = 'flex';
+        });
+        
+        document.getElementById('registerBtn').addEventListener('click', () => {
+            closeModal();
+            document.getElementById('registerModal').style.display = 'flex';
+        });
+        
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            await signOut(window.auth);
+            showNotification('Logged out successfully');
+            loadCodesFromSheet(true);
+        });
+        
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal-overlay')) {
+                closeModal();
+            }
+        });
+        
+        document.getElementById('uploadCode')?.addEventListener('input', function() {
+            detectTags(this.value);
+        });
+    });
+    
+    // Auto-refresh every 5 minutes
+    setInterval(() => {
+        if (navigator.onLine) {
+            loadCodesFromSheet();
+        }
+    }, 300000);
+</script>
+</body>
+</html>
