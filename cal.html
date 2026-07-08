@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>🍊 CodeShalaByKMFL Calculator</title>
+    <style>
+        :root {
+            --orange-light: #fff5eb;
+            --orange-soft: #ffbd7a;
+            --orange-medium: #ffaa50;
+            --orange-deep: #ff8c28;
+            --orange-dark: #c06018;
+            --white: #ffffff;
+            --white-off: #fafaf8;
+            --border-light: #f0e8d8;
+            --shadow-soft: #e8e0d0;
+            --text-black: #1a1a1a;
+            --text-gray: #bfb8a8;
+            --bg-warm: #f5f0e8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Helvetica Neue', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            padding: 20px;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            background: var(--bg-warm);
+            background-image:
+                radial-gradient(ellipse at 25% 15%, rgba(255,140,40,0.1) 0%, transparent 55%),
+                radial-gradient(ellipse at 75% 75%, rgba(255,160,60,0.08) 0%, transparent 55%),
+                radial-gradient(ellipse at 50% 50%, rgba(255,120,20,0.05) 0%, transparent 65%);
+        }
+
+        .calculator-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Calculator Body */
+        .calculator {
+            width: 390px;
+            background: var(--white);
+            border-radius: 34px;
+            padding: 26px 22px 22px;
+            box-shadow:
+                0 28px 65px rgba(0,0,0,0.13),
+                0 14px 28px rgba(0,0,0,0.09),
+                0 5px 10px rgba(0,0,0,0.06),
+                0 0 0 1px rgba(0,0,0,0.04);
+            position: relative;
+        }
+
+        /* Top accent bar */
+        .calculator::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 55px;
+            height: 5px;
+            background: var(--orange-deep);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(255,140,40,0.35);
+        }
+
+        /* Brand Header */
+        .brand-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 0 6px;
+        }
+
+        .brand-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .brand-icon {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, var(--orange-deep), var(--orange-medium));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            box-shadow: 0 2px 6px rgba(255,140,40,0.3);
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-name {
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: var(--text-black);
+            line-height: 1;
+        }
+
+        .brand-tagline {
+            font-size: 8px;
+            font-weight: 600;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--orange-deep);
+            line-height: 1;
+            margin-top: 2px;
+        }
+
+        .brand-badge {
+            background: linear-gradient(135deg, var(--orange-deep), #ffa040);
+            color: #fff;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 5px 10px;
+            border-radius: 12px;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 8px rgba(255,140,40,0.25);
+        }
+
+        /* Display Area */
+        .display-area {
+            background: var(--white-off);
+            border-radius: 20px;
+            padding: 18px 18px 14px;
+            margin-bottom: 20px;
+            box-shadow:
+                inset 0 2px 7px rgba(0,0,0,0.06),
+                inset 0 1px 2px rgba(0,0,0,0.04);
+            border: 1.5px solid var(--border-light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .display-area::after {
+            content: '';
+            position: absolute;
+            top: -25%;
+            left: -5%;
+            width: 110%;
+            height: 85%;
+            background: linear-gradient(180deg,
+                rgba(255,255,255,0.55) 0%,
+                rgba(255,255,255,0.08) 50%,
+                transparent 100%);
+            pointer-events: none;
+            border-radius: 20px;
+        }
+
+        .expression {
+            font-size: 14px;
+            color: var(--text-gray);
+            text-align: right;
+            min-height: 20px;
+            font-family: 'SF Mono', 'Menlo', 'Courier New', monospace;
+            letter-spacing: 0.5px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 2px;
+        }
+
+        .result {
+            font-size: 50px;
+            color: var(--text-black);
+            text-align: right;
+            font-weight: 250;
+            font-family: 'Helvetica Neue', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            letter-spacing: -1.5px;
+            line-height: 1.1;
+            min-height: 54px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Button Grid */
+        .buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 11px;
+        }
+
+        /* Base Button */
+        .btn {
+            height: 60px;
+            border-radius: 18px;
+            border: none;
+            cursor: pointer;
+            font-size: 21px;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.07s ease;
+            letter-spacing: 0.5px;
+            font-family: 'Helvetica Neue', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
+            color: var(--text-black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Number Buttons - White */
+        .btn-number {
+            background: var(--white);
+            box-shadow:
+                0 4px 0 var(--shadow-soft),
+                0 5px 10px rgba(0,0,0,0.07),
+                0 1px 0 rgba(255,255,255,0.9) inset;
+            border: 1px solid var(--border-light);
+        }
+
+        .btn-number:active {
+            transform: translateY(3px);
+            box-shadow:
+                0 1px 0 var(--shadow-soft),
+                0 2px 4px rgba(0,0,0,0.07);
+            background: #faf8f4;
+        }
+
+        /* Delete Button (⌫) - Light Orange */
+        .btn-delete {
+            background: var(--orange-light);
+            box-shadow:
+                0 4px 0 #e8d0b0,
+                0 5px 10px rgba(0,0,0,0.07),
+                0 1px 0 rgba(255,255,255,0.8) inset;
+            border: 1px solid #f5e0c8;
+            color: var(--orange-deep);
+            font-weight: 600;
+            font-size: 17px;
+        }
+
+        .btn-delete:active {
+            transform: translateY(3px);
+            box-shadow:
+                0 1px 0 #e8d0b0,
+                0 2px 4px rgba(0,0,0,0.07);
+            background: #ffebd5;
+        }
+
+        /* Function Buttons (AC, ±, %) - Light Orange */
+        .btn-function {
+            background: var(--orange-light);
+            box-shadow:
+                0 4px 0 #e8d0b0,
+                0 5px 10px rgba(0,0,0,0.07),
+                0 1px 0 rgba(255,255,255,0.8) inset;
+            border: 1px solid #f5e0c8;
+            color: var(--orange-deep);
+            font-weight: 600;
+            font-size: 17px;
+        }
+
+        .btn-function:active {
+            transform: translateY(3px);
+            box-shadow:
+                0 1px 0 #e8d0b0,
+                0 2px 4px rgba(0,0,0,0.07);
+            background: #ffebd5;
+        }
+
+        /* Operator Buttons (÷, ×, -, +) - Medium Orange */
+        .btn-operator {
+            background: var(--orange-medium);
+            box-shadow:
+                0 4px 0 #d07828,
+                0 5px 10px rgba(255,140,40,0.3),
+                0 1px 0 rgba(255,255,255,0.4) inset;
+            border: 1px solid #ffb870;
+            color: var(--white);
+            font-weight: 600;
+            font-size: 23px;
+        }
+
+        .btn-operator:active {
+            transform: translateY(3px);
+            box-shadow:
+                0 1px 0 #d07828,
+                0 2px 6px rgba(255,140,40,0.25);
+            background: #ff9a38;
+        }
+
+        .btn-operator.active-op {
+            background: var(--white) !important;
+            color: var(--orange-deep) !important;
+            box-shadow:
+                0 2px 0 #e0c8a0,
+                0 3px 6px rgba(0,0,0,0.1),
+                0 1px 0 rgba(255,255,255,0.9) inset !important;
+            border: 2px solid var(--orange-deep) !important;
+            transform: translateY(2px);
+            font-weight: 700;
+        }
+
+        /* Equals Button - Deep Orange */
+        .btn-equals {
+            background: var(--orange-deep);
+            box-shadow:
+                0 4px 0 var(--orange-dark),
+                0 5px 14px rgba(255,140,40,0.4),
+                0 1px 0 rgba(255,255,255,0.5) inset;
+            border: 1px solid #ffa050;
+            color: var(--white);
+            font-weight: 700;
+            font-size: 24px;
+        }
+
+        .btn-equals:active {
+            transform: translateY(3px);
+            box-shadow:
+                0 1px 0 var(--orange-dark),
+                0 3px 8px rgba(255,140,40,0.35);
+            background: #f07818;
+        }
+
+        /* Zero Button - Double Width */
+        .btn-zero {
+            grid-column: span 2;
+        }
+
+        /* Button inner highlight */
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 5px;
+            right: 5px;
+            bottom: 55%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.22), transparent);
+            border-radius: 14px;
+            pointer-events: none;
+        }
+
+        .btn-operator::after,
+        .btn-equals::after {
+            background: linear-gradient(180deg, rgba(255,255,255,0.28), transparent);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 14px;
+            padding: 0 6px;
+        }
+
+        .footer-text {
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #ccc;
+        }
+
+        .footer-text span {
+            color: var(--orange-deep);
+            font-weight: 700;
+        }
+
+        /* Responsive */
+        @media (max-width: 420px) {
+            .calculator {
+                width: 340px;
+                padding: 20px 16px 18px;
+                border-radius: 30px;
+            }
+            .btn {
+                height: 54px;
+                font-size: 19px;
+                border-radius: 16px;
+            }
+            .result {
+                font-size: 42px;
+                min-height: 46px;
+            }
+            .buttons-grid {
+                gap: 9px;
+            }
+            .brand-name {
+                font-size: 12px;
+            }
+            .brand-tagline {
+                font-size: 7px;
+                letter-spacing: 2px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .calculator {
+                width: 295px;
+                padding: 16px 12px 14px;
+                border-radius: 26px;
+            }
+            .btn {
+                height: 48px;
+                font-size: 17px;
+                border-radius: 14px;
+            }
+            .result {
+                font-size: 36px;
+                min-height: 40px;
+            }
+            .buttons-grid {
+                gap: 7px;
+            }
+            .btn-operator {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator-wrapper">
+        <div class="calculator">
+            <!-- Brand Header -->
+            <div class="brand-header">
+                <div class="brand-left">
+                    <div class="brand-icon">🍊</div>
+                    <div class="brand-text">
+                        <span class="brand-name">CodeShalaByKMFL</span>
+                        <span class="brand-tagline">Calculator Pro</span>
+                    </div>
+                </div>
+                <div class="brand-badge">2026</div>
+            </div>
+
+            <!-- Display -->
+            <div class="display-area">
+                <div class="expression" id="expression"></div>
+                <div class="result" id="result">0</div>
+            </div>
+
+            <!-- Buttons Grid -->
+            <div class="buttons-grid">
+                <!-- Row 1: AC, ⌫, %, ÷ -->
+                <button class="btn btn-function" data-action="clear">AC</button>
+                <button class="btn btn-delete" data-action="backspace" aria-label="Backspace">
+                    <svg width="22" height="18" viewBox="0 0 24 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 2H7L1 9l6 7h14a2 2 0 002-2V4a2 2 0 00-2-2z"/>
+                        <line x1="16" y1="6" x2="12" y2="10"/>
+                        <line x1="12" y1="6" x2="16" y2="10"/>
+                    </svg>
+                </button>
+                <button class="btn btn-function" data-action="percent">%</button>
+                <button class="btn btn-operator" data-operator="÷">÷</button>
+
+                <!-- Row 2: 7, 8, 9, × -->
+                <button class="btn btn-number" data-number="7">7</button>
+                <button class="btn btn-number" data-number="8">8</button>
+                <button class="btn btn-number" data-number="9">9</button>
+                <button class="btn btn-operator" data-operator="×">×</button>
+
+                <!-- Row 3: 4, 5, 6, − -->
+                <button class="btn btn-number" data-number="4">4</button>
+                <button class="btn btn-number" data-number="5">5</button>
+                <button class="btn btn-number" data-number="6">6</button>
+                <button class="btn btn-operator" data-operator="−">−</button>
+
+                <!-- Row 4: 1, 2, 3, + -->
+                <button class="btn btn-number" data-number="1">1</button>
+                <button class="btn btn-number" data-number="2">2</button>
+                <button class="btn btn-number" data-number="3">3</button>
+                <button class="btn btn-operator" data-operator="+">+</button>
+
+                <!-- Row 5: 0, ., = -->
+                <button class="btn btn-number btn-zero" data-number="0">0</button>
+                <button class="btn btn-number" data-number=".">.</button>
+                <button class="btn btn-equals" data-action="equals">=</button>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer">
+                <span class="footer-text">Powered by <span>CodeShalaByKMFL</span></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const expressionDisplay = document.getElementById('expression');
+            const resultDisplay = document.getElementById('result');
+            const operatorButtons = document.querySelectorAll('[data-operator]');
+
+            // Calculator state
+            let currentInput = '0';
+            let previousInput = '';
+            let operator = null;
+            let shouldResetScreen = false;
+            let justPressedEquals = false;
+
+            function updateDisplay() {
+                resultDisplay.textContent = currentInput;
+
+                // Build expression string
+                if (operator && previousInput !== '') {
+                    expressionDisplay.textContent = `${previousInput} ${operator} ${shouldResetScreen ? '' : currentInput}`;
+                } else {
+                    expressionDisplay.textContent = '';
+                }
+
+                // Highlight active operator button
+                operatorButtons.forEach(btn => {
+                    btn.classList.remove('active-op');
+                    if (operator && btn.dataset.operator === operator) {
+                        btn.classList.add('active-op');
+                    }
+                });
+            }
+
+            function clearAll() {
+                currentInput = '0';
+                previousInput = '';
+                operator = null;
+                shouldResetScreen = false;
+                justPressedEquals = false;
+                updateDisplay();
+            }
+
+            function handleBackspace() {
+                if (justPressedEquals) {
+                    clearAll();
+                    return;
+                }
+                if (shouldResetScreen) {
+                    currentInput = '0';
+                    shouldResetScreen = false;
+                } else if (currentInput.length > 1) {
+                    currentInput = currentInput.slice(0, -1);
+                } else {
+                    currentInput = '0';
+                }
+                // Handle negative sign edge case
+                if (currentInput === '-' || currentInput === '') {
+                    currentInput = '0';
+                }
+                updateDisplay();
+            }
+
+            function inputNumber(num) {
+                if (justPressedEquals) {
+                    // After equals, start fresh
+                    currentInput = num;
+                    previousInput = '';
+                    operator = null;
+                    justPressedEquals = false;
+                    shouldResetScreen = false;
+                    updateDisplay();
+                    return;
+                }
+
+                if (shouldResetScreen) {
+                    currentInput = num;
+                    shouldResetScreen = false;
+                } else {
+                    if (currentInput === '0' && num !== '.') {
+                        currentInput = num;
+                    } else if (currentInput === '-0' && num !== '.') {
+                        currentInput = '-' + num;
+                    } else {
+                        // Prevent multiple decimals
+                        if (num === '.' && currentInput.includes('.')) return;
+                        // Limit length to 12 digits
+                        if (currentInput.replace(/[^0-9]/g, '').length >= 12) return;
+                        currentInput += num;
+                    }
+                }
+                updateDisplay();
+            }
+
+            function inputDecimal() {
+                if (justPressedEquals) {
+                    currentInput = '0.';
+                    previousInput = '';
+                    operator = null;
+                    justPressedEquals = false;
+                    shouldResetScreen = false;
+                    updateDisplay();
+                    return;
+                }
+                if (shouldResetScreen) {
+                    currentInput = '0.';
+                    shouldResetScreen = false;
+                } else if (!currentInput.includes('.')) {
+                    currentInput += '.';
+                }
+                updateDisplay();
+            }
+
+            function handleOperator(op) {
+                const current = parseFloat(currentInput);
+
+                if (operator && !shouldResetScreen && previousInput !== '') {
+                    // Chain operations
+                    const prev = parseFloat(previousInput);
+                    const result = calculate(prev, current, operator);
+                    currentInput = formatResult(result);
+                    previousInput = currentInput;
+                } else {
+                    previousInput = currentInput;
+                }
+
+                operator = op;
+                shouldResetScreen = true;
+                justPressedEquals = false;
+                updateDisplay();
+            }
+
+            function handleEquals() {
+                if (justPressedEquals) return;
+
+                if (operator && previousInput !== '') {
+                    const prev = parseFloat(previousInput);
+                    const current = parseFloat(currentInput);
+                    const result = calculate(prev, current, operator);
+
+                    // Show full expression
+                    expressionDisplay.textContent = `${previousInput} ${operator} ${currentInput} =`;
+
+                    currentInput = formatResult(result);
+                    previousInput = '';
+                    operator = null;
+                    shouldResetScreen = true;
+                    justPressedEquals = true;
+                    updateDisplay();
+                }
+            }
+
+            function calculate(a, b, op) {
+                switch (op) {
+                    case '+': return a + b;
+                    case '−': return a - b;
+                    case '×': return a * b;
+                    case '÷':
+                        if (b === 0) return 'Error';
+                        return a / b;
+                    default: return b;
+                }
+            }
+
+            function formatResult(num) {
+                if (num === 'Error') return 'Error';
+                if (!isFinite(num)) return 'Error';
+
+                // Round to avoid floating point issues
+                const rounded = Math.round(num * 1e10) / 1e10;
+
+                // Convert to string and limit length
+                let str = rounded.toString();
+                if (str.length > 12) {
+                    if (Math.abs(rounded) >= 1e12 || (Math.abs(rounded) < 1e-10 && rounded !== 0)) {
+                        str = rounded.toExponential(6);
+                    } else {
+                        str = str.substring(0, 12);
+                    }
+                }
+                return str;
+            }
+
+            function handleNegate() {
+                if (currentInput === '0' || currentInput === 'Error') return;
+                if (justPressedEquals) {
+                    currentInput = currentInput.startsWith('-') ? currentInput.slice(1) : '-' + currentInput;
+                    justPressedEquals = false;
+                } else {
+                    currentInput = currentInput.startsWith('-') ? currentInput.slice(1) : '-' + currentInput;
+                }
+                updateDisplay();
+            }
+
+            function handlePercent() {
+                if (currentInput === 'Error') return;
+                const current = parseFloat(currentInput);
+                if (isNaN(current)) return;
+                currentInput = formatResult(current / 100);
+                updateDisplay();
+            }
+
+            // Button click handlers
+            document.querySelectorAll('.btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const number = btn.dataset.number;
+                    const action = btn.dataset.action;
+                    const op = btn.dataset.operator;
+
+                    if (number !== undefined) {
+                        number === '.' ? inputDecimal() : inputNumber(number);
+                    } else if (action) {
+                        switch (action) {
+                            case 'clear': clearAll(); break;
+                            case 'backspace': handleBackspace(); break;
+                            case 'negate': handleNegate(); break;
+                            case 'percent': handlePercent(); break;
+                            case 'equals': handleEquals(); break;
+                        }
+                    } else if (op) {
+                        handleOperator(op);
+                    }
+                });
+
+                // Touch events for mobile
+                btn.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                }, { passive: false });
+            });
+
+            // Keyboard support
+            document.addEventListener('keydown', (e) => {
+                const key = e.key;
+
+                if (key >= '0' && key <= '9') {
+                    e.preventDefault();
+                    inputNumber(key);
+                } else if (key === '.') {
+                    e.preventDefault();
+                    inputDecimal();
+                } else if (key === '+') {
+                    e.preventDefault();
+                    handleOperator('+');
+                } else if (key === '-') {
+                    e.preventDefault();
+                    handleOperator('−');
+                } else if (key === '*') {
+                    e.preventDefault();
+                    handleOperator('×');
+                } else if (key === '/') {
+                    e.preventDefault();
+                    handleOperator('÷');
+                } else if (key === 'Enter' || key === '=') {
+                    e.preventDefault();
+                    handleEquals();
+                } else if (key === 'Escape' || key === 'c' || key === 'C') {
+                    e.preventDefault();
+                    clearAll();
+                } else if (key === '%') {
+                    e.preventDefault();
+                    handlePercent();
+                } else if (key === 'Backspace') {
+                    e.preventDefault();
+                    handleBackspace();
+                }
+            });
+
+            // Initialize
+            updateDisplay();
+        })();
+    </script>
+</body>
+</html>
