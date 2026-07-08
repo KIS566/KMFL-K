@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>🥃 Liquid Glass Clock — CodeShalaByKMFL</title>
+    <style>
+        :root {
+            --glass-bg: rgba(255,255,255,0.15);
+            --glass-border: rgba(255,255,255,0.25);
+            --glass-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            --glass-blur: blur(20px);
+            --orange-deep: #ff8c28;
+            --orange-medium: #ffaa50;
+            --orange-light: #fff5eb;
+            --orange-dark: #c06018;
+            --text-primary: #1a1a1a;
+            --text-secondary: #8a8a8a;
+            --white-glass: rgba(255,255,255,0.6);
+            --white-glass-strong: rgba(255,255,255,0.85);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Helvetica Neue', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            padding: 20px;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            /* Animated gradient background */
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 25%, #ff9a76 50%, #fecf6f 75%, #ffe0b2 100%);
+            background-size: 400% 400%;
+            animation: bgShift 15s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes bgShift {
+            0%, 100% { background-position: 0% 50%; }
+            25% { background-position: 100% 0%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
+        }
+
+        /* Floating orbs */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -150px;
+            left: -150px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: orb1 12s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -100px;
+            right: -100px;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(255,140,40,0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: orb2 10s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes orb1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(60px, 40px) scale(1.15); }
+            66% { transform: translate(-30px, -20px) scale(0.9); }
+        }
+
+        @keyframes orb2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-50px, -30px) scale(1.2); }
+        }
+
+        .clock-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Main Clock Body — Liquid Glass */
+        .clock {
+            width: 420px;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border-radius: 36px;
+            padding: 28px 24px 24px;
+            box-shadow:
+                0 8px 32px rgba(0,0,0,0.08),
+                0 2px 8px rgba(0,0,0,0.04),
+                inset 0 1px 0 rgba(255,255,255,0.4),
+                inset 0 -1px 0 rgba(255,255,255,0.1);
+            border: 1.5px solid var(--glass-border);
+            position: relative;
+        }
+
+        /* Glass highlight stripe */
+        .clock::before {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 4px;
+            background: rgba(255,255,255,0.6);
+            border-radius: 10px;
+            box-shadow: 0 0 12px rgba(255,140,40,0.4);
+        }
+
+        /* Brand Header */
+        .brand-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+            padding: 0 6px;
+        }
+
+        .brand-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--orange-deep), var(--orange-medium));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            box-shadow: 0 4px 12px rgba(255,140,40,0.35);
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-name {
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: var(--text-primary);
+            line-height: 1;
+        }
+
+        .brand-tagline {
+            font-size: 8px;
+            font-weight: 600;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--orange-deep);
+            line-height: 1;
+            margin-top: 2px;
+        }
+
+        .brand-badge {
+            background: rgba(255,255,255,0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: var(--orange-deep);
+            font-size: 9px;
+            font-weight: 700;
+            padding: 5px 10px;
+            border-radius: 12px;
+            letter-spacing: 1px;
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        /* Digital Display — Glass Panel */
+        .digital-display {
+            background: rgba(255,255,255,0.35);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 22px;
+            padding: 20px 18px 16px;
+            margin-bottom: 20px;
+            box-shadow:
+                0 4px 16px rgba(0,0,0,0.05),
+                inset 0 1px 0 rgba(255,255,255,0.5);
+            border: 1px solid rgba(255,255,255,0.4);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Glass shine effect */
+        .digital-display::after {
+            content: '';
+            position: absolute;
+            top: -30%;
+            left: -10%;
+            width: 120%;
+            height: 90%;
+            background: linear-gradient(180deg,
+                rgba(255,255,255,0.5) 0%,
+                rgba(255,255,255,0.1) 40%,
+                transparent 70%);
+            pointer-events: none;
+            border-radius: 22px;
+        }
+
+        .time-digital {
+            font-size: 54px;
+            font-weight: 200;
+            color: var(--text-primary);
+            letter-spacing: 3px;
+            font-family: 'SF Mono', 'Menlo', 'Courier New', monospace;
+            position: relative;
+            z-index: 1;
+        }
+
+        .seconds-blink {
+            display: inline-block;
+            width: 55px;
+            text-align: center;
+            color: var(--orange-deep);
+            font-weight: 300;
+            opacity: 0.8;
+        }
+
+        .date-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            position: relative;
+            z-index: 1;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .date-digital {
+            font-size: 14px;
+            color: var(--text-secondary);
+            letter-spacing: 0.5px;
+            font-family: 'Helvetica Neue', 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        .day-badge {
+            display: inline-block;
+            background: rgba(255,140,40,0.15);
+            color: var(--orange-deep);
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(255,140,40,0.25);
+        }
+
+        .ampm-badge {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(135deg, var(--orange-deep), var(--orange-medium));
+            padding: 3px 10px;
+            border-radius: 10px;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 8px rgba(255,140,40,0.35);
+        }
+
+        /* Analog Clock Container — Glass Circle */
+        .analog-container {
+            background: rgba(255,255,255,0.3);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 50%;
+            width: 280px;
+            height: 280px;
+            margin: 0 auto 20px;
+            box-shadow:
+                0 4px 20px rgba(0,0,0,0.06),
+                inset 0 1px 0 rgba(255,255,255,0.5);
+            border: 1.5px solid rgba(255,255,255,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .analog-container::after {
+            content: '';
+            position: absolute;
+            top: 6%;
+            left: 12%;
+            width: 50%;
+            height: 45%;
+            background: radial-gradient(ellipse, rgba(255,255,255,0.6) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        canvas {
+            display: block;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Buttons — Glass */
+        .button-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            height: 48px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.4);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            position: relative;
+            transition: all 0.15s ease;
+            letter-spacing: 0.5px;
+            font-family: 'Helvetica Neue', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .btn-light {
+            background: rgba(255,255,255,0.4);
+            color: var(--text-primary);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+        }
+
+        .btn-light:hover {
+            background: rgba(255,255,255,0.55);
+        }
+
+        .btn-light:active {
+            background: rgba(255,255,255,0.7);
+            transform: scale(0.96);
+        }
+
+        .btn-light.active {
+            background: rgba(255,140,40,0.2);
+            border-color: rgba(255,140,40,0.5);
+            color: var(--orange-deep);
+            font-weight: 700;
+            box-shadow: 0 2px 12px rgba(255,140,40,0.2);
+        }
+
+        .btn-accent {
+            background: linear-gradient(135deg, var(--orange-deep), var(--orange-medium));
+            color: #fff;
+            font-weight: 700;
+            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 4px 16px rgba(255,140,40,0.35);
+        }
+
+        .btn-accent:active {
+            transform: scale(0.96);
+            box-shadow: 0 2px 8px rgba(255,140,40,0.25);
+        }
+
+        /* Stopwatch Display */
+        .stopwatch-display {
+            background: rgba(255,255,255,0.35);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 18px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(255,255,255,0.4);
+            text-align: center;
+            display: none;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+        }
+
+        .stopwatch-display.visible {
+            display: block;
+        }
+
+        .stopwatch-time {
+            font-size: 44px;
+            font-weight: 200;
+            color: var(--text-primary);
+            letter-spacing: 1px;
+            font-family: 'SF Mono', 'Menlo', 'Courier New', monospace;
+        }
+
+        .stopwatch-ms {
+            color: var(--orange-deep);
+            font-size: 26px;
+            opacity: 0.8;
+        }
+
+        /* Laps */
+        .lap-item {
+            background: rgba(255,255,255,0.35);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 14px;
+            padding: 0 6px;
+        }
+
+        .footer-text {
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(0,0,0,0.3);
+        }
+
+        .footer-text span {
+            color: var(--orange-deep);
+            font-weight: 700;
+        }
+
+        .hidden { display: none !important; }
+        .visible { display: flex !important; }
+
+        /* Responsive */
+        @media (max-width: 460px) {
+            .clock {
+                width: 350px;
+                padding: 22px 16px 18px;
+                border-radius: 30px;
+            }
+            .analog-container {
+                width: 240px;
+                height: 240px;
+            }
+            canvas {
+                width: 220px;
+                height: 220px;
+            }
+            .time-digital {
+                font-size: 42px;
+            }
+            .stopwatch-time {
+                font-size: 34px;
+            }
+            .btn {
+                height: 42px;
+                font-size: 12px;
+                border-radius: 14px;
+            }
+        }
+
+        @media (max-width: 370px) {
+            .clock {
+                width: 300px;
+                padding: 18px 12px 14px;
+                border-radius: 26px;
+            }
+            .analog-container {
+                width: 200px;
+                height: 200px;
+            }
+            canvas {
+                width: 185px;
+                height: 185px;
+            }
+            .time-digital {
+                font-size: 34px;
+            }
+            .stopwatch-time {
+                font-size: 28px;
+            }
+            .btn {
+                height: 38px;
+                font-size: 11px;
+                border-radius: 12px;
+            }
+            .brand-name {
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="clock-wrapper">
+        <div class="clock">
+            <!-- Brand Header -->
+            <div class="brand-header">
+                <div class="brand-left">
+                    <div class="brand-icon">🥃</div>
+                    <div class="brand-text">
+                        <span class="brand-name">CodeShalaByKMFL</span>
+                        <span class="brand-tagline">Glass Clock Pro</span>
+                    </div>
+                </div>
+                <div class="brand-badge">2026</div>
+            </div>
+
+            <!-- Digital Display -->
+            <div class="digital-display" id="digitalDisplay">
+                <div class="time-digital" id="timeDigital">
+                    12:00<span class="seconds-blink">:00</span>
+                </div>
+                <div class="date-row">
+                    <span class="date-digital" id="dateDigital">January 1, 2026</span>
+                    <span class="day-badge" id="dayBadge">Thu</span>
+                    <span class="ampm-badge" id="ampmBadge">AM</span>
+                </div>
+            </div>
+
+            <!-- Analog Clock -->
+            <div class="analog-container" id="analogContainer">
+                <canvas id="analogCanvas" width="260" height="260"></canvas>
+            </div>
+
+            <!-- Stopwatch Display -->
+            <div class="stopwatch-display" id="stopwatchDisplay">
+                <div class="stopwatch-time" id="stopwatchTime">
+                    00:00<span class="stopwatch-ms" id="stopwatchMs">.00</span>
+                </div>
+            </div>
+
+            <!-- Mode Toggle Buttons -->
+            <div class="button-row">
+                <button class="btn btn-light active" data-mode="clock" id="btnClock">
+                    🕐 Clock
+                </button>
+                <button class="btn btn-light" data-mode="stopwatch" id="btnStopwatch">
+                    ⏱ Stopwatch
+                </button>
+            </div>
+
+            <!-- Stopwatch Controls -->
+            <div class="button-row hidden" id="stopwatchControls">
+                <button class="btn btn-accent" id="btnStartStop">▶ Start</button>
+                <button class="btn btn-light" id="btnLap">🏁 Lap</button>
+                <button class="btn btn-light" id="btnReset">🔄 Reset</button>
+            </div>
+
+            <!-- Laps List -->
+            <div class="hidden" id="lapsContainer" style="margin-top: 10px; max-height: 120px; overflow-y: auto;">
+                <div id="lapsList" style="display: flex; flex-direction: column; gap: 6px;"></div>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer">
+                <span class="footer-text">Powered by <span>CodeShalaByKMFL</span></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const timeDigital = document.getElementById('timeDigital');
+            const ampmBadge = document.getElementById('ampmBadge');
+            const dateDigital = document.getElementById('dateDigital');
+            const dayBadge = document.getElementById('dayBadge');
+            const analogCanvas = document.getElementById('analogCanvas');
+            const ctx = analogCanvas.getContext('2d');
+            const stopwatchDisplay = document.getElementById('stopwatchDisplay');
+            const stopwatchTime = document.getElementById('stopwatchTime');
+            const stopwatchControls = document.getElementById('stopwatchControls');
+            const lapsContainer = document.getElementById('lapsContainer');
+            const lapsList = document.getElementById('lapsList');
+            const digitalDisplay = document.getElementById('digitalDisplay');
+            const analogContainer = document.getElementById('analogContainer');
+            const btnClock = document.getElementById('btnClock');
+            const btnStopwatch = document.getElementById('btnStopwatch');
+            const btnStartStop = document.getElementById('btnStartStop');
+            const btnLap = document.getElementById('btnLap');
+            const btnReset = document.getElementById('btnReset');
+
+            let currentMode = 'clock';
+            let stopwatchRunning = false;
+            let stopwatchStartTime = 0;
+            let stopwatchElapsed = 0;
+            let stopwatchInterval = null;
+            let lapCount = 0;
+
+            function updateClock() {
+                const now = new Date();
+                const hours = now.getHours();
+                const minutes = now.getMinutes();
+                const seconds = now.getSeconds();
+                const ms = now.getMilliseconds();
+
+                const h12 = hours % 12 || 12;
+                const ampm = hours >= 12 ? 'PM' : 'AM';
+                timeDigital.innerHTML = `${String(h12).padStart(2,'0')}:${String(minutes).padStart(2,'0')}<span class="seconds-blink">:${String(seconds).padStart(2,'0')}</span>`;
+                ampmBadge.textContent = ampm;
+
+                const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+                const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+                const date = now.getDate();
+                const suffix = date===1||date===21||date===31?'st':date===2||date===22?'nd':date===3||date===23?'rd':'th';
+                dateDigital.textContent = `${months[now.getMonth()]} ${date}${suffix}, ${now.getFullYear()}`;
+                dayBadge.textContent = days[now.getDay()];
+
+                drawAnalogClock(hours, minutes, seconds, ms);
+            }
+
+            function drawAnalogClock(h, m, s, ms) {
+                const size = analogCanvas.width;
+                const cx = size/2, cy = size/2, r = size/2 - 10;
+                ctx.clearRect(0,0,size,size);
+
+                // Glass face
+                const faceGrad = ctx.createRadialGradient(cx-3, cy-5, r*0.05, cx, cy, r);
+                faceGrad.addColorStop(0, 'rgba(255,255,255,0.7)');
+                faceGrad.addColorStop(0.7, 'rgba(255,255,255,0.35)');
+                faceGrad.addColorStop(1, 'rgba(255,255,255,0.15)');
+                ctx.beginPath();
+                ctx.arc(cx, cy, r, 0, Math.PI*2);
+                ctx.fillStyle = faceGrad;
+                ctx.fill();
+                ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+
+                // Hour markers
+                for (let i=0; i<12; i++) {
+                    const a = (i*30-90)*Math.PI/180;
+                    ctx.beginPath();
+                    ctx.moveTo(cx+Math.cos(a)*(r-6), cy+Math.sin(a)*(r-6));
+                    ctx.lineTo(cx+Math.cos(a)*(r-18), cy+Math.sin(a)*(r-18));
+                    ctx.strokeStyle = i%3===0 ? 'rgba(0,0,0,0.6)' : 'rgba(0,0,0,0.25)';
+                    ctx.lineWidth = i%3===0 ? 2.5 : 1.2;
+                    ctx.lineCap = 'round';
+                    ctx.stroke();
+                }
+
+                // Numbers
+                ctx.fillStyle = 'rgba(0,0,0,0.7)';
+                ctx.font = 'bold 15px "Helvetica Neue","Segoe UI",system-ui,sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                for (let i=1; i<=12; i++) {
+                    const a = (i*30-90)*Math.PI/180;
+                    ctx.fillText(i, cx+Math.cos(a)*(r-32), cy+Math.sin(a)*(r-32));
+                }
+
+                // Hands
+                const hrA = ((h%12)+m/60)*30-90, hrR = hrA*Math.PI/180;
+                const minA = (m+s/60)*6-90, minR = minA*Math.PI/180;
+                const secA = (s+ms/1000)*6-90, secR = secA*Math.PI/180;
+
+                drawGlassHand(cx, cy, hrR, r*0.48, 6, 'rgba(0,0,0,0.7)');
+                drawGlassHand(cx, cy, minR, r*0.7, 4.5, 'rgba(0,0,0,0.6)');
+                drawGlassHand(cx, cy, secR, r*0.78, 1.8, '#ff8c28');
+
+                // Center
+                ctx.beginPath(); ctx.arc(cx,cy,6,0,Math.PI*2); ctx.fillStyle='#ff8c28'; ctx.fill();
+                ctx.beginPath(); ctx.arc(cx,cy,3.5,0,Math.PI*2); ctx.fillStyle='#fff'; ctx.fill();
+                ctx.beginPath(); ctx.arc(cx,cy,1.8,0,Math.PI*2); ctx.fillStyle='rgba(0,0,0,0.5)'; ctx.fill();
+
+                // Brand
+                ctx.fillStyle = 'rgba(0,0,0,0.2)';
+                ctx.font = '7px "Helvetica Neue","Segoe UI",system-ui,sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('CodeShalaByKMFL', cx, cy+r*0.48);
+            }
+
+            function drawGlassHand(cx, cy, angle, len, w, color) {
+                ctx.save();
+                ctx.translate(cx, cy);
+                ctx.rotate(angle);
+                ctx.shadowColor = 'rgba(0,0,0,0.1)';
+                ctx.shadowBlur = 4;
+                ctx.shadowOffsetY = 2;
+                ctx.beginPath();
+                ctx.moveTo(-w/3, 0);
+                ctx.lineTo(0, -w/2);
+                ctx.lineTo(len, -w/4);
+                ctx.lineTo(len, w/4);
+                ctx.lineTo(0, w/2);
+                ctx.closePath();
+                ctx.fillStyle = color;
+                ctx.fill();
+                ctx.shadowColor = 'transparent';
+                ctx.restore();
+            }
+
+            function updateStopwatchDisplay() {
+                const tm = stopwatchRunning ? stopwatchElapsed+(Date.now()-stopwatchStartTime) : stopwatchElapsed;
+                const ms = Math.floor(tm%1000), ts = Math.floor(tm/1000), s = ts%60, m = Math.floor(ts/60);
+                stopwatchTime.innerHTML = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}<span class="stopwatch-ms">.${String(ms).padStart(3,'0').slice(0,2)}</span>`;
+            }
+
+            function startStopwatch() {
+                if (!stopwatchRunning) {
+                    stopwatchRunning = true; stopwatchStartTime = Date.now();
+                    btnStartStop.textContent = '⏸ Stop';
+                    btnStartStop.style.background = 'rgba(255,255,255,0.5)';
+                    btnStartStop.style.color = '#ff8c28';
+                    stopwatchInterval = setInterval(updateStopwatchDisplay, 10);
+                } else {
+                    stopwatchRunning = false; stopwatchElapsed += Date.now()-stopwatchStartTime;
+                    clearInterval(stopwatchInterval);
+                    btnStartStop.textContent = '▶ Start';
+                    btnStartStop.style.background = 'linear-gradient(135deg, #ff8c28, #ffaa50)';
+                    btnStartStop.style.color = '#fff';
+                    updateStopwatchDisplay();
+                }
+            }
+
+            function lapStopwatch() {
+                if (!stopwatchRunning && stopwatchElapsed===0) return;
+                lapCount++;
+                const tm = stopwatchRunning ? stopwatchElapsed+(Date.now()-stopwatchStartTime) : stopwatchElapsed;
+                const ms = Math.floor(tm%1000), ts = Math.floor(tm/1000), s = ts%60, m = Math.floor(ts/60);
+                const div = document.createElement('div');
+                div.className = 'lap-item';
+                div.style.cssText = 'display:flex;justify-content:space-between;padding:8px 14px;border-radius:12px;font-family:"SF Mono","Menlo","Courier New",monospace;font-size:13px;';
+                div.innerHTML = `<span style="color:#ff8c28;font-weight:700;">Lap ${lapCount}</span><span style="color:#1a1a1a;">${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}.${String(ms).padStart(3,'0').slice(0,2)}</span>`;
+                lapsList.prepend(div);
+                lapsContainer.classList.remove('hidden'); lapsContainer.classList.add('visible');
+            }
+
+            function resetStopwatch() {
+                stopwatchRunning = false; clearInterval(stopwatchInterval);
+                stopwatchElapsed = 0; stopwatchStartTime = 0; lapCount = 0;
+                btnStartStop.textContent = '▶ Start';
+                btnStartStop.style.background = 'linear-gradient(135deg, #ff8c28, #ffaa50)';
+                btnStartStop.style.color = '#fff';
+                updateStopwatchDisplay();
+                lapsList.innerHTML = '';
+                lapsContainer.classList.add('hidden'); lapsContainer.classList.remove('visible');
+            }
+
+            function switchMode(mode) {
+                currentMode = mode;
+                if (mode==='clock') {
+                    btnClock.classList.add('active'); btnStopwatch.classList.remove('active');
+                    digitalDisplay.classList.remove('hidden'); analogContainer.classList.remove('hidden');
+                    stopwatchDisplay.classList.remove('visible'); stopwatchControls.classList.add('hidden');
+                    stopwatchControls.classList.remove('visible');
+                    lapsContainer.classList.add('hidden'); lapsContainer.classList.remove('visible');
+                    resetStopwatch(); updateClock();
+                } else {
+                    btnStopwatch.classList.add('active'); btnClock.classList.remove('active');
+                    digitalDisplay.classList.add('hidden'); analogContainer.classList.add('hidden');
+                    stopwatchDisplay.classList.add('visible'); stopwatchControls.classList.add('visible');
+                    stopwatchControls.classList.remove('hidden'); updateStopwatchDisplay();
+                }
+            }
+
+            btnClock.addEventListener('click', ()=>switchMode('clock'));
+            btnStopwatch.addEventListener('click', ()=>switchMode('stopwatch'));
+            btnStartStop.addEventListener('click', startStopwatch);
+            btnLap.addEventListener('click', lapStopwatch);
+            btnReset.addEventListener('click', resetStopwatch);
+
+            document.addEventListener('keydown', e => {
+                if (e.key==='1') switchMode('clock');
+                if (e.key==='2') switchMode('stopwatch');
+                if (currentMode==='stopwatch') {
+                    if (e.key===' '||e.key==='Enter') { e.preventDefault(); startStopwatch(); }
+                    if (e.key==='l'||e.key==='L') lapStopwatch();
+                    if (e.key==='r'||e.key==='R') resetStopwatch();
+                }
+            });
+
+            function init() {
+                switchMode('clock');
+                updateClock();
+                updateStopwatchDisplay();
+            }
+
+            setInterval(() => { if (currentMode==='clock') updateClock(); }, 100);
+            init();
+        })();
+    </script>
+</body>
+</html>
