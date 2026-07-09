@@ -3108,35 +3108,64 @@ if (auth) {
             window.scrollTo({top: 0, behavior: 'smooth'});
         });
 
-        // Typing Effect
-        const text = "Kishan Verma";
-        const typingEl = document.getElementById("typing");
-        let i = 0, forward = true;
+      // Typing Effect with Multiple Texts
+const texts = [
+    "Kishan Verma",
+    "App Developer",
+    "Web Developer",
+    "UI/UX Designer",
+    "Content Creator",
+    "Freelancer"
+];
+
+const typingEl = document.getElementById("typing");
+let textIndex = 0;      // Current text index
+let charIndex = 0;      // Current character index
+let isDeleting = false; // Deleting or typing
+let isWaiting = false;  // Waiting before delete
+
+function typeEffect() {
+    if (!typingEl) return;
+    
+    const currentText = texts[textIndex];
+    
+    if (!isDeleting && !isWaiting) {
+        // Typing forward
+        typingEl.textContent = currentText.substring(0, charIndex + 1);
+        charIndex++;
         
-        function typeEffect() {
-            if (typingEl) {
-                if (forward) { 
-                    typingEl.textContent = text.substring(0, i); 
-                    if (i < text.length) { 
-                        i++; 
-                        setTimeout(typeEffect, 150);
-                    } else {
-                        forward = false; 
-                        setTimeout(typeEffect, 1000);
-                    }
-                } else { 
-                    typingEl.textContent = text.substring(0, i); 
-                    if (i > 0) {
-                        i--; 
-                        setTimeout(typeEffect, 100);
-                    } else {
-                        forward = true; 
-                        setTimeout(typeEffect, 800);
-                    }
-                }
-            }
+        // Check if word is complete
+        if (charIndex === currentText.length) {
+            isWaiting = true;
+            setTimeout(() => {
+                isWaiting = false;
+                isDeleting = true;
+                typeEffect();
+            }, 2000); // Wait 2 seconds before deleting
+            return;
         }
-        typeEffect();
+        
+        setTimeout(typeEffect, 100); // Typing speed
+        
+    } else if (isDeleting) {
+        // Deleting backward
+        typingEl.textContent = currentText.substring(0, charIndex - 1);
+        charIndex--;
+        
+        // Check if deleted completely
+        if (charIndex === 0) {
+            isDeleting = false;
+            textIndex = (textIndex + 1) % texts.length; // Move to next text
+            setTimeout(typeEffect, 500); // Pause before typing next
+            return;
+        }
+        
+        setTimeout(typeEffect, 50); // Deleting speed (faster)
+    }
+}
+
+// Start the effect
+typeEffect();
 
         // ========== CALCULATOR ==========
         let calcDisplayValue = '0';
