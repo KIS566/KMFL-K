@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - CodeShala Gaming Hub</title>
+    <style>
+        :root {
+            --bg: #0a0a1a;
+            --panel: #13132b;
+            --accent: #6c5ce7;
+            --accent2: #00cec9;
+            --text: #e0e0e0;
+            --danger: #e74c3c;
+            --success: #27ae60;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { color: #888; margin-bottom: 25px; font-size: 0.95rem; }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .stat-card {
+            background: var(--panel);
+            padding: 20px;
+            border-radius: 14px;
+            text-align: center;
+            border: 1px solid #1e1e3a;
+        }
+        .stat-num {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .stat-label {
+            color: #888;
+            font-size: 0.75rem;
+            margin-top: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .card {
+            background: var(--panel);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid #1e1e3a;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        }
+        .card h3 {
+            margin-bottom: 20px;
+            color: var(--accent2);
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .form-group { margin-bottom: 15px; }
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #aaa;
+            font-size: 0.85rem;
+        }
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            background: #0a0a1a;
+            border: 2px solid #1e1e3a;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border 0.3s;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        .form-group textarea { resize: vertical; min-height: 60px; }
+
+        /* Icon type selector */
+        .icon-type-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .icon-type-btn {
+            flex: 1;
+            padding: 10px;
+            background: #0a0a1a;
+            border: 2px solid #1e1e3a;
+            border-radius: 10px;
+            color: #888;
+            cursor: pointer;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+        .icon-type-btn.active {
+            border-color: var(--accent);
+            color: #fff;
+            background: rgba(108, 92, 231, 0.2);
+        }
+        .icon-type-btn:hover { border-color: var(--accent2); }
+
+        .icon-preview {
+            width: 100px;
+            height: 100px;
+            background: #0a0a1a;
+            border: 2px solid #1e1e3a;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .icon-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-info-box {
+            background: rgba(108, 92, 231, 0.1);
+            border: 1px solid var(--accent);
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-top: 10px;
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+        .image-info-box code {
+            background: #0a0a1a;
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: var(--accent2);
+            font-size: 0.85rem;
+        }
+        .image-info-box .highlight {
+            color: var(--accent2);
+            font-weight: 600;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            width: 100%;
+            justify-content: center;
+            font-size: 1.1rem;
+            padding: 14px;
+        }
+        .btn-primary:hover {
+            background: #7d6ff0;
+            box-shadow: 0 0 25px rgba(108, 92, 231, 0.5);
+            transform: translateY(-2px);
+        }
+        .btn-danger {
+            background: var(--danger);
+            color: #fff;
+            padding: 8px 16px;
+            font-size: 0.85rem;
+        }
+        .btn-danger:hover { background: #ff5c4a; }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            padding: 8px 16px;
+            font-size: 0.85rem;
+        }
+        .btn-outline:hover { background: var(--accent); color: #fff; }
+        .btn-sm { padding: 6px 14px; font-size: 0.8rem; }
+        .btn-xs { padding: 4px 10px; font-size: 0.7rem; }
+
+        .game-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #0a0a1a;
+            padding: 15px 20px;
+            border-radius: 12px;
+            border: 1px solid #1e1e3a;
+            margin-bottom: 10px;
+            transition: all 0.2s;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .game-item:hover { border-color: var(--accent); }
+        .game-info { flex: 1; min-width: 200px; }
+        .game-info .game-name {
+            font-weight: 700;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .game-thumb {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            background: #0a0a1a;
+            overflow: hidden;
+            border: 1px solid #1e1e3a;
+            flex-shrink: 0;
+        }
+        .game-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .game-info .game-url {
+            font-size: 0.78rem;
+            color: #666;
+            margin-top: 4px;
+            word-break: break-all;
+        }
+        .game-actions { display: flex; gap: 8px; align-items: center; }
+        .badge {
+            background: rgba(0, 206, 201, 0.2);
+            color: var(--accent2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.72rem;
+            font-weight: 600;
+        }
+        .badge-icon-type {
+            background: rgba(253, 121, 168, 0.2);
+            color: #fd79a8;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.65rem;
+        }
+
+        .empty-state { text-align: center; padding: 40px; color: #555; }
+        .empty-state .icon { font-size: 4rem; margin-bottom: 15px; }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--success);
+            color: #fff;
+            padding: 14px 22px;
+            border-radius: 10px;
+            font-weight: 600;
+            z-index: 999;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            animation: slideIn 0.4s ease, fadeOut 0.4s 2.5s forwards;
+            max-width: 400px;
+        }
+        .toast.error { background: var(--danger); }
+        @keyframes slideIn {
+            from { transform: translateX(120%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes fadeOut {
+            to { opacity: 0; transform: translateY(-20px); }
+        }
+
+        .success-message {
+            background: rgba(39, 174, 96, 0.2);
+            border: 1px solid var(--success);
+            color: var(--success);
+            padding: 12px 18px;
+            border-radius: 10px;
+            margin-top: 15px;
+            display: none;
+            font-weight: 600;
+        }
+
+        .loading-text { text-align: center; color: #888; padding: 20px; }
+
+        hr { border: none; border-top: 1px solid #1e1e3a; margin: 20px 0; }
+
+        .hidden { display: none !important; }
+
+        @media (max-width: 768px) {
+            .form-row { grid-template-columns: 1fr; }
+            .stats { grid-template-columns: repeat(2, 1fr); }
+            .game-item { flex-direction: column; align-items: flex-start; }
+            .game-actions { width: 100%; justify-content: flex-end; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🎮 Admin Panel</h1>
+        <p class="subtitle">Add games with Emoji or Image (GitHub raw link supported)</p>
+
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-num" id="totalGames">0</div>
+                <div class="stat-label">Total Games</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num" id="totalCategories">0</div>
+                <div class="stat-label">Categories</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">🖼️</div>
+                <div class="stat-label">Images OK</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">🚀</div>
+                <div class="stat-label">Live</div>
+            </div>
+        </div>
+
+        <!-- Add Game Form -->
+        <div class="card">
+            <h3>➕ Add New Game</h3>
+            <form id="addGameForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>🎯 Game Name *</label>
+                        <input type="text" id="gameName" placeholder="e.g., Snake Game" required>
+                    </div>
+                    <div class="form-group">
+                        <label>🔗 Game URL *</label>
+                        <input type="url" id="gameUrl" placeholder="https://..." required>
+                    </div>
+                </div>
+
+                <!-- Icon Type Selector -->
+                <div class="form-group">
+                    <label>🎨 Icon Type</label>
+                    <div class="icon-type-selector">
+                        <button type="button" class="icon-type-btn active" data-type="emoji" onclick="switchIconType('emoji')">
+                            😀 Emoji
+                        </button>
+                        <button type="button" class="icon-type-btn" data-type="image" onclick="switchIconType('image')">
+                            🖼️ Image URL
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Emoji Input -->
+                <div class="form-group" id="emojiGroup">
+                    <label>🎨 Select Emoji</label>
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <input type="text" id="gameIcon" placeholder="🎮" maxlength="2" value="🎮" style="flex:1;">
+                        <div class="icon-preview" id="emojiPreview">🎮</div>
+                    </div>
+                    <div style="display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap;" id="emojiQuickSelect"></div>
+                </div>
+
+                <!-- Image URL Input -->
+                <div class="form-group hidden" id="imageGroup">
+                    <label>🖼️ Image URL (GitHub Raw Link Supported)</label>
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <input type="url" id="gameImageUrl" placeholder="https://raw.githubusercontent.com/user/repo/main/image.png" style="flex:1;">
+                        <div class="icon-preview" id="imagePreview">
+                            <span style="color:#888;">🖼️</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Image Info Box -->
+                    <div class="image-info-box">
+                        <p>📸 <span class="highlight">GitHub Raw Image Link Format:</span></p>
+                        <code>https://raw.githubusercontent.com/USERNAME/REPO/BRANCH/filename.png</code>
+                        <br><br>
+                        <p>📐 <span class="highlight">Recommended Size:</span> 200×200 px (square)</p>
+                        <p>📦 <span class="highlight">Max Size:</span> 500×500 px | Under 100KB</p>
+                        <p>✨ <span class="highlight">Best Format:</span> PNG with transparent background</p>
+                        <br>
+                        <p>💡 <span class="highlight">How to get GitHub raw link:</span></p>
+                        <p>1. Upload image to GitHub repo</p>
+                        <p>2. Open image → Right click → "Copy image address"</p>
+                        <p>3. Paste here (URL should start with <code>raw.githubusercontent.com</code>)</p>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>📂 Category</label>
+                        <input type="text" id="gameCategory" placeholder="Arcade, Puzzle, Action..." value="Arcade" list="categoryList">
+                        <datalist id="categoryList">
+                            <option value="Arcade">
+                            <option value="Puzzle">
+                            <option value="Action">
+                            <option value="Adventure">
+                            <option value="Racing">
+                            <option value="Sports">
+                            <option value="Board">
+                            <option value="Card">
+                            <option value="Portfolio">
+                            <option value="Other">
+                        </datalist>
+                    </div>
+                    <div class="form-group">
+                        <label>📝 Description</label>
+                        <textarea id="gameDesc" placeholder="Short description..." rows="2"></textarea>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">🚀 Add Game to Sheet</button>
+            </form>
+            <div class="success-message" id="successMsg">✅ Game added successfully! Refreshing list...</div>
+        </div>
+
+        <!-- Games List -->
+        <div class="card">
+            <h3>📋 All Games</h3>
+            <div id="gameList">
+                <div class="loading-text">Loading games...</div>
+            </div>
+            <hr>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button class="btn btn-outline" onclick="loadGames()">🔄 Refresh List</button>
+                <button class="btn btn-outline" onclick="window.open('hub.html','_blank')">🔗 Open Hub Page</button>
+            </div>
+        </div>
+
+        <!-- Bulk Add -->
+        <div class="card">
+            <h3>⚡ Bulk Add (JSON) - With Image Support</h3>
+            <div class="form-group">
+                <label>Paste JSON array</label>
+                <textarea id="jsonInput" placeholder='[
+  {
+    "name": "Game1",
+    "url": "https://example.com",
+    "icon": "https://raw.githubusercontent.com/user/repo/main/icon.png",
+    "category": "Action"
+  },
+  {
+    "name": "Game2",
+    "url": "https://example.com",
+    "icon": "🎯",
+    "category": "Puzzle"
+  }
+]' rows="6" style="font-family: monospace; font-size: 0.85rem;"></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="bulkAddGames()" style="width: auto;">📦 Bulk Add Games</button>
+            <div class="success-message" id="bulkSuccessMsg">✅ Games added!</div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== CONFIGURATION ====================
+        const API_URL = 'https://script.google.com/macros/s/AKfycbwq92LkbgeHNWrxmb5NTcL02uELmnlbnalieBjMICEMa9Wgf_NVhnsEwVid1-G50bT3qw/exec';
+        
+        let games = [];
+        let currentIconType = 'emoji';
+
+        // ==================== ICON TYPE SWITCH ====================
+        function switchIconType(type) {
+            currentIconType = type;
+            
+            document.querySelectorAll('.icon-type-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.type === type) btn.classList.add('active');
+            });
+            
+            if (type === 'emoji') {
+                document.getElementById('emojiGroup').classList.remove('hidden');
+                document.getElementById('imageGroup').classList.add('hidden');
+            } else {
+                document.getElementById('emojiGroup').classList.add('hidden');
+                document.getElementById('imageGroup').classList.remove('hidden');
+            }
+        }
+
+        // ==================== EMOJI QUICK SELECT ====================
+        function initEmojiQuickSelect() {
+            const commonEmojis = ['🎮', '🕹️', '🎯', '🧩', '💥', '⚡', '🔥', '👾', '🎲', '🎪', '🎭', '🎨', '💻', '📱', '🌍', '🚀', '🎵', '🏆', '⭐', '💎', '👑', '🐍', '🦊', '🐉', '🦄', '🎃', '👻', '🎪', '🎯', '🎳'];
+            
+            const container = document.getElementById('emojiQuickSelect');
+            container.innerHTML = commonEmojis.map(emoji => 
+                `<button type="button" class="icon-type-btn" style="flex:0;padding:8px 12px;font-size:1.2rem;" onclick="selectEmoji('${emoji}')">${emoji}</button>`
+            ).join('');
+        }
+
+        function selectEmoji(emoji) {
+            document.getElementById('gameIcon').value = emoji;
+            document.getElementById('emojiPreview').textContent = emoji;
+        }
+
+        // ==================== LIVE PREVIEW ====================
+        document.getElementById('gameIcon').addEventListener('input', function() {
+            document.getElementById('emojiPreview').textContent = this.value || '🎮';
+        });
+
+        document.getElementById('gameImageUrl').addEventListener('input', function() {
+            const preview = document.getElementById('imagePreview');
+            const url = this.value.trim();
+            if (url && (url.startsWith('http://') || url.startsWith('https://'))) {
+                preview.innerHTML = `<img src="${url}" alt="preview" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.innerHTML='<span style=color:red;font-size:0.7rem;>❌ Invalid</span>'">`;
+            } else {
+                preview.innerHTML = '<span style="color:#888;">🖼️</span>';
+            }
+        });
+
+        // ==================== SHOW TOAST ====================
+        function showToast(message, isError = false) {
+            const toast = document.createElement('div');
+            toast.className = 'toast' + (isError ? ' error' : '');
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // ==================== LOAD GAMES ====================
+        async function loadGames() {
+            const listEl = document.getElementById('gameList');
+            listEl.innerHTML = '<div class="loading-text">⏳ Loading games from Google Sheets...</div>';
+            
+            try {
+                const response = await fetch(`${API_URL}?action=getGames&t=${Date.now()}`);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                
+                const data = await response.json();
+                
+                if (Array.isArray(data)) {
+                    games = data;
+                    updateStats();
+                    renderGameList();
+                    console.log(`✅ Loaded ${games.length} games`);
+                } else if (data.error) {
+                    throw new Error(data.error);
+                } else {
+                    throw new Error('Invalid data format');
+                }
+            } catch (error) {
+                console.error('❌ Load Error:', error);
+                listEl.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">🔌</div>
+                        <p style="color: #e74c3c;">Failed: ${error.message}</p>
+                        <button class="btn btn-outline" onclick="loadGames()">🔄 Retry</button>
+                    </div>
+                `;
+            }
+        }
+
+        // ==================== UPDATE STATS ====================
+        function updateStats() {
+            document.getElementById('totalGames').textContent = games.length;
+            const categories = new Set(games.map(g => g.category || 'Arcade'));
+            document.getElementById('totalCategories').textContent = categories.size;
+        }
+
+        // ==================== CHECK IF ICON IS IMAGE URL ====================
+        function isImageUrl(icon) {
+            return icon && (icon.startsWith('http://') || icon.startsWith('https://'));
+        }
+
+        // ==================== RENDER ICON ====================
+        function renderIcon(game) {
+            if (isImageUrl(game.icon)) {
+                return `<img src="${game.icon}" alt="${escapeHtml(game.name)}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none';this.parentElement.textContent='🎮'">`;
+            }
+            return game.icon || '🎮';
+        }
+
+        // ==================== GET ICON TYPE LABEL ====================
+        function getIconType(game) {
+            return isImageUrl(game.icon) ? '🖼️ Image' : '😀 Emoji';
+        }
+
+        // ==================== RENDER GAME LIST ====================
+        function renderGameList() {
+            const listEl = document.getElementById('gameList');
+            
+            if (games.length === 0) {
+                listEl.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">📭</div>
+                        <p>No games added yet</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            listEl.innerHTML = games.map((game, index) => `
+                <div class="game-item">
+                    <div class="game-info">
+                        <div class="game-name">
+                            <div class="game-thumb">${renderIcon(game)}</div>
+                            ${escapeHtml(game.name)}
+                            <span class="badge-icon-type">${getIconType(game)}</span>
+                        </div>
+                        <div class="game-url">🔗 ${escapeHtml(game.url)}</div>
+                        <div style="margin-top: 6px; display: flex; gap: 6px; flex-wrap: wrap;">
+                            <span class="badge">${escapeHtml(game.category || 'Arcade')}</span>
+                            ${game.description ? `<span style="font-size:0.75rem;color:#888;">${escapeHtml(game.description.substring(0, 50))}...</span>` : ''}
+                        </div>
+                    </div>
+                    <div class="game-actions">
+                        <button class="btn btn-outline btn-sm" onclick="testGame('${escapeHtml(game.url)}')">🧪 Test</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteGame(${index})">🗑️ Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ==================== ADD GAME ====================
+        document.getElementById('addGameForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('gameName').value.trim();
+            const url = document.getElementById('gameUrl').value.trim();
+            const category = document.getElementById('gameCategory').value.trim() || 'Arcade';
+            const description = document.getElementById('gameDesc').value.trim();
+            
+            let icon;
+            if (currentIconType === 'emoji') {
+                icon = document.getElementById('gameIcon').value.trim() || '🎮';
+            } else {
+                icon = document.getElementById('gameImageUrl').value.trim();
+                if (!icon) {
+                    showToast('❌ Please enter image URL or switch to Emoji', true);
+                    return;
+                }
+                if (!icon.startsWith('http')) {
+                    showToast('❌ Image URL must start with http:// or https://', true);
+                    return;
+                }
+            }
+            
+            if (!name || !url) {
+                showToast('❌ Game name and URL are required!', true);
+                return;
+            }
+            
+            if (!url.startsWith('http')) {
+                showToast('❌ Please enter a valid URL', true);
+                return;
+            }
+            
+            const gameData = {
+                action: 'addGame',
+                name: name,
+                url: url,
+                icon: icon,
+                category: category,
+                desc: description
+            };
+            
+            const submitBtn = this.querySelector('button[type="submit"]');
+            submitBtn.textContent = '⏳ Adding...';
+            submitBtn.disabled = true;
+            
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(gameData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    document.getElementById('successMsg').style.display = 'block';
+                    setTimeout(() => {
+                        document.getElementById('successMsg').style.display = 'none';
+                    }, 3000);
+                    
+                    this.reset();
+                    document.getElementById('gameIcon').value = '🎮';
+                    document.getElementById('gameCategory').value = 'Arcade';
+                    document.getElementById('emojiPreview').textContent = '🎮';
+                    document.getElementById('imagePreview').innerHTML = '<span style="color:#888;">🖼️</span>';
+                    switchIconType('emoji');
+                    
+                    showToast('✅ Game added successfully!');
+                    await loadGames();
+                } else {
+                    throw new Error(result.error || 'Unknown error');
+                }
+            } catch (error) {
+                console.error('❌ Add Error:', error);
+                showToast('❌ Failed: ' + error.message, true);
+            } finally {
+                submitBtn.textContent = '🚀 Add Game to Sheet';
+                submitBtn.disabled = false;
+            }
+        });
+
+        // ==================== DELETE GAME ====================
+        async function deleteGame(index) {
+            if (index < 0 || index >= games.length) return;
+            const game = games[index];
+            
+            if (!confirm(`Delete "${game.name}"?`)) return;
+            
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: 'deleteGame', index: index })
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    showToast('🗑️ Game deleted!');
+                    await loadGames();
+                } else {
+                    throw new Error(result.error || 'Delete failed');
+                }
+            } catch (error) {
+                showToast('❌ Failed: ' + error.message, true);
+            }
+        }
+
+        // ==================== BULK ADD ====================
+        async function bulkAddGames() {
+            const jsonText = document.getElementById('jsonInput').value.trim();
+            if (!jsonText) { showToast('❌ Paste JSON data', true); return; }
+            
+            let gamesArray;
+            try {
+                gamesArray = JSON.parse(jsonText);
+                if (!Array.isArray(gamesArray)) throw new Error('Must be array');
+            } catch (e) {
+                showToast('❌ Invalid JSON: ' + e.message, true);
+                return;
+            }
+            
+            if (!confirm(`Add ${gamesArray.length} games?`)) return;
+            
+            let success = 0, fail = 0;
+            
+            for (const game of gamesArray) {
+                if (!game.name || !game.url) { fail++; continue; }
+                try {
+                    const res = await fetch(API_URL, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            action: 'addGame',
+                            name: game.name,
+                            url: game.url,
+                            icon: game.icon || '🎮',
+                            category: game.category || 'Arcade',
+                            desc: game.description || game.desc || ''
+                        })
+                    });
+                    const r = await res.json();
+                    r.success ? success++ : fail++;
+                } catch(e) { fail++; }
+                await new Promise(r => setTimeout(r, 200));
+            }
+            
+            showToast(`✅ ${success} added, ❌ ${fail} failed`);
+            if (success > 0) {
+                document.getElementById('jsonInput').value = '';
+                document.getElementById('bulkSuccessMsg').style.display = 'block';
+                setTimeout(() => document.getElementById('bulkSuccessMsg').style.display = 'none', 3000);
+                await loadGames();
+            }
+        }
+
+        function testGame(url) { window.open(url, '_blank'); }
+        
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = String(text);
+            return div.innerHTML;
+        }
+
+        // ==================== INIT ====================
+        initEmojiQuickSelect();
+        loadGames();
+        console.log('✅ Admin Panel Ready - Image & Emoji Support');
+        console.log('📸 GitHub raw image links supported!');
+    </script>
+</body>
+</html>
