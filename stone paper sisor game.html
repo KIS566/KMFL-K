@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 RPS - ULTIMATE FIGHT</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0a;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            font-family: 'Segoe UI', sans-serif;
+            overflow: hidden;
+        }
+
+        /* ===== BACKGROUND EFFECT ===== */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 0, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(0, 0, 255, 0.1) 0%, transparent 50%);
+            z-index: 0;
+        }
+
+        .game-container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 700px;
+        }
+
+        /* ===== MAIN CARD ===== */
+        .main-card {
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
+            border-radius: 40px;
+            padding: 30px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 0 60px rgba(255, 215, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-card::before {
+            content: '⚡';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            font-size: 8rem;
+            opacity: 0.05;
+            transform: rotate(20deg);
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-family: 'Black Ops One', cursive;
+            font-size: 2.8rem;
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d, #6bcb77, #4d96ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: none;
+            letter-spacing: 3px;
+        }
+
+        .header .sub {
+            color: #888;
+            font-size: 0.8rem;
+            letter-spacing: 5px;
+            margin-top: -5px;
+        }
+
+        /* ===== SCORE ===== */
+        .score-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.4);
+            border-radius: 20px;
+            padding: 12px 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .score-box {
+            text-align: center;
+        }
+
+        .score-box .label {
+            font-size: 0.6rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .score-box .number {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: #fff;
+            line-height: 1;
+        }
+
+        .score-box .number.green { color: #00ff88; }
+        .score-box .number.red { color: #ff4757; }
+
+        .score-vs {
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            padding: 5px 18px;
+            border-radius: 30px;
+            font-weight: 900;
+            font-size: 0.8rem;
+            color: #000;
+            letter-spacing: 2px;
+        }
+
+        /* ===== ARENA ===== */
+        .arena {
+            background: rgba(0,0,0,0.5);
+            border-radius: 25px;
+            padding: 25px;
+            margin-bottom: 20px;
+            min-height: 220px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(255,255,255,0.05);
+            position: relative;
+        }
+
+        .arena .fight-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            gap: 10px;
+        }
+
+        .fighter-box {
+            text-align: center;
+            flex: 1;
+        }
+
+        .fighter-box .big-emoji {
+            font-size: 5rem;
+            display: block;
+            transition: all 0.3s;
+            filter: drop-shadow(0 0 20px rgba(255,215,0,0.2));
+        }
+
+        .fighter-box .big-emoji.shaking {
+            animation: shakeHard 0.4s ease;
+        }
+
+        .fighter-box .big-emoji.winner-glow {
+            animation: glowPulse 0.8s ease 3;
+        }
+
+        .fighter-box .f-name {
+            color: #666;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 5px;
+        }
+
+        .fighter-box .f-choice {
+            color: #fff;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-top: 2px;
+            font-family: 'Black Ops One', cursive;
+        }
+
+        .arena-vs {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #ffd93d;
+            padding: 0 10px;
+            animation: pulse 1s ease infinite;
+        }
+
+        /* ===== RESULT ===== */
+        .result-display {
+            margin-top: 15px;
+            padding: 10px 30px;
+            border-radius: 50px;
+            font-weight: 900;
+            font-size: 1.4rem;
+            font-family: 'Black Ops One', cursive;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+        }
+
+        .result-display.idle {
+            color: #555;
+            background: rgba(255,255,255,0.03);
+            border: 2px solid #222;
+        }
+
+        .result-display.win {
+            color: #00ff88;
+            background: rgba(0, 255, 136, 0.15);
+            border: 2px solid #00ff88;
+            box-shadow: 0 0 40px rgba(0, 255, 136, 0.2);
+        }
+
+        .result-display.lose {
+            color: #ff4757;
+            background: rgba(255, 71, 87, 0.15);
+            border: 2px solid #ff4757;
+            box-shadow: 0 0 40px rgba(255, 71, 87, 0.2);
+        }
+
+        .result-display.draw {
+            color: #ffd93d;
+            background: rgba(255, 217, 61, 0.15);
+            border: 2px solid #ffd93d;
+            box-shadow: 0 0 40px rgba(255, 217, 61, 0.2);
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .action-btn {
+            background: linear-gradient(145deg, #1a1a2e, #0f0f1f);
+            border: 2px solid #333;
+            border-radius: 20px;
+            padding: 18px 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-5px) scale(1.03);
+            border-color: #ffd93d;
+            box-shadow: 0 10px 40px rgba(255, 217, 61, 0.15);
+        }
+
+        .action-btn:active {
+            transform: scale(0.95);
+        }
+
+        .action-btn .btn-emoji {
+            font-size: 3rem;
+            display: block;
+        }
+
+        .action-btn .btn-label {
+            font-size: 0.7rem;
+            color: #666;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+
+        .action-btn .btn-sub {
+            font-size: 0.55rem;
+            color: #444;
+        }
+
+        .action-btn.active-move {
+            border-color: #ffd93d;
+            background: rgba(255, 217, 61, 0.1);
+            box-shadow: 0 0 40px rgba(255, 217, 61, 0.1);
+        }
+
+        .action-btn.rock-btn:hover { border-color: #ff6b6b; }
+        .action-btn.paper-btn:hover { border-color: #4d96ff; }
+        .action-btn.scissors-btn:hover { border-color: #6bcb77; }
+
+        /* ===== RESET ===== */
+        .bottom-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-reset {
+            background: transparent;
+            border: 2px solid #333;
+            color: #666;
+            padding: 10px 30px;
+            border-radius: 30px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            flex: 1;
+        }
+
+        .btn-reset:hover {
+            border-color: #ff4757;
+            color: #ff4757;
+            transform: scale(1.02);
+        }
+
+        .streak-display {
+            color: #555;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            padding: 8px 15px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 20px;
+            border: 1px solid #222;
+        }
+
+        .streak-display span {
+            color: #ffd93d;
+            font-weight: 900;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes shakeHard {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            20% { transform: rotate(-20deg) scale(1.2); }
+            40% { transform: rotate(20deg) scale(1.1); }
+            60% { transform: rotate(-15deg) scale(1.15); }
+            80% { transform: rotate(15deg) scale(1.05); }
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(255,215,0,0.3)); }
+            50% { filter: drop-shadow(0 0 50px rgba(255,215,0,0.8)); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .main-card {
+            animation: slideUp 0.6s ease;
+        }
+
+        /* ===== PARTICLES ===== */
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            font-size: 2rem;
+            z-index: 999;
+            animation: particleFly 1s ease forwards;
+        }
+
+        @keyframes particleFly {
+            0% { opacity: 1; transform: translate(0, 0) scale(1); }
+            100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0); }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 550px) {
+            .main-card { padding: 20px; }
+            .header h1 { font-size: 2rem; }
+            .fighter-box .big-emoji { font-size: 3.8rem; }
+            .action-btn .btn-emoji { font-size: 2.2rem; }
+            .action-btn { padding: 14px 8px; }
+            .score-box .number { font-size: 2.2rem; }
+            .result-display { font-size: 1rem; padding: 8px 20px; }
+            .arena-vs { font-size: 1.4rem; }
+            .btn-grid { gap: 8px; }
+            .bottom-row { flex-direction: column; }
+            .btn-reset { width: 100%; }
+        }
+
+        @media (max-width: 400px) {
+            .header h1 { font-size: 1.6rem; }
+            .fighter-box .big-emoji { font-size: 3rem; }
+            .action-btn .btn-emoji { font-size: 1.8rem; }
+            .action-btn { padding: 10px 6px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="game-container">
+    <div class="main-card">
+
+        <!-- HEADER -->
+        <div class="header">
+            <h1>⚔️ RPS ARENA</h1>
+            <div class="sub">— FIGHT TO THE DEATH —</div>
+        </div>
+
+        <!-- SCORE -->
+        <div class="score-section">
+            <div class="score-box">
+                <div class="label">👊 YOU</div>
+                <div class="number green" id="playerScore">0</div>
+            </div>
+            <div class="score-vs">⚡VS⚡</div>
+            <div class="score-box">
+                <div class="label">🤖 CPU</div>
+                <div class="number red" id="cpuScore">0</div>
+            </div>
+        </div>
+
+        <!-- ARENA -->
+        <div class="arena" id="arena">
+            <div class="fight-row">
+                <div class="fighter-box">
+                    <span class="big-emoji" id="playerEmoji">🤚</span>
+                    <div class="f-name">YOU</div>
+                    <div class="f-choice" id="playerChoice">---</div>
+                </div>
+                <div class="arena-vs">🔥</div>
+                <div class="fighter-box">
+                    <span class="big-emoji" id="cpuEmoji">💀</span>
+                    <div class="f-name">CPU</div>
+                    <div class="f-choice" id="cpuChoice">---</div>
+                </div>
+            </div>
+            <div class="result-display idle" id="resultDisplay">💪 FIGHT!</div>
+        </div>
+
+        <!-- BUTTONS -->
+        <div class="btn-grid">
+            <button class="action-btn rock-btn" data-move="rock">
+                <span class="btn-emoji">🪨</span>
+                <span class="btn-label">ROCK</span>
+                <span class="btn-sub">✊</span>
+            </button>
+            <button class="action-btn paper-btn" data-move="paper">
+                <span class="btn-emoji">📄</span>
+                <span class="btn-label">PAPER</span>
+                <span class="btn-sub">✋</span>
+            </button>
+            <button class="action-btn scissors-btn" data-move="scissors">
+                <span class="btn-emoji">✂️</span>
+                <span class="btn-label">SCISSORS</span>
+                <span class="btn-sub">✌️</span>
+            </button>
+        </div>
+
+        <!-- BOTTOM -->
+        <div class="bottom-row">
+            <button class="btn-reset" id="resetBtn">🔄 NEW FIGHT</button>
+            <div class="streak-display">🔥 STREAK: <span id="streak">0</span></div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    // ============================================
+    // RPS ARENA - EXTREME EDITION
+    // ============================================
+
+    // --- DOM ---
+    const pScore = document.getElementById('playerScore');
+    const cScore = document.getElementById('cpuScore');
+    const pEmoji = document.getElementById('playerEmoji');
+    const cEmoji = document.getElementById('cpuEmoji');
+    const pChoice = document.getElementById('playerChoice');
+    const cChoice = document.getElementById('cpuChoice');
+    const resultDisplay = document.getElementById('resultDisplay');
+    const arena = document.getElementById('arena');
+    const streakEl = document.getElementById('streak');
+    const moveBtns = document.querySelectorAll('.action-btn');
+    const resetBtn = document.getElementById('resetBtn');
+
+    // --- State ---
+    let playerScore = 0;
+    let cpuScore = 0;
+    let streak = 0;
+    let isFighting = false;
+    let moveHistory = [];
+
+    // --- Data ---
+    const moves = {
+        rock: { emoji: '🪨', name: 'ROCK', icon: '✊' },
+        paper: { emoji: '📄', name: 'PAPER', icon: '✋' },
+        scissors: { emoji: '✂️', name: 'SCISSORS', icon: '✌️' }
+    };
+
+    const winMessages = [
+        '🔥 DESTROYED!',
+        '💀 ANNIHILATED!',
+        '⚡ OBLITERATED!',
+        '🎯 PERFECT!',
+        '🏆 LEGENDARY!'
+    ];
+
+    const loseMessages = [
+        '💀 YOU DIED!',
+        '😭 BRUTAL!',
+        '🤡 GET REKT!',
+        '💔 PAIN!',
+        '😈 HAHA!'
+    ];
+
+    const drawMessages = [
+        '🤝 EVEN!',
+        '⚖️ TIE!',
+        '🔄 AGAIN!',
+        '😐 MEH!'
+    ];
+
+    // --- Computer AI (with some personality) ---
+    function getCpuMove() {
+        const keys = ['rock', 'paper', 'scissors'];
+        
+        // Sometimes counter your last move (smart AI)
+        if (moveHistory.length > 0 && Math.random() < 0.4) {
+            const lastPlayer = moveHistory[moveHistory.length - 1];
+            if (lastPlayer === 'rock') return 'paper';
+            if (lastPlayer === 'paper') return 'scissors';
+            if (lastPlayer === 'scissors') return 'rock';
+        }
+        
+        return keys[Math.floor(Math.random() * 3)];
+    }
+
+    // --- Fight! ---
+    function fight(player, cpu) {
+        if (player === cpu) return 'draw';
+        if (
+            (player === 'rock' && cpu === 'scissors') ||
+            (player === 'paper' && cpu === 'rock') ||
+            (player === 'scissors' && cpu === 'paper')
+        ) {
+            return 'win';
+        }
+        return 'lose';
+    }
+
+    // --- Random message ---
+    function randomMsg(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    // --- Create particles ---
+    function createParticles(x, y, emoji, count = 8) {
+        for (let i = 0; i < count; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.textContent = emoji;
+            p.style.left = x + 'px';
+            p.style.top = y + 'px';
+            const angle = (Math.PI * 2 * i) / count;
+            const dist = 50 + Math.random() * 80;
+            p.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
+            p.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), 1000);
+        }
+    }
+
+    // --- Show result ---
+    function showResult(player, cpu, result) {
+        // Update display
+        pEmoji.textContent = moves[player].emoji;
+        pChoice.textContent = moves[player].name;
+        cEmoji.textContent = moves[cpu].emoji;
+        cChoice.textContent = moves[cpu].name;
+
+        // Shake animation
+        pEmoji.classList.remove('shaking');
+        cEmoji.classList.remove('shaking');
+        void pEmoji.offsetWidth;
+        void cEmoji.offsetWidth;
+        pEmoji.classList.add('shaking');
+        cEmoji.classList.add('shaking');
+
+        // Result
+        resultDisplay.classList.remove('win', 'lose', 'draw', 'idle');
+
+        let msg = '';
+        let particleEmoji = '';
+
+        if (result === 'win') {
+            msg = randomMsg(winMessages);
+            resultDisplay.classList.add('win');
+            playerScore++;
+            streak++;
+            particleEmoji = '🎉';
+            pEmoji.classList.add('winner-glow');
+            setTimeout(() => pEmoji.classList.remove('winner-glow'), 2000);
+        } else if (result === 'lose') {
+            msg = randomMsg(loseMessages);
+            resultDisplay.classList.add('lose');
+            cpuScore++;
+            streak = 0;
+            particleEmoji = '💀';
+            cEmoji.classList.add('winner-glow');
+            setTimeout(() => cEmoji.classList.remove('winner-glow'), 2000);
+        } else {
+            msg = randomMsg(drawMessages);
+            resultDisplay.classList.add('draw');
+            particleEmoji = '⚖️';
+        }
+
+        resultDisplay.textContent = msg;
+
+        // Save history
+        moveHistory.push(player);
+        if (moveHistory.length > 10) moveHistory.shift();
+
+        // Update scores
+        pScore.textContent = playerScore;
+        cScore.textContent = cpuScore;
+        streakEl.textContent = streak;
+
+        // Particles (celebration)
+        const rect = arena.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        createParticles(cx, cy, particleEmoji, 10);
+
+        // Arena flash effect
+        arena.style.transition = 'background 0.3s';
+        if (result === 'win') {
+            arena.style.background = 'rgba(0, 255, 136, 0.1)';
+        } else if (result === 'lose') {
+            arena.style.background = 'rgba(255, 71, 87, 0.1)';
+        } else {
+            arena.style.background = 'rgba(255, 217, 61, 0.1)';
+        }
+        setTimeout(() => {
+            arena.style.background = 'rgba(0,0,0,0.5)';
+        }, 500);
+
+        isFighting = false;
+    }
+
+    // --- Play ---
+    function playGame(playerMove) {
+        if (isFighting) return;
+
+        // Highlight
+        moveBtns.forEach(b => b.classList.remove('active-move'));
+        document.querySelector(`.action-btn[data-move="${playerMove}"]`).classList.add('active-move');
+
+        isFighting = true;
+        resultDisplay.textContent = '⏳ WAIT...';
+        resultDisplay.className = 'result-display idle';
+
+        // CPU delay (dramatic)
+        const delay = 400 + Math.random() * 400;
+        setTimeout(() => {
+            const cpuMove = getCpuMove();
+            const result = fight(playerMove, cpuMove);
+            showResult(playerMove, cpuMove, result);
+        }, delay);
+    }
+
+    // --- Reset ---
+    function resetGame() {
+        if (isFighting) return;
+        
+        playerScore = 0;
+        cpuScore = 0;
+        streak = 0;
+        moveHistory = [];
+        
+        pScore.textContent = '0';
+        cScore.textContent = '0';
+        streakEl.textContent = '0';
+        
+        pEmoji.textContent = '🤚';
+        pChoice.textContent = '---';
+        cEmoji.textContent = '💀';
+        cChoice.textContent = '---';
+        
+        resultDisplay.textContent = '💪 FIGHT!';
+        resultDisplay.className = 'result-display idle';
+        moveBtns.forEach(b => b.classList.remove('active-move'));
+        arena.style.background = 'rgba(0,0,0,0.5)';
+
+        // Reset particles
+        document.querySelectorAll('.particle').forEach(p => p.remove());
+    }
+
+    // --- Events ---
+    moveBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const move = btn.dataset.move;
+            playGame(move);
+            
+            // Click ripple effect
+            const rect = btn.getBoundingClientRect();
+            createParticles(
+                rect.left + rect.width / 2,
+                rect.top + rect.height / 2,
+                '⚡',
+                6
+            );
+        });
+    });
+
+    resetBtn.addEventListener('click', resetGame);
+
+    // --- Keyboard shortcuts ---
+    document.addEventListener('keydown', (e) => {
+        if (e.key === '1' || e.key === 'r') playGame('rock');
+        if (e.key === '2' || e.key === 'p') playGame('paper');
+        if (e.key === '3' || e.key === 's') playGame('scissors');
+        if (e.key === ' ') { e.preventDefault(); resetGame(); }
+    });
+
+    // --- Init ---
+    resetGame();
+
+    // Console
+    console.log('⚔️ RPS ARENA LOADED!');
+    console.log('🎮 1=R, 2=P, 3=S | SPACE=RESET');
+    console.log('🤖 CPU has AI - it learns your moves!');
+
+    // --- Streak celebration ---
+    const observer = new MutationObserver(() => {
+        const s = parseInt(streakEl.textContent);
+        if (s > 0 && s % 3 === 0) {
+            const rect = streakEl.getBoundingClientRect();
+            createParticles(
+                rect.left + rect.width / 2,
+                rect.top + rect.height / 2,
+                '🔥',
+                15
+            );
+        }
+    });
+    observer.observe(streakEl, { childList: true, characterData: true, subtree: true });
+</script>
+
+</body>
+</html>
